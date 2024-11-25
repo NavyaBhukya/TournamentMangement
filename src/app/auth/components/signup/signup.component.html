@@ -1,0 +1,64 @@
+<div class="image-container">
+<div class="form-container">
+    <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+      <h2>Registration Form</h2>
+  
+      <!-- Name Field -->
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          id="name"
+          formControlName="name"
+          placeholder="Enter your name"
+          [class.invalid]="isFieldInvalid('name')"
+        />
+        <small *ngIf="isFieldInvalid('name')">Name is required (minimum 3 characters).</small>
+      </div>
+  
+      <!-- Email Field -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          placeholder="Enter your email"
+          [class.invalid]="isFieldInvalid('email')"
+        />
+        <small *ngIf="isFieldInvalid('email')">Enter a valid email address.</small>
+      </div>
+  
+      <!-- Mobile Field -->
+      <div class="form-group">
+        <label for="mobile">Mobile</label>
+        <input
+          type="text"
+          id="mobile"
+          formControlName="mobile"
+          placeholder="Enter your mobile number"
+          [class.invalid]="isFieldInvalid('mobile')"
+        />
+        <small *ngIf="isFieldInvalid('mobile')">Enter a valid 10-digit mobile number.</small>
+      </div>
+  
+      <!-- Password Field -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          placeholder="Enter your password"
+          [class.invalid]="isFieldInvalid('password')"
+        />
+        <small *ngIf="isFieldInvalid('password')">
+          Password must be at least 6 characters long.
+        </small>
+        <span class="al_txt" routerLink="/auth/login" >Alredy have an account ? signin</span>
+      </div>
+  
+      <button type="submit" [disabled]="registrationForm.invalid">Register</button>
+    </form>
+  </div>
+</div>

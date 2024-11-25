@@ -1,0 +1,33 @@
+<div class="login-container">
+    <form [formGroup]="loginForm">
+      <h2>Login</h2>
+  
+      <!-- Email Field -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          placeholder="Enter your email"
+          [class.invalid]="isFieldInvalid('email')"
+        />
+        <small *ngIf="isFieldInvalid('email')">Enter a valid email address.</small>
+      </div>
+  
+      <!-- Password Field -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          placeholder="Enter your password"
+          [class.invalid]="isFieldInvalid('password')"
+        />
+        <small *ngIf="isFieldInvalid('password')">Password is required (minimum 6 characters).</small>
+      </div>
+      <button type="submit" [disabled]="loginForm.invalid" (click)="onsubmitForm()">Login</button>
+    </form>
+  </div>
+  

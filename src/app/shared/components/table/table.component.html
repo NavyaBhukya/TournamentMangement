@@ -1,0 +1,36 @@
+<div class="dynamic-table">
+    <div class="table-header">
+      <div class="search-container">
+        <input
+          [formControl]="searchControl"
+          class="search-input"
+          placeholder="Search"
+          pInputText
+        />
+      </div>
+      <button pButton type="button"  (click)="handleAdd()">{{ addButtonLabel}}</button>
+    </div>
+  
+    <p-table
+      [value]="filteredData"
+      [paginator]="true"
+      [rows]="10"
+      [responsiveLayout]="'scroll'"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th *ngFor="let column of columns">
+            {{ column.header }}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData>
+        <tr>
+          <td *ngFor="let column of columns">
+            {{ rowData[column.field] }}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  

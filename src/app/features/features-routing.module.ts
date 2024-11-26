@@ -4,10 +4,12 @@ import { HomeComponent } from './dashboard/components/home/home.component';
 import { FeaturesComponent } from './features.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'features', pathMatch: 'full' },
+  // { path: '', redirectTo: 'feature', pathMatch: 'full' },
   {
-    path: 'features', component: FeaturesComponent,
-
+    path: 'feature', component: FeaturesComponent,
+  },
+  {
+    path: '', component: FeaturesComponent,
   },
 
   { path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then((m) => m.DashboardModule) },

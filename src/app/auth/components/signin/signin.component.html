@@ -1,33 +1,42 @@
-<div class="login-container">
+<ng-container *ngIf="!isForgotScreen">
+  <div class="login-container">
     <form [formGroup]="loginForm">
       <h2>Login</h2>
-  
-      <!-- Email Field -->
       <div class="form-group">
         <label for="email">Email</label>
-        <input
-          type="email"
-          id="email"
-          formControlName="email"
-          placeholder="Enter your email"
-          [class.invalid]="isFieldInvalid('email')"
-        />
+        <input type="email" id="email" formControlName="email" placeholder="Enter your email"
+          [class.invalid]="isFieldInvalid('email')" />
         <small *ngIf="isFieldInvalid('email')">Enter a valid email address.</small>
       </div>
-  
-      <!-- Password Field -->
       <div class="form-group">
         <label for="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          formControlName="password"
-          placeholder="Enter your password"
-          [class.invalid]="isFieldInvalid('password')"
-        />
-        <small *ngIf="isFieldInvalid('password')">Password is required (minimum 6 characters).</small>
+        <input type="password" id="password" formControlName="password" placeholder="Enter your password"
+          [class.invalid]="isFieldInvalid('password')" />
       </div>
       <button type="submit" [disabled]="loginForm.invalid" (click)="onsubmitForm()">Login</button>
+      <div class="d-flex ">
+        <p class="forgot_txt" (click)="isForgotScreen=true"> Forgot password </p>
+      </div>
+      <div class="d-flex">
+        <p>Don't have an account ? <a href="" routerLink="/signup"> Create</a> </p>
+      </div>
+
     </form>
   </div>
-  
+</ng-container>
+<p-toast [showTransformOptions]="'translateY(100%)'" [showTransitionOptions]="'700ms'"
+  [hideTransitionOptions]="'1000ms'" [showTransformOptions]="'translateX(100%)'" />
+
+<ng-container *ngIf="isForgotScreen">
+  <div class="login-container">
+    <form #forgotForm="ngForm" (ngSubmit)="onForgotformSubmit(forgotForm)">
+      <h2>Forgot Password </h2>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" #email="ngModel" ngModel placeholder="Enter your email"
+           required />
+      </div>
+      <button type="submit" [disabled]="forgotForm.invalid">Submit</button>
+    </form>
+  </div>
+</ng-container>

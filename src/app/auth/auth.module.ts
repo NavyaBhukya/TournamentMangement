@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { AuthRoutingModule } from './auth-routing.module';
 import { AuthComponent } from './auth.component';
 import { SignupComponent } from './components/signup/signup.component';
@@ -16,7 +15,7 @@ import { ToastModule } from 'primeng/toast';
   ],
   imports: [
     CommonModule,
-    AuthRoutingModule,ReactiveFormsModule,ToastModule,FormsModule
+    AuthRoutingModule, ReactiveFormsModule, ToastModule, FormsModule
   ]
 })
 export class AuthModule { }

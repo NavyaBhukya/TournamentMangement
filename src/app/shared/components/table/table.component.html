@@ -5,7 +5,6 @@
     </div>
     <button pButton type="button" (click)="handleAdd()">{{ addButtonLabel}}</button>
   </div>
-
   <p-table [value]="filteredData" [paginator]="true" [rows]="10" [responsiveLayout]="'scroll'">
     <ng-template pTemplate="header">
       <tr>
@@ -20,7 +19,6 @@
     <ng-template pTemplate="body" let-rowData>
       <tr>
         <td *ngFor="let column of tableObjKeys">
-
           <ng-container *ngIf="column === 'profile'; else defaultData">
             <img [src]="rowData[column]" alt="Profile" style="width: 50px; height: 50px; border-radius: 50%;">
           </ng-container>
@@ -32,14 +30,13 @@
               {{rowData[column]}}
             </ng-template>
           </ng-template>
-</td>
-          <!-- {{ rowData[column] }} -->
-          <td>
-            <!-- <button pButton type="button" icon="pi pi-pencil" class="p-button-text" ></button>
-            <button pButton type="button" icon="pi pi-trash" class="p-button-danger p-button-text" ></button> -->
-            <span (click)="handleEdit(rowData)"><i class="pi pi-pen-to-square" ></i> </span>
-            <span (click)="handleDelete(rowData)"><i class="pi pi-trash" ></i> </span>
-          </td>
+        </td>
+        <td *ngIf="isAdmin.toLowerCase()!== 'admin' ">
+          <div class="d-flex gap-3">
+            <span (click)="handleEdit(rowData)"><i class="pi pi-pen-to-square"></i> </span>
+            <span (click)="handleDelete(rowData)"><i class="pi pi-trash"></i> </span>
+          </div>
+        </td>
       </tr>
     </ng-template>
   </p-table>

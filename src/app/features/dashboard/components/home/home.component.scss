@@ -1,70 +1,70 @@
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f0f8ff;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f0f8ff;
 }
 
 .container {
-    text-align: center;
-    padding: 20px;
-    position: relative;
+  text-align: center;
+  padding: 20px;
+  position: relative;
 }
 
 .header h5 {
-    color: #003366;
-    font-weight: bold;
-    margin-bottom: 10px;
-    letter-spacing: 1px;
+  color: #003366;
+  font-weight: bold;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
 }
 
 .header h1 {
-    color: #003366;
-    font-size: 2.5rem;
-    font-weight: bold;
-    margin-bottom: 10px;
+  color: #003366;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
 .header h1 .highlight {
-    color: #008000;
+  color: #008000;
 }
 
 .header p {
-    font-size: 1.2rem;
-    color: #666666;
-    max-width: 800px;
-    margin: 0 auto;
+  font-size: 1.2rem;
+  color: #666666;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .arrows {
-    display: flex;
-    justify-content: space-between;
-    max-width: 100px;
-    margin: 20px auto;
+  display: flex;
+  justify-content: space-between;
+  max-width: 100px;
+  margin: 20px auto;
 }
 
-.active-tab{
-    background-color: #008000;
+.active-tab {
+  background-color: #008000;
 }
 .features {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
 }
 
 .feature {
-    text-align: center;
-    width: 100px;
+  text-align: center;
+  width: 100px;
 }
 
 .icon {
-    font-size: 2rem;
-    color: #003366;
-    margin-bottom: 10px;
+  font-size: 2rem;
+  color: #003366;
+  margin-bottom: 10px;
 }
 
 .feature p {
-    font-size: 0.9rem;
-    font-weight: bold;
-    color: #003366;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #003366;
 }

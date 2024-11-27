@@ -7,8 +7,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-constructor(private route:Router){}
-navigatetoteams(){
-  this.route.navigate(['/features/players'])
-}
+  constructor(private route: Router) { }
+  public navigatetoteams() {
+    this.route.navigate(['/features/players'])
+  }
 }

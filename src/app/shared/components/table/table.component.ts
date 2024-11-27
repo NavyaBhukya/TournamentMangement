@@ -18,7 +18,9 @@ export class TableComponent implements OnChanges {
   public tableObjKeys: string[] = [];
   public searchControl: FormControl = new FormControl('');
   public filteredData: any[] = [];
+  public isAdmin : string = '' ;
   ngOnInit(): void {
+    this.isAdmin = localStorage.getItem('role')! 
   }
   ngOnChanges(changes: SimpleChanges) {
     if (changes['data'] && changes['data'].currentValue?.length) {

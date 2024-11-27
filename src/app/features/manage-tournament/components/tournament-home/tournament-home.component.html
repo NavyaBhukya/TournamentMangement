@@ -3,7 +3,6 @@
 
 <p-dialog header="Add New Tournament" [(visible)]="isAddTournament" [modal]="true" [style]="{ width: '40vw' }"
     [draggable]="false" [resizable]="false">
-
     <form [formGroup]="tournamentForm" (ngSubmit)="onSubmit()" class="d-flex flex-column gap-3">
         <div class="form-group">
             <label for="name">Tournament Name : </label>
@@ -23,9 +22,7 @@
             <label for="name">Description : </label>
             <textarea type="text" id="name" formControlName="desc" class="form-control"
                 placeholder="Enter tournament description"> </textarea>
-
         </div>
-
         <div class="d-flex gap-2">
             <div class="w-50">
                 <label for="sport">Sport : </label>
@@ -38,7 +35,6 @@
                     Sport is required.
                 </small>
             </div>
-
             <div class="form-group w-50">
                 <label for="teams">Teams : </label>
                 <div>
@@ -59,17 +55,13 @@
                 <button class="btn border-secondary" [ngClass]="sportTypeString==='format'? 'btn btn-success':''"
                     (click)="sportTypeString='format'">Format</button>
             </div>
-
             <div class="w-50 sportClass">
                 <p-dropdown *ngIf="sportTypeString==='pool'" [options]="[2,3,4,5,6]" formControlName="pools"
                     placeholder="Select no. of pools"></p-dropdown>
                 <p-dropdown [options]="sportsFormat" *ngIf="sportTypeString==='format'" optionLabel="name"
                     formControlName="format" placeholder="Select format"> </p-dropdown>
             </div>
-
         </div>
-
-
         <div class="d-flex">
             <div class="form-group">
                 <label for="profile">Profile : </label>
@@ -78,7 +70,6 @@
                         (change)="onFileSelected($event)">
                 </div>
             </div>
-
             <div class="form-group">
                 <label for="maxTeams">Max Teams : </label>
                 <input type="number" id="maxTeams" formControlName="maxTeams" class="form-control"
@@ -91,7 +82,6 @@
                 </small>
             </div>
         </div>
-
         <div class="d-flex gap-3">
             <div class="form-group w-50 sportClass">
                 <label for="startDate">Start Date : </label>
@@ -101,7 +91,6 @@
                     </p-calendar>
                 </div>
             </div>
-
             <div class="form-group w-50 sportClass">
                 <label for="endDate">End Date : </label>
                 <div>

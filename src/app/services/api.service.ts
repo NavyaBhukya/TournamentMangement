@@ -11,19 +11,18 @@ import { allplayers } from "../features/manage-players/interfaces/player.interfa
 export class ApiService {
     constructor(private http: HttpClient) { }
     private apiUrl = environment.baseUrl
-// Get all Tournaments
+    // Get all Tournaments
     public getAllTournaments(): Observable<allTournaments[]> {
         return this.http.get<allTournaments[]>(`${this.apiUrl}tournaments`)
     }
-// Post  Tournaments
-    public postTournaments(postTour:any): Observable<any[]> {
-        return this.http.post<any[]>(`${this.apiUrl}tournaments`,postTour)
+    // Post  Tournaments
+    public postTournaments(postTour: any): Observable<any[]> {
+        return this.http.post<any[]>(`${this.apiUrl}tournaments`, postTour)
     }
     // Upload Profile Image
     public uploadProfileImage(file: File): Observable<{ message: string; url: string }> {
         const formData = new FormData();
         formData.append('image', file);
-
         return this.http.post<{ message: string; url: string }>(`${this.apiUrl}upload-profile`, formData);
     }
     //Get all players

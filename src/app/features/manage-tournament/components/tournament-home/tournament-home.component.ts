@@ -2,8 +2,9 @@ import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { allTournaments } from '../../interface/tournament.interface';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
+import { min } from 'rxjs';
 
 @Component({
   selector: 'app-tournament-home',
@@ -18,7 +19,16 @@ export class TournamentHomeComponent implements OnInit {
   public allTournamentsArr: allTournaments[] = []
   public tournamentHeadings: string[] = []
   public previewUrl: string | null = null;
-
+  public currentDate: Date = new Date()
+  public sportTypeString : string = 'pool'
+  public sportNames: { name: string, value: string }[] = [
+    { name: 'Cricket', value: 'cricket' },
+    { name: 'Kabaddi', value: 'kabaddi' },
+    { name: 'Socker', value: 'socker' },
+    { name: 'Foot Ball', value: 'football' },
+    { name: 'Badmitton', value: 'badmitton' },
+  ]
+  public sportsFormat: { name: string, value: string }[] = [{ name: 'Single Elimination', value: 'singleelimination' }, { name: 'Double Elimination', value: 'doubleelimination' }, { name: 'Round Robbin', value: "roundrabbin" }]
   teamsOptions = [
     { label: 'Team A', value: 'Team A' },
     { label: 'Team B', value: 'Team B' },
@@ -40,9 +50,10 @@ export class TournamentHomeComponent implements OnInit {
 
   private tournamentFormInit(): void {
     this.tournamentForm = this.fb.group({
-      name: ['', Validators.required],
+      name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(30)]],
       sport: ['', Validators.required],
       teams: [[], Validators.required],
+      desc:[''],
       pools: [null],
       format: [''],
       profile: [''],
@@ -50,6 +61,10 @@ export class TournamentHomeComponent implements OnInit {
       endDate: [null],
       maxTeams: [null, [Validators.min(2), Validators.max(30)]],
     });
+  }
+  // getter method for name
+  get name() {
+    return this.tournamentForm.get('name')
   }
   private getAllTournaments(): void {
     try {
@@ -98,9 +113,7 @@ export class TournamentHomeComponent implements OnInit {
 
         })
       }
-    } catch (error) {
-
-    }
+    } catch (error) { }
 
   }
 }

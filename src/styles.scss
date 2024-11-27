@@ -1,5 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
 @import "primeicons/primeicons.css";
-body{
-    margin: 0px;
+@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
+body {
+  margin: 0px;
+}
+
+.sportClass {
+  .p-dropdown {
+    width: 100%;
+  }
+  .p-multiselect {
+    width: 100%;
+  }
+  .p-calendar {
+    width: 100%;
+  }
+}
+.custom-calendar{
+    .p-datepicker table td > span{
+        width:1.5rem  ;
+        height:1.5rem  ;
+
+    }
 }

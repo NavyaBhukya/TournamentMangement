@@ -1,2 +1,5 @@
-<app-header></app-header>
+<ng-container *ngIf="isLoggedIn">
+    <app-header></app-header>
+</ng-container>
 <router-outlet></router-outlet>
+<p-toast></p-toast>

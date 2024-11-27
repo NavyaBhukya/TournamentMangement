@@ -12,26 +12,25 @@ export class PlayerHomeComponent implements OnInit {
   public addButtonLabel = 'Add Player';
   public allTeamsDataArr: allplayers[] = []
   public columns: string[] = []
-  public displayAddPlayerDialog: boolean = false; 
+  public displayAddPlayerDialog: boolean = false;
   public isEditMode: boolean = false; // Track edit mode
   public currentPlayerData: allplayers | null = null;
-
   constructor(private apiService: ApiService) { }
   ngOnInit(): void {
     this.getallPlayerData();
   }
   public handleAdd(): void {
-    this.isEditMode = false; // Not in edit mode
-    this.currentPlayerData = null; 
+    this.isEditMode = false;
+    this.currentPlayerData = null;
     this.displayAddPlayerDialog = true;
   }
   public handleDialogClose(data?: any): void {
-    this.displayAddPlayerDialog = false; 
-    this.isEditMode = false; // Reset edit mode
-    this.currentPlayerData = null; // Clear current player data
+    this.displayAddPlayerDialog = false;
+    this.isEditMode = false;
+    this.currentPlayerData = null;
     if (data) {
       console.log('Player added:', data);
-      this.getallPlayerData(); 
+      this.getallPlayerData();
     }
   }
   public handleSearch(term: string) {
@@ -50,14 +49,9 @@ export class PlayerHomeComponent implements OnInit {
   }
   public editPlayer(rowData: any): void {
     console.log(rowData);
-    
-    // this.isEditMode = true; // Enable edit mode
-    // this.currentPlayerData = rowData; // Store the selected player data
-    // this.displayAddPlayerDialog = true; // Show the dialog
   }
-
-  deletePlayer(rowData: any): void {
-    this.apiService.deletePlayers(rowData._id).subscribe((data) => {
+  public deletePlayer(rowData: any): void {
+    this.apiService.deletePlayers(rowData._id).subscribe(() => {
       console.log('player deleted');
       this.getallPlayerData()
     })

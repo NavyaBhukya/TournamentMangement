@@ -8,7 +8,7 @@ import { DialogModule } from 'primeng/dialog';
 import { CalendarModule } from 'primeng/calendar';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { DropdownModule } from 'primeng/dropdown';
 @NgModule({
   declarations: [
     AddTournamentComponent,
@@ -22,7 +22,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     SharedModule,
     DialogModule,
     CalendarModule,
-    MultiSelectModule
+    MultiSelectModule,
+    DropdownModule
 ]
 })
 export class ManageTournamentModule { }

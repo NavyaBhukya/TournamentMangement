@@ -1,16 +1,6 @@
-<app-table
-[tableTitle]="tableTitle"
-[data]="allTeamsDataArr"
-[addButtonLabel]="addButtonLabel"
-(onAdd)="handleAdd()"
-(onSearch)="handleSearch($event)"(onEdit)="editPlayer($event)"
-(onDelete)="deletePlayer($event)"
-></app-table>
-<p-dialog
-  [(visible)]="displayAddPlayerDialog"
-  [modal]="true"
-  [closable]="false"
-  [style]="{ width: '50vw' }"
->
-  <app-add-player   [isEditMode]="isEditMode" (formSubmitted)="handleDialogClose($event)" (cancel)="handleDialogClose()"></app-add-player>
+<app-table [tableTitle]="tableTitle" [data]="allTeamsDataArr" [addButtonLabel]="addButtonLabel" (onAdd)="handleAdd()"
+  (onSearch)="handleSearch($event)" (onEdit)="editPlayer($event)" (onDelete)="deletePlayer($event)"></app-table>
+<p-dialog [(visible)]="displayAddPlayerDialog" [modal]="true" [closable]="false" [style]="{ width: '50vw' }">
+  <app-add-player [isEditMode]="isEditMode" (formSubmitted)="handleDialogClose($event)"
+    (cancel)="handleDialogClose()"></app-add-player>
 </p-dialog>

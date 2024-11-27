@@ -14,6 +14,7 @@
             {{ column }}
           </th>
         </ng-container>
+        <th>Action</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData>
@@ -31,9 +32,14 @@
               {{rowData[column]}}
             </ng-template>
           </ng-template>
-
+</td>
           <!-- {{ rowData[column] }} -->
-        </td>
+          <td>
+            <!-- <button pButton type="button" icon="pi pi-pencil" class="p-button-text" ></button>
+            <button pButton type="button" icon="pi pi-trash" class="p-button-danger p-button-text" ></button> -->
+            <span (click)="handleEdit(rowData)"><i class="pi pi-pen-to-square" ></i> </span>
+            <span (click)="handleDelete(rowData)"><i class="pi pi-trash" ></i> </span>
+          </td>
       </tr>
     </ng-template>
   </p-table>

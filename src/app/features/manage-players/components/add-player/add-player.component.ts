@@ -1,17 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-add-player',
   templateUrl: './add-player.component.html',
   styleUrls: ['./add-player.component.scss']
 })
-export class AddPlayerComponent {
+export class AddPlayerComponent implements OnInit {
+
+  @Output() formSubmitted = new EventEmitter<any>(); // Emit when form is submitted
+  @Output() cancel = new EventEmitter<void>(); // Emit when dialog is canceled
+  @Input() isEditMode: boolean = false; // Is the form in edit mode
+  @Input() playerData: any; // Player data for editing
+
   addPlayerForm: FormGroup;
   sports: string[] = ['Cricket', 'Football', 'Basketball', 'Tennis', 'Hockey'];
   selectedFile: File | null = null;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private apiService: ApiService) {
     this.addPlayerForm = this.fb.group({
       playerName: ['', [Validators.required, Validators.minLength(3)]],
       age: [
@@ -20,8 +27,10 @@ export class AddPlayerComponent {
       ],
       sport: ['', Validators.required],
       teams: ['', Validators.required],
-      profilePicture: ['', Validators.required],
+      profilePicture: [''],
     });
+  }
+  ngOnInit(): void {
   }
 
   // Helper method to check if a field is invalid
@@ -35,25 +44,41 @@ export class AddPlayerComponent {
     const input = event.target as HTMLInputElement;
     if (input?.files?.length) {
       this.selectedFile = input.files[0];
-      this.addPlayerForm.patchValue({ profilePicture: this.selectedFile });
+      // this.addPlayerForm.patchValue({ profilePicture: this.selectedFile });
     }
   }
 
   // Submit handler
   onSubmit(): void {
     if (this.addPlayerForm.valid) {
-      const formData = new FormData();
-      formData.append('playerName', this.addPlayerForm.get('playerName')?.value);
-      formData.append('age', this.addPlayerForm.get('age')?.value);
-      formData.append('sport', this.addPlayerForm.get('sport')?.value);
-      formData.append('teams', this.addPlayerForm.get('teams')?.value);
-      if (this.selectedFile) {
-        formData.append('profilePicture', this.selectedFile);
+      // const formData = new FormData();
+      // formData.append('playerName', this.addPlayerForm.get('playerName')?.value);
+      // formData.append('age', this.addPlayerForm.get('age')?.value);
+      // formData.append('sport', this.addPlayerForm.get('sport')?.value);
+      // formData.append('teams', this.addPlayerForm.get('teams')?.value);
+      // if (this.selectedFile) {
+      //   formData.append('profilePicture', this.selectedFile);
+      // }
+
+      const payload = {
+        playerName: this.addPlayerForm.value.playerName,
+        age: this.addPlayerForm.value.age,
+        sport: this.addPlayerForm.value.sport,
+        teams: this.addPlayerForm.value.teams,
+        profilePicture: this.addPlayerForm.value.profilePicture
       }
 
-      console.log('Player data submitted:', formData);
+      this.apiService.postPlayers(payload).subscribe({
+        next: (res) => {
+          this.formSubmitted.emit(res);
+        },
+      })
+      console.log('Player data submitted:', payload);
+      this.formSubmitted.emit(payload);
 
-      // Call your service to post the form data to the backend here
     }
+  }
+  onCancel(): void {
+    this.cancel.emit(); // Emit cancel event
   }
 }

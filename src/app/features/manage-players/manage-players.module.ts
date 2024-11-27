@@ -6,6 +6,7 @@ import { AddPlayerComponent } from './components/add-player/add-player.component
 import { ReactiveFormsModule } from '@angular/forms';
 import { PlayerHomeComponent } from './components/player-home/player-home.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { DialogModule } from 'primeng/dialog';
 
 
 @NgModule({
@@ -14,7 +15,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     PlayerHomeComponent
   ],
   imports: [
-    CommonModule,
+    CommonModule,DialogModule,
     ManagePlayersRoutingModule,ReactiveFormsModule,SharedModule
   ]
 })

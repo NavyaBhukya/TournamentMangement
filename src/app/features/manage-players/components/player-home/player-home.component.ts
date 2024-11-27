@@ -7,59 +7,59 @@ import { allplayers } from '../../interfaces/player.interface';
   templateUrl: './player-home.component.html',
   styleUrls: ['./player-home.component.scss']
 })
-export class PlayerHomeComponent implements OnInit{
+export class PlayerHomeComponent implements OnInit {
   public tableTitle = 'Added Players';
   public addButtonLabel = 'Add Player';
-  public columns: Array<{ field: string; header: string }> = [];
-  public data: Array<any> = [];
-  // public columns = [
-  //   { field: 'name', header: 'Name' },
-  //   { field: 'age', header: 'Age' },
-  //   { field: 'sport', header: 'Sports' },
-  //   { field: 'teams', header: 'Team' },
-  // ];
-  // public data = [
-  //   { name: 'Player 1', age: 25, team: 'Team A' },
-  //   { name: 'Player 2', age: 27, team: 'Team B' },
-  //   { name: 'Player 3', age: 24, team: 'Team A' },
-  // ];
+  public allTeamsDataArr: allplayers[] = []
+  public columns: string[] = []
+  public displayAddPlayerDialog: boolean = false; 
+  public isEditMode: boolean = false; // Track edit mode
+  public currentPlayerData: allplayers | null = null;
+
   constructor(private apiService: ApiService) { }
   ngOnInit(): void {
-    this.getallPlayersData()
+    this.getallPlayerData();
   }
-  public handleAdd() {
-    console.log('Add Player button clicked');
+  public handleAdd(): void {
+    this.isEditMode = false; // Not in edit mode
+    this.currentPlayerData = null; 
+    this.displayAddPlayerDialog = true;
+  }
+  public handleDialogClose(data?: any): void {
+    this.displayAddPlayerDialog = false; 
+    this.isEditMode = false; // Reset edit mode
+    this.currentPlayerData = null; // Clear current player data
+    if (data) {
+      console.log('Player added:', data);
+      this.getallPlayerData(); 
+    }
   }
   public handleSearch(term: string) {
     console.log('Search term:', term);
   }
-  public getallPlayersData() {
-    this.apiService.getallPlayers().subscribe((response: any[]) => {
-      if (response && response.length > 0) {
-        // Dynamically set columns based on keys of the first object, excluding unwanted keys
-        this.columns = Object.keys(response[0])
-          .filter(
-            (key) =>
-              !key.startsWith('_') && // Exclude keys starting with '_'
-              key !== 'createdAt' && // Exclude 'createdAt'
-              key !== 'updatedAt' // Exclude 'updatedAt'
-          )
-          .map((key) => ({
-            field: key,
-            header: this.formatHeader(key),
-          }));
-      }
-      this.data = response;
-      console.log(this.columns);
-      console.log(this.data);
-    });
+  public getallPlayerData(): void {
+    try {
+      this.apiService.getallPlayers().subscribe({
+        next: (res) => {
+          this.allTeamsDataArr = res
+        }
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  public editPlayer(rowData: any): void {
+    console.log(rowData);
+    
+    // this.isEditMode = true; // Enable edit mode
+    // this.currentPlayerData = rowData; // Store the selected player data
+    // this.displayAddPlayerDialog = true; // Show the dialog
   }
 
-  private formatHeader(key: string): string {
-    // Capitalize the first letter and replace camelCase or snake_case with spaces
-    return key
-      .replace(/([A-Z])/g, ' $1')
-      .replace(/_/g, ' ')
-      .replace(/^./, (str) => str.toUpperCase());
+  deletePlayer(rowData: any): void {
+    this.apiService.deletePlayers(rowData._id).subscribe((data) => {
+      console.log('player deleted');
+      this.getallPlayerData()
+    })
   }
 }

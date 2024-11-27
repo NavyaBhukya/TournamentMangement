@@ -8,11 +8,12 @@ import { Component } from '@angular/core';
 export class TeamsHomeComponent {
   public tableTitle = 'Added Teams';
   public addButtonLabel = 'Add Team';
-  public columns = [
-    { field: 'name', header: 'Team Name' },
-    { field: 'age', header: 'Sports Name' },
-    { field: 'team', header: 'Number of players' },
-  ];
+  // public columns = [
+  //   { field: 'name', header: 'Team Name' },
+  //   { field: 'age', header: 'Sports Name' },
+  //   { field: 'team', header: 'Number of players' },
+  // ];
+  public columns : string[]=[]
   public data = [
     // { name: 'Team 1', age: 'cricket', team: 15 },
     // { name: 'Team 2', age: 'FootBall', team: 7},

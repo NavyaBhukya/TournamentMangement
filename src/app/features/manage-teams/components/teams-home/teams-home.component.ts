@@ -15,9 +15,9 @@ export class TeamsHomeComponent {
   // ];
   public columns : string[]=[]
   public data = [
-    { name: 'Team 1', age: 'cricket', team: 15 },
-    { name: 'Team 2', age: 'FootBall', team: 7},
-    { name: 'Team 3', age: 'Badminton', team: 2 },
+    // { name: 'Team 1', age: 'cricket', team: 15 },
+    // { name: 'Team 2', age: 'FootBall', team: 7},
+    // { name: 'Team 3', age: 'Badminton', team: 2 },
   ];
   public handleAdd() {
     console.log('Add Player button clicked');

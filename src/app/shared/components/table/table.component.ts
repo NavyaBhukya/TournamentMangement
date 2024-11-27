@@ -17,10 +17,7 @@ export class TableComponent implements OnChanges {
   @Output() onSearch = new EventEmitter<string>();
   searchControl: FormControl = new FormControl('');
   filteredData: any[] = [];
-  ngOnInit(): void {
-    // this.tableDataInit()
-    // this.searchDataInit()
-  }
+  ngOnInit(): void { }
   ngOnChanges(changes: SimpleChanges) {
     if (changes['data'] && changes['data'].currentValue?.length) {
       this.searchDataInit()
@@ -39,8 +36,7 @@ export class TableComponent implements OnChanges {
       this.onSearch.emit(searchTerm);
     });
   }
-
- public handleAdd() {
+  public handleAdd() {
     this.onAdd.emit();
   }
   public tableDataInit(): void {
@@ -52,7 +48,6 @@ export class TableComponent implements OnChanges {
     this.tableHeadings = tabelKeys.filter(column => !excludedColumns.includes(column)).map(column => this.formatColumnName(column))
     this.tableObjKeys = tabelKeys.filter(column => !excludedColumns.includes(column))
   }
-
   // Format column name: camelCase or PascalCase to spaced words
   private formatColumnName(column: string): string {
     return column

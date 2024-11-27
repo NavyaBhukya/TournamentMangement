@@ -1,26 +1,25 @@
 .dynamic-table {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 16px;
-    background: #f9f9f9;
-  }
-  
-  .table-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    align-items: center;
-  }
-  
-  .search-container {
-    flex: 1;
-  }
-  
-  .search-input {
-    width: 40%;
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  background: #f9f9f9;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.search-container {
+  flex: 1;
+}
+
+.search-input {
+  width: 40%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}

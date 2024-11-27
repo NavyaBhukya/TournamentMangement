@@ -10,7 +10,6 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss'],
   providers: [MessageService]
-
 })
 export class SignupComponent {
   public registrationForm: FormGroup;

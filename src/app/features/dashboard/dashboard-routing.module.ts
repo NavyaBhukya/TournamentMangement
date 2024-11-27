@@ -9,14 +9,14 @@ const routes: Routes = [
   {
     path: 'dashboard', component: HomeComponent,
     children: [
-      { 
-        path: 'home', component: HomeComponent 
+      {
+        path: 'home', component: HomeComponent
       },
-      { 
-        path: 'header', component: HeaderComponent 
+      {
+        path: 'header', component: HeaderComponent
       },
-      { 
-        path: 'footer', component: FooterComponent 
+      {
+        path: 'footer', component: FooterComponent
       }
     ]
   }

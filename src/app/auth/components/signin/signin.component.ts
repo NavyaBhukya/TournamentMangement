@@ -25,26 +25,28 @@ export class SigninComponent {
     return control?.invalid && (control.dirty || control.touched);
   }
   public onsubmitForm(): void {
-    const payload = {
-      email: this.loginForm.value.email,
-      password: this.loginForm.value.password
-    }
-    this.authService.login(payload).subscribe({
-      next: (data) => {
-        localStorage.setItem('token', data.token)
-        localStorage.setItem('role', data.role)
-        this.route.navigate(['/feature'])
-        this.messageService.add({ severity: 'success', detail: "Login successfully", summary: 'Success' })
-        this.loginForm.reset()
-      }, error: (err: HttpErrorResponse) => {
-        this.messageService.add({ severity: 'warn', detail: err.error?.message, summary: 'Warning' })
+    try {
+      const payload = {
+        email: this.loginForm.value.email,
+        password: this.loginForm.value.password
       }
-    })
+      this.authService.login(payload).subscribe({
+        next: (data) => {
+          localStorage.setItem('token', data.token)
+          localStorage.setItem('role', data.role)
+          this.route.navigate(['/feature'])
+          this.messageService.add({ severity: 'success', detail: "Login successfully", summary: 'Success' })
+          this.loginForm.reset()
+        }, error: (err: HttpErrorResponse) => {
+          this.messageService.add({ severity: 'warn', detail: err.error?.message, summary: 'Warning' })
+        }
+      })
+    } catch (error) { throw error }
   }
 
   // Forgot form submit
-  public onForgotformSubmit(forgot:NgForm){
+  public onForgotformSubmit(forgot: NgForm) {
     console.log(forgot.value);
-    
+
   }
 }

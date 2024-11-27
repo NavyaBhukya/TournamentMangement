@@ -5,7 +5,6 @@
     </div>
     <button pButton type="button" (click)="handleAdd()">{{ addButtonLabel}}</button>
   </div>
-
   <p-table [value]="filteredData" [paginator]="true" [rows]="10" [responsiveLayout]="'scroll'">
     <ng-template pTemplate="header">
       <tr>
@@ -19,7 +18,6 @@
     <ng-template pTemplate="body" let-rowData>
       <tr>
         <td *ngFor="let column of tableObjKeys">
-
           <ng-container *ngIf="column === 'profile'; else defaultData">
             <img [src]="rowData[column]" alt="Profile" style="width: 50px; height: 50px; border-radius: 50%;">
           </ng-container>
@@ -31,8 +29,6 @@
               {{rowData[column]}}
             </ng-template>
           </ng-template>
-
-          <!-- {{ rowData[column] }} -->
         </td>
       </tr>
     </ng-template>

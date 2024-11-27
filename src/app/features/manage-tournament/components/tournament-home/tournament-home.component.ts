@@ -34,12 +34,6 @@ export class TournamentHomeComponent implements OnInit {
     { label: 'Team D', value: 'Team D' },
   ];
 
-  public onCreateTournament(): void {
-    this.isAddTournament = true
-  }
-  public handleSearch(term: string): void {
-    console.log('Search term:', term);
-  }
   constructor(private apiService: ApiService, private fb: FormBuilder) { }
   ngOnInit(): void {
     this.getAllTournaments()
@@ -106,6 +100,35 @@ export class TournamentHomeComponent implements OnInit {
         })
       }
     } catch (error) { }
+  }
+  public onCreateTournament(data: allTournaments) {
+    try {
+      if (data) {
+        console.log(data);
+        data.pool ? this.sportTypeString = 'pool' : this.sportTypeString = 'format'
+        this.tournamentForm.patchValue({
+          name: data.name || '',
+          sport: { name: data.sport, value: data.sport.toLowerCase().replace(/\s/g, '') },
+          teams: data.teams || [],
+          desc: data.desc || '',
+          pools: data.pool || null,
+          format: { name: data.format, value: data.format.toLowerCase().replace(/\s/g, '') },
+          // profile: data.profile || '',
+          startDate: data.startDate ? new Date(data.startDate) : '',
+          endDate: data.endDate ? new Date(data.endDate) : '',
+          maxTeams: data.maxTeams || null
+        })
+      }
+      else { this.tournamentForm.reset();this.sportTypeString='pool' }
+      this.isAddTournament = true
 
+    }
+    catch (error) {
+
+    }
+
+  }
+  public handleSearch(term: string): void {
+    console.log('Search term:', term);
   }
 }

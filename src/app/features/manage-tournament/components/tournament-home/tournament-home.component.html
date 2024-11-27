@@ -1,5 +1,5 @@
 <app-table [tableTitle]="tableTitle" [data]="allTournamentsArr" [addButtonLabel]="addButtonLabel"
-    (onAdd)="onCreateTournament()" (onSearch)="handleSearch($event)"></app-table>
+    (onAdd)="onCreateTournament($event)" (onSearch)="handleSearch($event)"></app-table>
 
 <p-dialog header="Add New Tournament" [(visible)]="isAddTournament" [modal]="true" [style]="{ width: '40vw' }"
     [draggable]="false" [resizable]="false">
@@ -51,9 +51,9 @@
         <div class="d-flex gap-2">
             <div class="d-flex gap-2 w-50">
                 <button class="btn border-secondary" [ngClass]="sportTypeString==='pool'? 'btn btn-success':''"
-                    (click)="sportTypeString='pool'">Pools</button>
+                    (click)="sportTypeString='pool';$event.stopPropagation()">Pools</button>
                 <button class="btn border-secondary" [ngClass]="sportTypeString==='format'? 'btn btn-success':''"
-                    (click)="sportTypeString='format'">Format</button>
+                    (click)="sportTypeString='format';$event.stopPropagation()">Format</button>
             </div>
             <div class="w-50 sportClass">
                 <p-dropdown *ngIf="sportTypeString==='pool'" [options]="[2,3,4,5,6]" formControlName="pools"

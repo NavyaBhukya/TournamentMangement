@@ -1,16 +1,19 @@
+import { DatePipe, Location } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { allTournaments } from 'src/app/features/manage-tournament/interface/tournament.interface';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
-  styleUrls: ['./table.component.scss']
+  styleUrls: ['./table.component.scss'],
+  providers: [DatePipe]
 })
 export class TableComponent implements OnChanges {
   @Input() tableTitle: string = '';
   @Input() data: any[] = [];
   @Input() addButtonLabel: string = 'Add';
-  @Output() onAdd = new EventEmitter<void>();
+  @Output() onAdd = new EventEmitter<allTournaments>();
   @Output() onSearch = new EventEmitter<string>();
   @Output() onEdit = new EventEmitter<any>();
   @Output() onDelete = new EventEmitter<any>();
@@ -18,9 +21,10 @@ export class TableComponent implements OnChanges {
   public tableObjKeys: string[] = [];
   public searchControl: FormControl = new FormControl('');
   public filteredData: any[] = [];
-  public isAdmin : string = '' ;
+  public isAdmin: string = '';
+  constructor(private loc: Location, private datePipe: DatePipe) { }
   ngOnInit(): void {
-    this.isAdmin = localStorage.getItem('role')! 
+    this.isAdmin = localStorage.getItem('role')!
   }
   ngOnChanges(changes: SimpleChanges) {
     if (changes['data'] && changes['data'].currentValue?.length) {
@@ -39,9 +43,10 @@ export class TableComponent implements OnChanges {
       this.onSearch.emit(searchTerm);
     });
   }
-  public handleEdit(rowData: any): void {
-    console.log(rowData);
-    this.onEdit.emit(rowData);
+  public handleEdit(rowData: allTournaments): void {
+    // console.log(rowData);
+    // this.onEdit.emit(rowData);
+    this.onAdd.emit(rowData); // sending tournament data to edit
   }
   public handleDelete(rowData: any): void {
     console.log(rowData);
@@ -63,7 +68,8 @@ export class TableComponent implements OnChanges {
       .replace(/([a-z])([A-Z])/g, '$1 $2')
       .replace(/^./, str => str.toUpperCase());
   }
-  public checkingIsArray(data: string[]): boolean {
-    return Array.isArray(data)
+  // going back to previous screen from table
+  public goBack(): void {
+    this.loc.back()
   }
 }

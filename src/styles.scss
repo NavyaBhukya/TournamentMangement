@@ -17,10 +17,15 @@ body {
     width: 100%;
   }
 }
-.custom-calendar{
-    .p-datepicker table td > span{
-        width:1.5rem  ;
-        height:1.5rem  ;
-
-    }
+.custom-calendar {
+  .p-datepicker table td > span {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+}
+.p-multiselect-items-wrapper,
+.p-dropdown-items-wrapper {
+  ul {
+    padding-left: 0px;
+  }
 }

@@ -17,7 +17,7 @@
             {{ column }}
           </th>
         </ng-container>
-        <th *ngIf="isAdmin.toLowerCase()=== 'admin'">Action</th>
+        <th *ngIf="isAdmin.toLowerCase()!== 'admin'">Action</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData>
@@ -35,7 +35,7 @@
             </ng-template>
           </ng-template>
         </td>
-        <td *ngIf="isAdmin.toLowerCase()=== 'admin'">
+        <td *ngIf="isAdmin.toLowerCase()!== 'admin'">
           <div class="d-flex gap-3">
             <span (click)="handleEdit(rowData)"><i class="pi pi-pen-to-square"></i> </span>
             <span (click)="handleDelete(rowData)"><i class="pi pi-trash"></i> </span>

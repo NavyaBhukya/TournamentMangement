@@ -1,6 +1,7 @@
 import { DatePipe, Location } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { allTournaments } from 'src/app/features/manage-tournament/interface/tournament.interface';
 
 @Component({
   selector: 'app-table',
@@ -12,7 +13,7 @@ export class TableComponent implements OnChanges {
   @Input() tableTitle: string = '';
   @Input() data: any[] = [];
   @Input() addButtonLabel: string = 'Add';
-  @Output() onAdd = new EventEmitter<void>();
+  @Output() onAdd = new EventEmitter<allTournaments>();
   @Output() onSearch = new EventEmitter<string>();
   @Output() onEdit = new EventEmitter<any>();
   @Output() onDelete = new EventEmitter<any>();
@@ -42,9 +43,10 @@ export class TableComponent implements OnChanges {
       this.onSearch.emit(searchTerm);
     });
   }
-  public handleEdit(rowData: any): void {
-    console.log(rowData);
-    this.onEdit.emit(rowData);
+  public handleEdit(rowData: allTournaments): void {
+    // console.log(rowData);
+    // this.onEdit.emit(rowData);
+    this.onAdd.emit(rowData); // sending tournament data to edit
   }
   public handleDelete(rowData: any): void {
     console.log(rowData);

@@ -1,50 +1,25 @@
 <div class="form-container">
-    <form [formGroup]="addTeamForm" (ngSubmit)="onSubmit()">
-      <h2>Add Team</h2>
-  
-      <!-- Team Name -->
-      <div class="form-group">
-        <label for="teamName">Team Name</label>
-        <input
-          type="text"
-          id="teamName"
-          formControlName="teamName"
-          placeholder="Enter Team Name"
-          [class.invalid]="isFieldInvalid('teamName')"
-        />
-        <small *ngIf="isFieldInvalid('teamName')">Team Name is required.</small>
-      </div>
-  
-      <!-- Sport Dropdown -->
-      <div class="form-group">
-        <label for="sport">Sport</label>
-        <p-dropdown
-          [options]="sports"
-          id="sport"
-          formControlName="sport"
-          placeholder="Select a sport"
-          [filter]="true"
-          [class.invalid]="isFieldInvalid('sport')"
-        ></p-dropdown>
-        <small *ngIf="isFieldInvalid('sport')">Please select a sport.</small>
-      </div>
-  
-      <!-- Players Multi-Select -->
-      <div class="form-group">
-        <label for="players">Players</label>
-        <p-multiSelect
-          [options]="players"
-          id="players"
-          formControlName="players"
-          placeholder="Select players"
-          [filter]="true"
-          [class.invalid]="isFieldInvalid('players')"
-        ></p-multiSelect>
-        <small *ngIf="isFieldInvalid('players')">Select at least one player.</small>
-      </div>
-  
-      <!-- Submit Button -->
-      <button type="submit" [disabled]="addTeamForm.invalid">Add Team</button>
-    </form>
-  </div>
-  
+  <form [formGroup]="addTeamForm" (ngSubmit)="onSubmit()">
+    <h2>Add Team</h2>
+    <div class="form-group">
+      <label for="teamName">Team Name</label>
+      <input type="text" id="teamName" formControlName="teamName" placeholder="Enter Team Name"
+        [class.invalid]="isFieldInvalid('teamName')" />
+      <small *ngIf="isFieldInvalid('teamName')">Team Name is required.</small>
+    </div>
+    <div class="form-group">
+      <label for="sport">Sport</label>
+      <p-dropdown [options]="sports" id="sport" formControlName="sport" placeholder="Select a sport" [filter]="true"
+        [class.invalid]="isFieldInvalid('sport')"></p-dropdown>
+      <small *ngIf="isFieldInvalid('sport')">Please select a sport.</small>
+    </div>
+    <div class="form-group">
+      <label for="players">Players</label>
+      <p-multiSelect [options]="players" id="players" formControlName="players" placeholder="Select players"
+        [filter]="true" [class.invalid]="isFieldInvalid('players')"></p-multiSelect>
+      <small *ngIf="isFieldInvalid('players')">Select at least one player.</small>
+    </div>
+    <button type="button" (click)="onCancel()">Cancel</button>
+    <button type="submit" [disabled]="addTeamForm.invalid" (click)="onSubmit()" >Add Team</button>
+  </form>
+</div>

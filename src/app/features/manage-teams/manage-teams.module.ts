@@ -8,14 +8,14 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TeamsHomeComponent } from './components/teams-home/teams-home.component';
 import { SharedModule } from 'src/app/shared/shared.module';
-
+import { DialogModule } from 'primeng/dialog';
 @NgModule({
   declarations: [
     AddTeamComponent,
     TeamsHomeComponent
   ],
   imports: [
-    CommonModule,ReactiveFormsModule,SharedModule,
+    CommonModule,ReactiveFormsModule,SharedModule,DialogModule,
     ManageTeamsRoutingModule,DropdownModule,MultiSelectModule
   ]
 })

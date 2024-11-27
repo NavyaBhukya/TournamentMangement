@@ -1,9 +1,13 @@
 <div class="dynamic-table">
   <div class="table-header">
-    <div class="search-container">
+    <div>
+      <button class="btn btn-primary rounded" pTooltip="Back" tooltipPosition="top" (click)="goBack()"> <i
+          class="pi pi-arrow-left" style="font-size: 1rem"></i> </button>
+    </div>
+    <div class="search-container ms-3">
       <input [formControl]="searchControl" class="search-input" placeholder="Search" pInputText />
     </div>
-    <button pButton type="button" (click)="handleAdd()">{{ addButtonLabel}}</button>
+    <button class="btn btn-primary" type="button" (click)="handleAdd()">{{ addButtonLabel}}</button>
   </div>
   <p-table [value]="filteredData" [paginator]="true" [rows]="10" [responsiveLayout]="'scroll'">
     <ng-template pTemplate="header">
@@ -13,7 +17,7 @@
             {{ column }}
           </th>
         </ng-container>
-        <th>Action</th>
+        <th *ngIf="isAdmin.toLowerCase()=== 'admin'">Action</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData>
@@ -23,15 +27,15 @@
             <img [src]="rowData[column]" alt="Profile" style="width: 50px; height: 50px; border-radius: 50%;">
           </ng-container>
           <ng-template #defaultData>
-            <ng-container *ngIf="checkingIsArray(rowData[column]);else textData">
-              {{rowData[column].join(',')}}
+            <ng-container *ngIf="column === 'startDate' || column === 'endDate' ;else textData">
+              {{rowData[column] | date : 'dd MMM yyy'}}
             </ng-container>
             <ng-template #textData>
               {{rowData[column]}}
             </ng-template>
           </ng-template>
         </td>
-        <td *ngIf="isAdmin.toLowerCase()!== 'admin' ">
+        <td *ngIf="isAdmin.toLowerCase()=== 'admin'">
           <div class="d-flex gap-3">
             <span (click)="handleEdit(rowData)"><i class="pi pi-pen-to-square"></i> </span>
             <span (click)="handleDelete(rowData)"><i class="pi pi-trash"></i> </span>

@@ -4,6 +4,7 @@ import { AuthService } from '../../auth.service';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { HttpErrorResponse } from '@angular/common/http';
+import { CommonService } from 'src/app/services/common.service';
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.component.html',
@@ -13,13 +14,14 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class SigninComponent {
   public isForgotScreen: boolean = false
   loginForm: FormGroup;
-  constructor(private fb: FormBuilder, private authService: AuthService, public route: Router, private messageService: MessageService) {
+  constructor(private fb: FormBuilder, private authService: AuthService, public route: Router, private messageService: MessageService,
+    private commonServ: CommonService
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
-  // Helper method to check if a field is invalid
   isFieldInvalid(fieldName: string): boolean | undefined {
     const control = this.loginForm.get(fieldName);
     return control?.invalid && (control.dirty || control.touched);
@@ -35,6 +37,7 @@ export class SigninComponent {
           localStorage.setItem('token', data.token)
           localStorage.setItem('role', data.role)
           this.route.navigate(['/feature'])
+          this.commonServ.showHeader.emit()
           this.messageService.add({ severity: 'success', detail: "Login successfully", summary: 'Success' })
           this.loginForm.reset()
         }, error: (err: HttpErrorResponse) => {

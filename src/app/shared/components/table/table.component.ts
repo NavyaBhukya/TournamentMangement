@@ -16,7 +16,7 @@ export class TableComponent implements OnChanges {
   @Output() onAdd = new EventEmitter<allTournaments>();
   @Output() onSearch = new EventEmitter<string>();
   @Output() onEdit = new EventEmitter<any>();
-  @Output() onDelete = new EventEmitter<any>();
+  @Output() onDelete = new EventEmitter<allTournaments>();
   public tableHeadings: string[] = [];
   public tableObjKeys: string[] = [];
   public searchControl: FormControl = new FormControl('');
@@ -48,7 +48,7 @@ export class TableComponent implements OnChanges {
     // this.onEdit.emit(rowData);
     this.onAdd.emit(rowData); // sending tournament data to edit
   }
-  public handleDelete(rowData: any): void {
+  public handleDelete(rowData: allTournaments): void {
     console.log(rowData);
     this.onDelete.emit(rowData);
   }

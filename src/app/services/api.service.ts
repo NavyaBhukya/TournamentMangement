@@ -11,13 +11,22 @@ import { allplayers } from "../features/manage-players/interfaces/player.interfa
 export class ApiService {
     constructor(private http: HttpClient) { }
     private apiUrl = environment.baseUrl
-    // Get all Tournaments
+    // Tournaments
+    // GET
     public getAllTournaments(): Observable<allTournaments[]> {
         return this.http.get<allTournaments[]>(`${this.apiUrl}tournaments`)
     }
-    // Post  Tournaments
+    // POST
     public postTournaments(postTour: any): Observable<any[]> {
         return this.http.post<any[]>(`${this.apiUrl}tournaments`, postTour)
+    }
+    // PUT
+    public updateTournaments(id: string, postTour: any): Observable<any[]> {
+        return this.http.put<any>(`${this.apiUrl}tournaments/${id}`, postTour)
+    }
+    // DELTE
+    public deleteTournament(id: string): Observable<{ message: string }> {
+        return this.http.delete<{ message: string }>(`${this.apiUrl}tournaments/${id}`)
     }
     // Upload Profile Image
     public uploadProfileImage(file: File): Observable<{ message: string; url: string }> {
@@ -26,17 +35,17 @@ export class ApiService {
         return this.http.post<{ message: string; url: string }>(`${this.apiUrl}upload-profile`, formData);
     }
     //Get all players
-    public getallPlayers():Observable<allplayers[]> {
+    public getallPlayers(): Observable<allplayers[]> {
         return this.http.get<allplayers[]>(`${this.apiUrl}players`)
     }
     // Post  Tournaments
-    public postPlayers(postPlayer:any): Observable<any[]> {
-        return this.http.post<any[]>(`${this.apiUrl}players`,postPlayer)
+    public postPlayers(postPlayer: any): Observable<any[]> {
+        return this.http.post<any[]>(`${this.apiUrl}players`, postPlayer)
     }
-    public updatePlayers(id:any ,updateplayer:any):Observable<any[]>{
-        return this.http.put<any[]>(`${this.apiUrl}players/${id}`,updateplayer)
+    public updatePlayers(id: any, updateplayer: any): Observable<any[]> {
+        return this.http.put<any[]>(`${this.apiUrl}players/${id}`, updateplayer)
     }
-    public deletePlayers(id:number):Observable<any>{
+    public deletePlayers(id: number): Observable<any> {
         return this.http.delete<any>(`${this.apiUrl}players/${id}`)
     }
 }

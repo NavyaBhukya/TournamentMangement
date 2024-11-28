@@ -1,47 +1,62 @@
-<div class="dynamic-table">
-  <div class="table-header">
-    <div>
-      <button class="btn btn-primary rounded" pTooltip="Back" tooltipPosition="top" (click)="goBack()"> <i
-          class="pi pi-arrow-left" style="font-size: 1rem"></i> </button>
+<ng-container *ngIf="filteredData.length">
+  <div class="dynamic-table">
+    <div class="table-header">
+      <div>
+        <button class="btn btn-primary rounded" pTooltip="Back" tooltipPosition="top" (click)="goBack()"> <i
+            class="pi pi-arrow-left" style="font-size: 1rem"></i> </button>
+      </div>
+      <div class="search-container ms-3">
+        <input [formControl]="searchControl" class="search-input" placeholder="Search" pInputText />
+      </div>
+      <button class="btn btn-primary" type="button" (click)="handleAdd()">{{ addButtonLabel}}</button>
     </div>
-    <div class="search-container ms-3">
-      <input [formControl]="searchControl" class="search-input" placeholder="Search" pInputText />
-    </div>
-    <button class="btn btn-primary" type="button" (click)="handleAdd()">{{ addButtonLabel}}</button>
-  </div>
-  <p-table [value]="filteredData" [paginator]="true" [rows]="10" [responsiveLayout]="'scroll'">
-    <ng-template pTemplate="header">
-      <tr>
-        <ng-container *ngFor="let column of tableHeadings">
-          <th>
-            {{ column }}
-          </th>
-        </ng-container>
-        <th *ngIf="isAdmin.toLowerCase()!== 'admin'">Action</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-rowData>
-      <tr>
-        <td *ngFor="let column of tableObjKeys">
-          <ng-container *ngIf="column === 'profile'; else defaultData">
-            <img [src]="rowData[column]" alt="Profile" style="width: 50px; height: 50px; border-radius: 50%;">
+    <p-table [value]="filteredData" class="" [paginator]="true" [rows]="10" [responsiveLayout]="'scroll'">
+      <ng-template pTemplate="header">
+        <tr>
+          <ng-container *ngFor="let column of tableHeadings">
+            <th>
+              {{ column }}
+            </th>
           </ng-container>
-          <ng-template #defaultData>
-            <ng-container *ngIf="column === 'startDate' || column === 'endDate' ;else textData">
-              {{rowData[column] | date : 'dd MMM yyy'}}
+          <th *ngIf="isAdmin.toLowerCase()!== 'admin'">Action</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData>
+        <tr>
+          <td *ngFor="let column of tableObjKeys">
+            <ng-container *ngIf="column === 'profile'; else defaultData">
+              <img [src]="rowData[column]" alt="Profile" style="width: 50px; height: 50px; border-radius: 50%;">
             </ng-container>
-            <ng-template #textData>
-              {{rowData[column]}}
+            <ng-template #defaultData>
+              <ng-container *ngIf="column === 'startDate' || column === 'endDate' ;else textData">
+                {{rowData[column] | date : 'dd MMM yyy'}}
+              </ng-container>
+              <ng-template #textData>
+                {{rowData[column] ? rowData[column] : '-'}}
+              </ng-template>
             </ng-template>
-          </ng-template>
-        </td>
-        <td *ngIf="isAdmin.toLowerCase()!== 'admin'">
-          <div class="d-flex gap-3">
-            <span (click)="handleEdit(rowData)"><i class="pi pi-pen-to-square"></i> </span>
-            <span (click)="handleDelete(rowData)"><i class="pi pi-trash"></i> </span>
-          </div>
-        </td>
-      </tr>
-    </ng-template>
-  </p-table>
-</div>
+          </td>
+          <td *ngIf="isAdmin.toLowerCase()!== 'admin'">
+            <div class="d-flex gap-3">
+              <span (click)="handleEdit(rowData)" pTooltip="Edit" tooltipPosition="top"><i
+                  class="pi pi-pen-to-square actionIcon text-primary"></i> </span>
+              <span (click)="handleDelete(rowData)" pTooltip="Delete" tooltipPosition="top"><i
+                  class="pi pi-trash actionIcon text-danger"></i> </span>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</ng-container>
+<ng-container *ngIf="!filteredData.length">
+  <div class="full-screen-container">
+    <div class="d-flex card justify-content-center align-items-center">
+      <div>
+        <img src="../../../../assets/images/Animation - 1732714708900.gif" alt="" height="250px" width="250px">
+      </div>
+      <button class="btn btn-primary rounded" pTooltip="Back" tooltipPosition="top" (click)="goBack()"> <i
+        class="pi pi-arrow-left" style="font-size: 1rem"></i> </button>
+    </div>
+  </div>
+</ng-container>

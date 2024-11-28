@@ -3,11 +3,13 @@ import { ApiService } from 'src/app/services/api.service';
 import { allTournaments } from '../../interface/tournament.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-tournament-home',
   templateUrl: './tournament-home.component.html',
-  styleUrls: ['./tournament-home.component.scss']
+  styleUrls: ['./tournament-home.component.scss'],
+  providers: [MessageService, ConfirmationService]
 })
 export class TournamentHomeComponent implements OnInit {
   public tableTitle = 'Tournaments';
@@ -19,6 +21,9 @@ export class TournamentHomeComponent implements OnInit {
   public previewUrl: string | null = null;
   public currentDate: Date = new Date()
   public sportTypeString: string = 'pool'
+  public updateTournamentData: allTournaments | null = null;
+  public tournamentProfile: string | null = null
+
   public sportNames: { name: string, value: string }[] = [
     { name: 'Cricket', value: 'cricket' },
     { name: 'Kabaddi', value: 'kabaddi' },
@@ -34,7 +39,7 @@ export class TournamentHomeComponent implements OnInit {
     { label: 'Team D', value: 'Team D' },
   ];
 
-  constructor(private apiService: ApiService, private fb: FormBuilder) { }
+  constructor(private apiService: ApiService, private fb: FormBuilder, private messageService: MessageService, private confirmationService: ConfirmationService) { }
   ngOnInit(): void {
     this.getAllTournaments()
     this.tournamentFormInit()
@@ -45,7 +50,7 @@ export class TournamentHomeComponent implements OnInit {
       name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(30)]],
       sport: ['', Validators.required],
       teams: [[], Validators.required],
-      desc: [''],
+      description: [''],
       pools: [null],
       format: [''],
       profile: [''],
@@ -61,74 +66,123 @@ export class TournamentHomeComponent implements OnInit {
   private getAllTournaments(): void {
     try {
       this.apiService.getAllTournaments().subscribe({
-        next: (res: allTournaments[]) => {
-          this.allTournamentsArr = res;
-        }
+        next: (res: allTournaments[]) => { this.allTournamentsArr = res; }
       })
     } catch (error) { throw error }
   }
 
   public onFileSelected(event: Event): void {
-    const element = event.target as HTMLInputElement;
-    if (element.files && element.files.length > 0) {
-      const file = element.files[0];
-      console.log(file);
-      if (file.size > 10 * 1024 * 1024) {
-        alert('File size exceeds the 10MB limit.');
-        return;
+    try {
+      const element = event.target as HTMLInputElement;
+      if (element.files && element.files.length > 0) {
+        const file = element.files[0];
+        if (file.size > 10 * 1024 * 1024) {
+          alert('File size exceeds the 10MB limit.');
+          return;
+        }
+        this.apiService.uploadProfileImage(file).subscribe({
+          next: (response: { message: string, url: string }) => {
+            this.tournamentProfile = response.url
+            if (!this.updateTournamentData) {
+              this.tournamentForm.patchValue({
+                profile: response.url
+              })
+            }
+          },
+          error: (err: HttpErrorResponse) => {
+            console.error('Error uploading profile image:', err);
+          },
+        });
       }
-      this.apiService.uploadProfileImage(file).subscribe({
-        next: (response: any) => {
-          console.log('Profile image uploaded successfully:', response);
-          this.tournamentForm.patchValue({
-            profile: response.url
-          })
-        },
-        error: (err: HttpErrorResponse) => {
-          console.error('Error uploading profile image:', err);
-        },
-      });
-    }
+    } catch (error) { throw error }
   }
   public onSubmit() {
     try {
-      if (this.tournamentForm.valid) {
-        console.log('Form Submitted:', this.tournamentForm.value);
-        this.isAddTournament = false;
-        this.apiService.postTournaments(this.tournamentForm.value).subscribe((res: any) => {
-          console.log(res, 'posted tour');
+      if (this.tournamentForm.valid && !this.updateTournamentData) {
+        this.tournamentForm.patchValue({
+          sport: this.tournamentForm.value.sport?.name || '',
+          format: this.tournamentForm.value.format?.name || ''
+        })
+        this.apiService.postTournaments(this.tournamentForm.value).subscribe({
+          next: () => {
+            this.isAddTournament = false;
+            this.getAllTournaments()
+            this.messageService.add({ severity: 'success', summary: "Success", detail: "Tournament created successfully" })
+          }
         })
       }
+      else if (this.updateTournamentData) {
+        const formValue = { ...this.tournamentForm.value };
+        if (formValue.sport && typeof formValue.sport === 'object') {
+          formValue.sport = formValue.sport.name || formValue.sport.value;
+        }
+        if (formValue.format && typeof formValue.format === 'object') {
+          formValue.format = formValue.format.name || formValue.format.value;
+        }
+        formValue.profile = this.tournamentProfile // setting the updated profile
+        this.apiService.updateTournaments(this.updateTournamentData._id, formValue).subscribe({
+          next: () => {
+            this.isAddTournament = false;
+            this.getAllTournaments()
+            this.messageService.add({ severity: 'success', summary: "Success", detail: "Tournament updated successfully" })
+          }, error(err) { throw err }
+        })
+      } else;
     } catch (error) { }
   }
   public onCreateTournament(data: allTournaments) {
     try {
-      if (data) {
-        console.log(data);
-        data.pool ? this.sportTypeString = 'pool' : this.sportTypeString = 'format'
-        this.tournamentForm.patchValue({
-          name: data.name || '',
-          sport: { name: data.sport, value: data.sport.toLowerCase().replace(/\s/g, '') },
-          teams: data.teams || [],
-          desc: data.desc || '',
-          pools: data.pool || null,
-          format: { name: data.format, value: data.format.toLowerCase().replace(/\s/g, '') },
-          // profile: data.profile || '',
-          startDate: data.startDate ? new Date(data.startDate) : '',
-          endDate: data.endDate ? new Date(data.endDate) : '',
-          maxTeams: data.maxTeams || null
-        })
+      this.isAddTournament = true;
+      if (!data) {
+        this.tournamentForm.reset();
+        this.sportTypeString = 'pool';
+        return;
       }
-      else { this.tournamentForm.reset();this.sportTypeString='pool' }
+      this.updateTournamentData = data
+      this.sportTypeString = data.pool ? 'pool' : 'format';
+      this.tournamentProfile = data.profile || null
+      this.tournamentForm.patchValue({
+        name: data.name || '',
+        sport: this.sportNames.find((res => res.name === data.sport)) || '',
+        teams: data.teams || [],
+        description: data.description || '',
+        pools: data.pool || null,
+        format: this.sportsFormat.find((res => res.name === data.format)) || '',
+        startDate: data.startDate ? new Date(data.startDate) : null,
+        endDate: data.endDate ? new Date(data.endDate) : null,
+        maxTeams: data.maxTeams || null
+      })
       this.isAddTournament = true
-
     }
-    catch (error) {
-
-    }
-
+    catch (error) { throw error }
   }
   public handleSearch(term: string): void {
     console.log('Search term:', term);
   }
+  private onDeleteTournament(event: allTournaments) {
+    try {
+      event._id ? (
+        this.apiService.deleteTournament(event._id).subscribe({
+          next: (res: { message: string }) => {
+            this.getAllTournaments()
+            this.messageService.add({ severity: 'success', summary: "Success", detail: res.message })
+          }
+        })
+      ) : null
+    } catch (error) { }
+  }
+
+  deleteConfirmation(event: allTournaments) {
+    this.confirmationService.confirm({
+      header: 'Are you sure ?',
+      message: 'You want to delethi this tournament ',
+      accept: () => {
+        this.onDeleteTournament(event)
+      },
+      reject: () => {
+        this.messageService.add({ severity: 'success', summary: 'Rejected', detail: 'Tournament safe', life: 3000 });
+      }
+    });
+  }
+
 }

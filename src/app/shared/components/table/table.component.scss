@@ -23,3 +23,18 @@
   border: 1px solid #ddd;
   border-radius: 4px;
 }
+.actionIcon{
+  font-size: 1.3rem;
+}
+.full-screen-container {
+  // position: fixed; /* Ensures the container spans the entire screen */
+  top: 0;
+  left: 0;
+  width: 100vw; /* Full width */
+  height: 100vh; /* Full height */
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  align-items: center; /* Centers vertically */
+  background-color: #f5f5f5; /* Optional: Background color for contrast */
+  z-index: 1000; /* Ensures it's above other content, if needed */
+}

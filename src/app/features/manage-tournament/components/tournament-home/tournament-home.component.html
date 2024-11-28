@@ -1,5 +1,6 @@
 <app-table [tableTitle]="tableTitle" [data]="allTournamentsArr" [addButtonLabel]="addButtonLabel"
-    (onAdd)="onCreateTournament($event)" (onSearch)="handleSearch($event)"></app-table>
+    (onAdd)="onCreateTournament($event)" (onSearch)="handleSearch($event)"
+    (onDelete)="deleteConfirmation($event)"></app-table>
 
 <p-dialog header="Add New Tournament" [(visible)]="isAddTournament" [modal]="true" [style]="{ width: '40vw' }"
     [draggable]="false" [resizable]="false">
@@ -20,7 +21,7 @@
         </div>
         <div class="form-group">
             <label for="name">Description : </label>
-            <textarea type="text" id="name" formControlName="desc" class="form-control"
+            <textarea type="text" id="name" formControlName="description" class="form-control"
                 placeholder="Enter tournament description"> </textarea>
         </div>
         <div class="d-flex gap-2">
@@ -65,7 +66,9 @@
         <div class="d-flex">
             <div class="form-group">
                 <label for="profile">Profile : </label>
-                <div>
+                <div class="d-flex gap-2">
+                    <img *ngIf="tournamentProfile" [src]="tournamentProfile" alt="profile" height="50px" width="50px"
+                        style="border-radius: 50%;">
                     <input type="file" formControlName="profile" class="formControl" accept="image/*"
                         (change)="onFileSelected($event)">
                 </div>
@@ -110,3 +113,28 @@
         </div>
     </form>
 </p-dialog>
+
+<div class="card flex justify-content-center">
+    <p-toast />
+    <p-confirmDialog #confirmDelete>
+        <ng-template let-message>
+            <div class="flex flex-column align-items-center p-5 surface-overlay border-round">
+                <div
+                    class="border-circle bg-primary inline-flex justify-content-center align-items-center h-6rem w-6rem">
+                    <i class="pi pi-trash text-5xl"></i>
+                </div>
+                <span class="font-bold text-2xl block mb-2 mt-4">
+                    {{ message.header }}
+                </span>
+                <p class="mb-0">{{ message.message }}</p>
+                <div class="flex align-items-center gap-2 mt-4">
+                    <button pButton label="Cancel" severity="secondary" (click)="confirmDelete.reject()"
+                        class="p-button-outlined w-8rem ">
+                    </button>
+                    <button pButton label="Delete" severity="danger" (click)="confirmDelete.accept()" class="w-8rem">
+                    </button>
+                </div>
+            </div>
+        </ng-template>
+    </p-confirmDialog>
+</div>

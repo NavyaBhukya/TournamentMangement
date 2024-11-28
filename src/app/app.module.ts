@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { HttpInterceptorService } from './interceptors/http.interceptor';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { HttpInterceptorService } from './interceptors/http.interceptor';
     BrowserModule, HttpClientModule,
     AppRoutingModule, FormsModule, ReactiveFormsModule,
     DashboardModule, BrowserAnimationsModule,
-    ToastModule
+    ToastModule,ProgressSpinnerModule
+
   ],
   providers: [MessageService,
     {

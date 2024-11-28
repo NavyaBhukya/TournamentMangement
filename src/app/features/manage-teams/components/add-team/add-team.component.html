@@ -20,6 +20,6 @@
       <small *ngIf="isFieldInvalid('players')">Select at least one player.</small>
     </div>
     <button type="button" (click)="onCancel()">Cancel</button>
-    <button type="submit" [disabled]="addTeamForm.invalid" (click)="onSubmit()" >Add Team</button>
+    <button type="submit" [disabled]="addTeamForm.invalid">Add Team</button>
   </form>
 </div>

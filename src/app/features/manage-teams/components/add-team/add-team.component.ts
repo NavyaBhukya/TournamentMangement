@@ -40,6 +40,8 @@ export class AddTeamComponent implements OnInit {
     this.cancel.emit();
   }
   onSubmit() {
+    console.log('team adding');
+    
     if (this.addTeamForm.valid) {
       const payload = {
         teamName: this.addTeamForm.value.teamName,
@@ -51,8 +53,8 @@ export class AddTeamComponent implements OnInit {
           this.formSubmitted.emit(res);
         },
       })
-      // console.log('Teams data submitted:', payload);
-      // this.formSubmitted.emit(payload);
+      console.log('Teams data submitted:', payload);
+      this.formSubmitted.emit(payload);
     }
   }
 }

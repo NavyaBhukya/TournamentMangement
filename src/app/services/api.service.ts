@@ -48,4 +48,17 @@ export class ApiService {
     public deletePlayers(id: number): Observable<any> {
         return this.http.delete<any>(`${this.apiUrl}players/${id}`)
     }
+    public getAllTeams():Observable<any>{
+        return this.http.get<any>(`${this.apiUrl}teams`)
+    }
+    public postTeams(postTeams:any): Observable<any[]> {
+        return this.http.post<any[]>(`${this.apiUrl}teams`,postTeams)
+    }
+    public updateTeams(id:any ,updateplayer:any):Observable<any[]>{
+        return this.http.put<any[]>(`${this.apiUrl}teams/${id}`,updateplayer)
+    }
+    public deleteams(id:number):Observable<any>{
+        return this.http.delete<any>(`${this.apiUrl}teams/${id}`)
+    }
+    
 }

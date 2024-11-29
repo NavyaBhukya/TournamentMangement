@@ -1,11 +1,23 @@
 <header class="header-bar">
-    <div class="user-profile-logo">
-        <img src="../../../../../assets/images/tournament.jfif" alt="Profile" />
+    <div class="d-flex justify-content-center align-items-center gap-3">
+
+        <div class="user-profile-logo">
+            <img src="../../../../../assets/images/tournament.jfif" alt="Profile" />
+        </div>
+        <div>
+            <h3>TMS</h3>
+        </div>
     </div>
+
     <!-- <div class="search-bar">
         <input type="text" placeholder="Search..." />
     </div> -->
-    <div class="user-profile">
+    <div class="user-profile" (click)="op.toggle($event)">
         <img src="../../../../../assets/images/tmspro.png" alt="Profile" />
     </div>
 </header>
+<p-overlayPanel #op>
+    <div class="logout_text" (click)="userLogout()">
+        <span>Logout</span>
+    </div>
+</p-overlayPanel>

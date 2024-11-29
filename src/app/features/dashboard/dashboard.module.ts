@@ -4,7 +4,7 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { HomeComponent } from './components/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
-
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 @NgModule({
   declarations: [
     HomeComponent,
@@ -13,7 +13,7 @@ import { FooterComponent } from './components/footer/footer.component';
   ],
   imports: [
     CommonModule,
-    DashboardRoutingModule
+    DashboardRoutingModule,OverlayPanelModule
   ],
   exports: [HeaderComponent, HomeComponent]
 })

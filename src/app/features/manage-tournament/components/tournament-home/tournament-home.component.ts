@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
-import { allTournaments } from '../../interface/tournament.interface';
+import { allTournaments, tournamentObj } from '../../interface/tournament.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -16,12 +16,12 @@ export class TournamentHomeComponent implements OnInit {
   public addButtonLabel = 'Create Tournament';
   public isAddTournament: boolean = false
   public tournamentForm!: FormGroup;
-  public allTournamentsArr: allTournaments[] = []
+  public allTournamentsArr: tournamentObj[] = []
   public tournamentHeadings: string[] = []
   public previewUrl: string | null = null;
   public currentDate: Date = new Date()
   public sportTypeString: string = 'pool'
-  public updateTournamentData: allTournaments | null = null;
+  public updateTournamentData: any | null = null;
   public tournamentProfile: string | null = null
   public allTeamsDataArr: any
 
@@ -62,7 +62,8 @@ export class TournamentHomeComponent implements OnInit {
   private getAllTournaments(): void {
     try {
       this.apiService.getAllTournaments().subscribe({
-        next: (res: allTournaments[]) => { this.allTournamentsArr = res; }
+        next: (res:any) => { this.allTournamentsArr = res.data }
+        // next: (res: allTournaments) => { this.allTournamentsArr = res.data; }
       })
     } catch (error) { throw error }
   }
@@ -77,7 +78,7 @@ export class TournamentHomeComponent implements OnInit {
   }
   public selectedStartDate(event: Event) {
     const data = event.target
-    
+
   }
 
   public onFileSelected(event: Event): void {
@@ -139,7 +140,7 @@ export class TournamentHomeComponent implements OnInit {
       } else;
     } catch (error) { }
   }
-  public onCreateTournament(data: allTournaments) {
+  public onCreateTournament(data: any) {
     try {
 
       this.isAddTournament = true;
@@ -169,7 +170,7 @@ export class TournamentHomeComponent implements OnInit {
   }
   public handleSearch(term: string): void {
   }
-  private onDeleteTournament(event: allTournaments) {
+  private onDeleteTournament(event: any) {
     try {
       event._id ? (
         this.apiService.deleteTournament(event._id).subscribe({

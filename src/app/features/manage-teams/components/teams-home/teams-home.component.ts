@@ -13,7 +13,12 @@ export class TeamsHomeComponent implements OnInit {
   public columns: string[] = []
   public allTeamsDataArr: any
   public displayAddTeamsDialog: boolean = false;
-
+  public totalRecords: number = 0;
+  public currentPage: number = 1;
+  public pageSize: number = 10;
+  
+  // Add page size options
+  public pageSizeOptions: number[] = [10, 20, 30, 40, 50];
   constructor(private apiService: ApiService,private loader:LoaderService) { }
   ngOnInit(): void {
     this.getallTeamsData()
@@ -31,15 +36,23 @@ export class TeamsHomeComponent implements OnInit {
       this.getallTeamsData()
     }
   }
-  public getallTeamsData(): void {
+  public getallTeamsData(page: number = 1, pageSize: number = 10): void {
     try {
-      this.apiService.getAllTeams().subscribe({
+      this.apiService.getAllTeams(page,pageSize).subscribe({
         next: (res) => {
-          this.allTeamsDataArr = res
+          this.allTeamsDataArr = res.data
+          this.totalRecords = res.total
+          console.log(this.allTeamsDataArr);
+          
         }
       })
     } catch (error) {
     }
+  }
+  public onPageChange(event: any): void {
+    this.currentPage = event.page + 1; // PrimeNG pages are zero-based
+    this.pageSize = event.rows; // Rows per page
+    this.getallTeamsData(this.currentPage, this.pageSize);
   }
   public deleteTeam(rowData: any) {
     this.apiService.deleteams(rowData._id).subscribe({
@@ -50,7 +63,6 @@ export class TeamsHomeComponent implements OnInit {
       },
       error() {
       }
-
     })
   }
 }

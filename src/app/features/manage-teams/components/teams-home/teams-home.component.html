@@ -5,6 +5,13 @@
 (onAdd)="handleAdd()"
 (onSearch)="handleSearch($event)" (onDelete)="deleteTeam($event)"
 ></app-table>
+<p-paginator
+  [rows]="pageSize"
+  [totalRecords]="totalRecords"
+  [rowsPerPageOptions]="pageSizeOptions"
+  (onPageChange)="onPageChange($event)"
+>
+</p-paginator>
 <p-dialog [(visible)]="displayAddTeamsDialog" [modal]="true" [closable]="false">
     <!-- <app-add-player [isEditMode]="isEditMode" (formSubmitted)="handleDialogClose($event)"
       (cancel)="handleDialogClose()"></app-add-player> -->

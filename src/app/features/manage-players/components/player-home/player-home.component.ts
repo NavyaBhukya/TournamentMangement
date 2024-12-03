@@ -42,8 +42,10 @@ export class PlayerHomeComponent implements OnInit {
     try {
       this.loader.show()
       this.apiService.getallPlayers().subscribe({
-        next: (res) => {
-          this.allTeamsDataArr = res
+        next: (res:any) => {
+          this.allTeamsDataArr = res.data
+          console.log(this.allTeamsDataArr);
+          
         }
       })
       this.loader.hide()

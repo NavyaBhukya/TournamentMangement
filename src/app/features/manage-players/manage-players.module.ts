@@ -7,6 +7,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { PlayerHomeComponent } from './components/player-home/player-home.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { DialogModule } from 'primeng/dialog';
+import { DropdownModule } from 'primeng/dropdown';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 
 @NgModule({
@@ -15,8 +17,8 @@ import { DialogModule } from 'primeng/dialog';
     PlayerHomeComponent
   ],
   imports: [
-    CommonModule,DialogModule,
-    ManagePlayersRoutingModule,ReactiveFormsModule,SharedModule
+    CommonModule,DialogModule,MultiSelectModule,
+    ManagePlayersRoutingModule,ReactiveFormsModule,SharedModule,DropdownModule
   ]
 })
 export class ManagePlayersModule { }

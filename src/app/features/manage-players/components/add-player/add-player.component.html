@@ -1,35 +1,50 @@
 <div class="add-player-container">
   <form [formGroup]="addPlayerForm" (ngSubmit)="onSubmit()">
-    <h2>Add Player</h2>
-    <!-- Player Name -->
+    <!-- {{isEditMode}}
+    {{ isEditMode ? 'Edit Player' : 'Add Player' }} -->
     <div class="form-group">
-      <label for="playerName">Player Name</label>
+      <label for="playerName">Player Name<span class="star_imp"> *</span></label>
       <input type="text" id="playerName" formControlName="playerName" placeholder="Enter player's name"
         [class.invalid]="isFieldInvalid('playerName')" />
       <small *ngIf="isFieldInvalid('playerName')">Name is required (minimum 3 characters).</small>
     </div>
     <!-- Age -->
     <div class="form-group">
-      <label for="age">Age</label>
+      <label for="age">Age<span class="star_imp"> *</span></label>
       <input id="age" formControlName="age" placeholder="Enter player's age" [class.invalid]="isFieldInvalid('age')" />
-      <small *ngIf="isFieldInvalid('age')">Age is required (between 10 and 50).</small>
+      <small *ngIf="isFieldInvalid('age') && addPlayerForm.get('age')?.hasError('required')">
+        Age is required.
+      </small>
+      <small *ngIf="isFieldInvalid('age') && addPlayerForm.get('age')?.hasError('min')">
+        Age must be at least 10.
+      </small>
+      <small *ngIf="isFieldInvalid('age') && addPlayerForm.get('age')?.hasError('max')">
+        Age cannot more than 50.
+      </small>
+      <small *ngIf="isFieldInvalid('age') && addPlayerForm.get('age')?.hasError('pattern')">
+        Please enter a valid number.
+      </small>
     </div>
     <!-- Sport -->
     <div class="form-group">
-      <label for="sport">Sport</label>
-      <select id="sport" formControlName="sport" [class.invalid]="isFieldInvalid('sport')">
+      <label for="sport">Sport<span class="star_imp"> *</span></label>
+      <!-- <p-dropdown [options]="sports" formControlName="sport" placeholder="Select sport"> </p-dropdown> -->
+      <p-multiSelect [options]="sports" id="players" formControlName="sport" placeholder="Select players"
+        [filter]="true" [class.invalid]="isFieldInvalid('players')"></p-multiSelect>
+      <small *ngIf="isFieldInvalid('players')">Select at least one player.</small>
+      <!-- <select id="sport" formControlName="sport" [class.invalid]="isFieldInvalid('sport')">
         <option value="" disabled selected>Select a sport</option>
         <option *ngFor="let sport of sports" [value]="sport">{{ sport }}</option>
-      </select>
+      </select> -->
       <small *ngIf="isFieldInvalid('sport')">Please select a sport.</small>
     </div>
     <!-- Teams -->
-    <div class="form-group">
+    <!-- <div class="form-group">
       <label for="teams">Teams</label>
       <input type="text" id="teams" formControlName="teams" placeholder="Enter player's team(s)"
         [class.invalid]="isFieldInvalid('teams')" />
       <small *ngIf="isFieldInvalid('teams')">Teams is required.</small>
-    </div>
+    </div> -->
     <!-- Profile Picture -->
     <div class="form-group">
       <label for="profilePicture">Profile Picture</label>
@@ -38,8 +53,10 @@
       <small *ngIf="isFieldInvalid('profilePicture')">Please upload a profile picture.</small>
     </div>
     <div class="button-group d-flex">
-      <button type="button" (click)="onCancel()">Cancel</button>
-      <button type="submit" [disabled]="addPlayerForm.invalid">Add Player</button>
+      <button class="button_type" type="button" (click)="onCancel()">Cancel</button>
+      <button class="button_type" type="submit" [disabled]="addPlayerForm.invalid">{{ isEditMode ? 'Update Player' :
+        'Add Player'
+        }}</button>
     </div>
   </form>
 </div>

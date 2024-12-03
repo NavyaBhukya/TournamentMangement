@@ -25,7 +25,8 @@
       <ng-template pTemplate="body" let-rowData>
         <tr>
           <td *ngFor="let column of tableObjKeys">
-            <ng-container *ngIf="column === 'profile'; else defaultData">
+            <ng-container *ngIf="column === 'profile' || column ===  'profilePicture'; else defaultData">
+              <!-- {{rowData[column] | json}} -->
               <img [src]="rowData[column]" alt="Profile" style="width: 50px; height: 50px; border-radius: 50%;">
             </ng-container>
             <ng-template #defaultData>
@@ -40,9 +41,9 @@
           </td>
           <td *ngIf="isAdmin.toLowerCase()!== 'admin'">
             <div class="d-flex gap-3">
-              <span (click)="handleEdit(rowData)" pTooltip="Edit" tooltipPosition="top"><i
+              <span class="courser_pointer" (click)="handleEdit(rowData)" pTooltip="Edit" tooltipPosition="top"><i
                   class="pi pi-pen-to-square actionIcon text-primary"></i> </span>
-              <span (click)="handleDelete(rowData)" pTooltip="Delete" tooltipPosition="top"><i
+              <span class="courser_pointer" (click)="handleDelete(rowData)" pTooltip="Delete" tooltipPosition="top"><i
                   class="pi pi-trash actionIcon text-danger"></i> </span>
             </div>
           </td>
@@ -58,8 +59,9 @@
           <img src="../../../../assets/images/Animation - 1732714708900.gif" alt="" height="250px" width="250px">
         </div>
         <button class="btn btn-primary rounded" pTooltip="Back" tooltipPosition="top" (click)="goBack()"> <i
-            class="pi pi-arrow-left" style="font-size: 1rem"></i> </button>
+          class="pi pi-arrow-left" style="font-size: 1rem"></i> </button>
       </div>
     </div>
   </ng-container>
+
 </div>

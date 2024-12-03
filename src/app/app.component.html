@@ -1,5 +1,11 @@
 <ng-container *ngIf="isLoggedIn">
     <app-header></app-header>
 </ng-container>
-<router-outlet></router-outlet>
+<router-outlet>
+    <div class="loader-container bg-overlay-loader flexCenter" *ngIf="(spinnerloading?.isLoading$ | async) && isLoaderVisible">
+        <div class="flex justify-content-center align-items-center mt-5">
+            <p-progressSpinner ariaLabel="loading" />
+        </div>
+    </div>
+</router-outlet>
 <p-toast></p-toast>

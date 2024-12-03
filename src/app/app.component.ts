@@ -1,5 +1,6 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { CommonService } from './services/common.service';
+import { LoaderService } from './services/loader.service';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +9,9 @@ import { CommonService } from './services/common.service';
 })
 export class AppComponent implements OnInit {
   public isLoggedIn: boolean = false;
-  constructor(private commonServ: CommonService) { }
+  public isLoaderVisible = false;
+
+  constructor(private commonServ: CommonService,public spinnerloading:LoaderService) { }
   ngOnInit(): void {
     this.getHeader()
     this.isLoggedIn = localStorage.getItem('token') ? true : false

@@ -12,12 +12,17 @@ import { CommonService } from 'src/app/services/common.service';
 export class PlayerHomeComponent implements OnInit {
   public tableTitle = 'Added Players';
   public addButtonLabel = 'Add Player';
+  public tableHeader = 'Player Management'
   public allTeamsDataArr: allplayers[] = []
   public columns: string[] = []
   public displayAddPlayerDialog: boolean = false;
   public isEditMode: boolean = false; // Track edit mode
   public currentPlayerData: allplayers | null = null;
   public popupHeading =this.isEditMode ? 'Add player ':'Update player';
+  public totalRecords: number = 0;
+  public currentPage: number = 1;
+  public pageSize: number = 10;  
+  public pageSizeOptions: number[] = [10, 20, 30, 40, 50];
   constructor(private apiService: ApiService, private loader: LoaderService, private commonServ: CommonService) { }
   ngOnInit(): void {
     this.getallPlayerData();
@@ -38,12 +43,14 @@ export class PlayerHomeComponent implements OnInit {
   }
   public handleSearch(term: string) {
   }
-  public getallPlayerData(): void {
+  public getallPlayerData(page: number = 1, pageSize: number = 10): void {
     try {
       this.loader.show()
-      this.apiService.getallPlayers().subscribe({
-        next: (res) => {
-          this.allTeamsDataArr = res
+      this.apiService.getallPlayers(page,pageSize).subscribe({
+        next: (res:any) => {
+          this.allTeamsDataArr = res.data
+          console.log(this.allTeamsDataArr);
+          
         }
       })
       this.loader.hide()
@@ -52,6 +59,11 @@ export class PlayerHomeComponent implements OnInit {
       this.loader.hide()
 
     }
+  }
+  public onPageChange(event: any): void {
+    this.currentPage = event.page + 1; // PrimeNG pages are zero-based
+    this.pageSize = event.rows; // Rows per page
+    this.getallPlayerData(this.currentPage, this.pageSize);
   }
   public editPlayer(rowData: any): void {
     this.currentPlayerData = rowData; // Pass the selected player data

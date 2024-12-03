@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
-import { allTournaments } from '../../interface/tournament.interface';
+import { allTournaments, tournamentObj } from '../../interface/tournament.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -16,14 +16,19 @@ export class TournamentHomeComponent implements OnInit {
   public addButtonLabel = 'Create Tournament';
   public isAddTournament: boolean = false
   public tournamentForm!: FormGroup;
-  public allTournamentsArr: allTournaments[] = []
+  public allTournamentsArr: tournamentObj[] = []
   public tournamentHeadings: string[] = []
   public previewUrl: string | null = null;
   public currentDate: Date = new Date()
   public sportTypeString: string = 'pool'
-  public updateTournamentData: allTournaments | null = null;
+  public updateTournamentData: any | null = null;
   public tournamentProfile: string | null = null
-  public allTeamsDataArr: any
+  public allTeamsDataArr: any;
+  public totalRecords: number = 0;
+  public currentPage: number = 1;
+  public pageSize: number = 10;
+  public pageSizeOptions: number[] = [10, 20, 30, 40, 50];
+  public tableHeader = 'Tournament Management'
 
   public sportNames: { name: string, value: string }[] = [
     { name: 'Cricket', value: 'cricket' },
@@ -59,10 +64,11 @@ export class TournamentHomeComponent implements OnInit {
   get name() {
     return this.tournamentForm.get('name')
   }
-  private getAllTournaments(): void {
+  private getAllTournaments(page: number = 1, pageSize: number = 10): void {
     try {
-      this.apiService.getAllTournaments().subscribe({
-        next: (res: allTournaments[]) => { this.allTournamentsArr = res; }
+      this.apiService.getAllTournaments(page,pageSize).subscribe({
+        next: (res:any) => { this.allTournamentsArr = res.data }
+        // next: (res: allTournaments) => { this.allTournamentsArr = res.data; }
       })
     } catch (error) { throw error }
   }
@@ -77,7 +83,7 @@ export class TournamentHomeComponent implements OnInit {
   }
   public selectedStartDate(event: Event) {
     const data = event.target
-    
+
   }
 
   public onFileSelected(event: Event): void {
@@ -139,7 +145,7 @@ export class TournamentHomeComponent implements OnInit {
       } else;
     } catch (error) { }
   }
-  public onCreateTournament(data: allTournaments) {
+  public onCreateTournament(data: any) {
     try {
 
       this.isAddTournament = true;
@@ -169,7 +175,7 @@ export class TournamentHomeComponent implements OnInit {
   }
   public handleSearch(term: string): void {
   }
-  private onDeleteTournament(event: allTournaments) {
+  private onDeleteTournament(event: any) {
     try {
       event._id ? (
         this.apiService.deleteTournament(event._id).subscribe({
@@ -195,4 +201,9 @@ export class TournamentHomeComponent implements OnInit {
     });
   }
 
+  public onPageChange(event: any): void {
+    this.currentPage = event.page + 1; // PrimeNG pages are zero-based
+    this.pageSize = event.rows; // Rows per page
+    this.getAllTournaments(this.currentPage, this.pageSize);
+  }
 }

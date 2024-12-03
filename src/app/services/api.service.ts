@@ -13,8 +13,8 @@ export class ApiService {
     private apiUrl = environment.baseUrl
     // Tournaments
     // GET
-    public getAllTournaments(): Observable<allTournaments[]> {
-        return this.http.get<allTournaments[]>(`${this.apiUrl}tournaments`)
+    public getAllTournaments(page?:number,pageSize?:number): Observable<allTournaments[]> {
+        return this.http.get<allTournaments[]>(`${this.apiUrl}tournaments?page=${page}&limit=${pageSize}`)
     }
     // POST
     public postTournaments(postTour: any): Observable<any[]> {
@@ -35,8 +35,8 @@ export class ApiService {
         return this.http.post<{ message: string; url: string }>(`${this.apiUrl}upload-profile`, formData);
     }
     //Get all players
-    public getallPlayers(): Observable<allplayers[]> {
-        return this.http.get<allplayers[]>(`${this.apiUrl}players`)
+    public getallPlayers(page?:number,pageSize?:number): Observable<allplayers[]> {
+        return this.http.get<allplayers[]>(`${this.apiUrl}players?page=${page}&limit=${pageSize}`)
     }
     // Post  Tournaments
     public postPlayers(postPlayer: any): Observable<any[]> {
@@ -48,8 +48,8 @@ export class ApiService {
     public deletePlayers(id: number): Observable<any> {
         return this.http.delete<any>(`${this.apiUrl}players/${id}`)
     }
-    public getAllTeams():Observable<any>{
-        return this.http.get<any>(`${this.apiUrl}teams`)
+    public getAllTeams(page?:number,pageSize?:number):Observable<any>{
+        return this.http.get<any>(`${this.apiUrl}teams?page=${page}&limit=${pageSize}`)
     }
     public postTeams(postTeams:any): Observable<any[]> {
         return this.http.post<any[]>(`${this.apiUrl}teams`,postTeams)

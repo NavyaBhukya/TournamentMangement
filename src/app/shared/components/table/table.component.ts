@@ -15,6 +15,7 @@ export class TableComponent implements OnChanges {
   @Input() tableTitle: string = '';
   @Input() data: any[] = [];
   @Input() addButtonLabel: string = 'Add';
+  @Input() tableHeader: string = 'Management';
   @Output() onAdd = new EventEmitter<any>();
   @Output() onSearch = new EventEmitter<string>();
   @Output() onEdit = new EventEmitter<any>();

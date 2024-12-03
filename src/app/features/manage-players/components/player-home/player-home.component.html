@@ -1,6 +1,13 @@
-<app-table [tableTitle]="tableTitle" [data]="allTeamsDataArr" [addButtonLabel]="addButtonLabel" (onAdd)="handleAdd($event)"
+<app-table [tableTitle]="tableTitle" [data]="allTeamsDataArr" [tableHeader]="tableHeader" [addButtonLabel]="addButtonLabel" (onAdd)="handleAdd($event)"
   (onSearch)="handleSearch($event)" (onEdit)="editPlayer($event)" (onDelete)="deletePlayer($event)"></app-table>
-<p-dialog [(visible)]="displayAddPlayerDialog" [modal]="true" [closable]="true" [header]="popupHeading" >
+  <p-paginator
+  [rows]="pageSize"
+  [totalRecords]="totalRecords"
+  [rowsPerPageOptions]="pageSizeOptions"
+  (onPageChange)="onPageChange($event)"
+>
+</p-paginator>
+  <p-dialog [(visible)]="displayAddPlayerDialog" [modal]="true" [closable]="true" [header]="popupHeading" >
   <app-add-player  [onEditPlayerData]="editPlayerData"
   (formSubmitted)="handleDialogClose($event)"
     (cancel)="handleDialogClose()"></app-add-player>

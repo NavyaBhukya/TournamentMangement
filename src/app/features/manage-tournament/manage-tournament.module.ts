@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { PaginatorModule } from 'primeng/paginator';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     TournamentHomeComponent
   ],
   imports: [
-    CommonModule,
+    CommonModule,PaginatorModule,
     ManageTournamentRoutingModule,
     ReactiveFormsModule,
     FormsModule,

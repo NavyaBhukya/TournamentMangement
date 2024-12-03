@@ -1,4 +1,15 @@
 export interface allTournaments {
+    data:tournamentObj[]
+    total:number
+   
+}
+export interface teamsInterface {
+    players:string[],
+    id:string,
+    sport:string | string[],
+    teamName:string
+}
+export interface tournamentObj {
     _id: string
     name: string
     description: string
@@ -13,10 +24,4 @@ export interface allTournaments {
     createdAt: string
     updatedAt: string
     __v: number
-}
-export interface teamsInterface {
-    players:string[],
-    id:string,
-    sport:string | string[],
-    teamName:string
 }

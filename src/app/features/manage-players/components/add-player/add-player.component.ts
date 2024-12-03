@@ -50,7 +50,6 @@ export class AddPlayerComponent implements OnInit {
           this.formSubmitted.emit(res);
         },
       })
-      console.log('Player data submitted:', payload);
       this.formSubmitted.emit(payload);
     }
   }

@@ -29,12 +29,10 @@ export class PlayerHomeComponent implements OnInit {
     this.isEditMode = false;
     this.currentPlayerData = null;
     if (data) {
-      console.log('Player added:', data);
       this.getallPlayerData();
     }
   }
   public handleSearch(term: string) {
-    console.log('Search term:', term);
   }
   public getallPlayerData(): void {
     try {
@@ -44,15 +42,12 @@ export class PlayerHomeComponent implements OnInit {
         }
       })
     } catch (error) {
-      console.log(error)
     }
   }
   public editPlayer(rowData: any): void {
-    console.log(rowData);
   }
   public deletePlayer(rowData: any): void {
     this.apiService.deletePlayers(rowData._id).subscribe(() => {
-      console.log('player deleted');
       this.getallPlayerData()
     })
   }

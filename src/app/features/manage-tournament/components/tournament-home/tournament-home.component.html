@@ -39,7 +39,7 @@
             <div class="form-group w-50">
                 <label for="teams">Teams : </label>
                 <div>
-                    <p-multiSelect [options]="teamsOptions" formControlName="teams" defaultLabel="Select teams"
+                    <p-multiSelect [options]="allTeamsDataArr" optionLabel="teamName" formControlName="teams" defaultLabel="Select teams"
                         class="w-100 sportClass">
                     </p-multiSelect>
                 </div>
@@ -89,7 +89,7 @@
             <div class="form-group w-50 sportClass">
                 <label for="startDate">Start Date : </label>
                 <div>
-                    <p-calendar id="startDate" formControlName="startDate" [minDate]="currentDate" [showIcon]="true"
+                    <p-calendar id="startDate" formControlName="startDate" [minDate]="currentDate" [showIcon]="true" (input)="selectedStartDate($event)"
                         dateFormat="yy-mm-dd" placeholder="Select start date" class="w-100 custom-calendar">
                     </p-calendar>
                 </div>

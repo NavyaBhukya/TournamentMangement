@@ -23,6 +23,7 @@ export class TournamentHomeComponent implements OnInit {
   public sportTypeString: string = 'pool'
   public updateTournamentData: allTournaments | null = null;
   public tournamentProfile: string | null = null
+  public allTeamsDataArr: any
 
   public sportNames: { name: string, value: string }[] = [
     { name: 'Cricket', value: 'cricket' },
@@ -32,17 +33,12 @@ export class TournamentHomeComponent implements OnInit {
     { name: 'Badmitton', value: 'badmitton' },
   ]
   public sportsFormat: { name: string, value: string }[] = [{ name: 'Single Elimination', value: 'singleelimination' }, { name: 'Double Elimination', value: 'doubleelimination' }, { name: 'Round Robbin', value: "roundrabbin" }]
-  teamsOptions = [
-    { label: 'Team A', value: 'Team A' },
-    { label: 'Team B', value: 'Team B' },
-    { label: 'Team C', value: 'Team C' },
-    { label: 'Team D', value: 'Team D' },
-  ];
 
   constructor(private apiService: ApiService, private fb: FormBuilder, private messageService: MessageService, private confirmationService: ConfirmationService) { }
   ngOnInit(): void {
     this.getAllTournaments()
     this.tournamentFormInit()
+    this.getTeams()
   }
 
   private tournamentFormInit(): void {
@@ -69,6 +65,19 @@ export class TournamentHomeComponent implements OnInit {
         next: (res: allTournaments[]) => { this.allTournamentsArr = res; }
       })
     } catch (error) { throw error }
+  }
+  private getTeams(): void {
+    try {
+      this.apiService.getAllTeams().subscribe({
+        next: (res) => {
+          this.allTeamsDataArr = res
+        }
+      })
+    } catch (error) { }
+  }
+  public selectedStartDate(event: Event) {
+    const data = event.target
+    
   }
 
   public onFileSelected(event: Event): void {
@@ -159,7 +168,6 @@ export class TournamentHomeComponent implements OnInit {
     catch (error) { throw error }
   }
   public handleSearch(term: string): void {
-    console.log('Search term:', term);
   }
   private onDeleteTournament(event: allTournaments) {
     try {

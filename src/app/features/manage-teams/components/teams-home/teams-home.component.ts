@@ -21,7 +21,6 @@ export class TeamsHomeComponent implements OnInit {
     this.displayAddTeamsDialog = true;
   }
   public handleSearch(term: string) {
-    console.log('Search term:', term);
   }
   public handleDialogClose() {
     this.displayAddTeamsDialog = false;
@@ -34,7 +33,6 @@ export class TeamsHomeComponent implements OnInit {
         }
       })
     } catch (error) {
-      console.log(error)
     }
   }
   public deleteTeam(rowData: any) {

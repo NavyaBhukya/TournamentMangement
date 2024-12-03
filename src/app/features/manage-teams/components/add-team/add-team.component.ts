@@ -51,8 +51,6 @@ export class AddTeamComponent implements OnInit {
           this.formSubmitted.emit(res);
         },
       })
-      // console.log('Teams data submitted:', payload);
-      // this.formSubmitted.emit(payload);
     }
   }
 }

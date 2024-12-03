@@ -49,7 +49,6 @@ export class SigninComponent {
 
   // Forgot form submit
   public onForgotformSubmit(forgot: NgForm) {
-    console.log(forgot.value);
 
   }
 }

@@ -1,15 +1,16 @@
-<ng-container *ngIf="filteredData.length">
-  <div class="dynamic-table">
-    <div class="table-header">
-      <div>
-        <button class="btn btn-primary rounded" pTooltip="Back" tooltipPosition="top" (click)="goBack()"> <i
-            class="pi pi-arrow-left" style="font-size: 1rem"></i> </button>
-      </div>
-      <div class="search-container ms-3">
-        <input [formControl]="searchControl" class="search-input" placeholder="Search" pInputText />
-      </div>
-      <button class="btn btn-primary" type="button" (click)="handleAdd()">{{ addButtonLabel}}</button>
+<div class="dynamic-table">
+  <div class="table-header">
+    <div>
+      <button class="btn btn-primary rounded" pTooltip="Back" tooltipPosition="top" (click)="goBack()"> <i
+          class="pi pi-arrow-left" style="font-size: 1rem"></i> </button>
     </div>
+    <div class="search-container ms-3">
+      <input [formControl]="searchControl" class="search-input" placeholder="Search" pInputText />
+    </div>
+    <button class="btn btn-primary" type="button" (click)="handleAdd()">{{ addButtonLabel}}</button>
+  </div>
+  <ng-container *ngIf="filteredData.length">
+
     <p-table [value]="filteredData" class="" [paginator]="true" [rows]="10" [responsiveLayout]="'scroll'">
       <ng-template pTemplate="header">
         <tr>
@@ -32,7 +33,8 @@
                 {{rowData[column] | date : 'dd MMM yyy'}}
               </ng-container>
               <ng-template #textData>
-                {{rowData[column] ? rowData[column] : '-'}}
+
+                {{rowData[column] ? getRowValue(rowData[column]) : '-'}}
               </ng-template>
             </ng-template>
           </td>
@@ -46,17 +48,18 @@
           </td>
         </tr>
       </ng-template>
+
     </p-table>
-  </div>
-</ng-container>
-<ng-container *ngIf="!filteredData.length">
-  <div class="full-screen-container">
-    <div class="d-flex card justify-content-center align-items-center">
-      <div>
-        <img src="../../../../assets/images/Animation - 1732714708900.gif" alt="" height="250px" width="250px">
+  </ng-container>
+  <ng-container *ngIf="!filteredData.length">
+    <div class="full-screen-container">
+      <div class="d-flex card justify-content-center align-items-center">
+        <div>
+          <img src="../../../../assets/images/Animation - 1732714708900.gif" alt="" height="250px" width="250px">
+        </div>
+        <button class="btn btn-primary rounded" pTooltip="Back" tooltipPosition="top" (click)="goBack()"> <i
+            class="pi pi-arrow-left" style="font-size: 1rem"></i> </button>
       </div>
-      <button class="btn btn-primary rounded" pTooltip="Back" tooltipPosition="top" (click)="goBack()"> <i
-        class="pi pi-arrow-left" style="font-size: 1rem"></i> </button>
     </div>
-  </div>
-</ng-container>
+  </ng-container>
+</div>

@@ -9,9 +9,7 @@ import { Router } from '@angular/router';
 export class FeaturesComponent {
 constructor(private route:Router){}
   public navigateTo(){
-    try {
-      console.log('navigate players');
-      
+    try {      
       this.route.navigate(['/features/players'])
     } catch (error) {
       

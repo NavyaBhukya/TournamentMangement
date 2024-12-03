@@ -34,7 +34,8 @@
                 {{rowData[column] | date : 'dd MMM yyy'}}
               </ng-container>
               <ng-template #textData>
-                {{rowData[column] ? rowData[column] : '-'}}
+
+                {{rowData[column] ? getRowValue(rowData[column]) : '-'}}
               </ng-template>
             </ng-template>
           </td>

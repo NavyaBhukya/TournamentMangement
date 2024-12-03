@@ -11,6 +11,7 @@ export class AddTeamComponent implements OnInit {
   @Output() formSubmitted = new EventEmitter<any>();
   @Output() cancel = new EventEmitter<void>();
   addTeamForm!: FormGroup;
+  public isEditMode: boolean = false;
   sports = [
     { label: 'Cricket', value: 'cricket' },
     { label: 'Football', value: 'football' },

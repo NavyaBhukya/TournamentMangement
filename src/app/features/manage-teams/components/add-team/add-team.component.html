@@ -19,7 +19,11 @@
         [filter]="true" [class.invalid]="isFieldInvalid('players')"></p-multiSelect>
       <small *ngIf="isFieldInvalid('players')">Select at least one player.</small>
     </div>
-    <button type="button" (click)="onCancel()">Cancel</button>
-    <button type="submit" [disabled]="addTeamForm.invalid">Add Team</button>
+    <div class="button-group d-flex">
+      <button class="button_type" type="button" (click)="onCancel()">Cancel</button>
+      <button class="button_type" type="submit" [disabled]="addTeamForm.invalid">{{ isEditMode ? 'Update Team' :
+        'Add Team'
+        }}</button>
+    </div>
   </form>
 </div>

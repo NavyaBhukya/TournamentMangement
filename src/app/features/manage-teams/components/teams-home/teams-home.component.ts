@@ -16,7 +16,8 @@ export class TeamsHomeComponent implements OnInit {
   public totalRecords: number = 0;
   public currentPage: number = 1;
   public pageSize: number = 10;
-  
+  public tableHeader = 'Teams Management'
+
   // Add page size options
   public pageSizeOptions: number[] = [10, 20, 30, 40, 50];
   constructor(private apiService: ApiService,private loader:LoaderService) { }

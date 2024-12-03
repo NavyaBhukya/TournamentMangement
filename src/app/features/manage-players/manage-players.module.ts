@@ -9,6 +9,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { PaginatorModule } from 'primeng/paginator';
 
 
 @NgModule({
@@ -17,7 +18,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
     PlayerHomeComponent
   ],
   imports: [
-    CommonModule,DialogModule,MultiSelectModule,
+    CommonModule,DialogModule,MultiSelectModule,PaginatorModule,
     ManagePlayersRoutingModule,ReactiveFormsModule,SharedModule,DropdownModule
   ]
 })

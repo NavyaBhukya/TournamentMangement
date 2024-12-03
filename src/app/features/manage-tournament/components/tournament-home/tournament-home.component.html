@@ -1,7 +1,12 @@
-<app-table [tableTitle]="tableTitle" [data]="allTournamentsArr" [addButtonLabel]="addButtonLabel"
+<app-table [tableTitle]="tableTitle" [data]="allTournamentsArr" [addButtonLabel]="addButtonLabel" [tableHeader]="tableHeader"
     (onAdd)="onCreateTournament($event)" (onSearch)="handleSearch($event)"
     (onDelete)="deleteConfirmation($event)"></app-table>
-
+    <p-paginator
+    [rows]="pageSize"
+    [totalRecords]="totalRecords"
+    [rowsPerPageOptions]="pageSizeOptions"
+    (onPageChange)="onPageChange($event)"
+  >
 <p-dialog header="Add New Tournament" [(visible)]="isAddTournament" [modal]="true" [style]="{ width: '40vw' }"
     [draggable]="false" [resizable]="false">
     <form [formGroup]="tournamentForm" (ngSubmit)="onSubmit()" class="d-flex flex-column gap-3">

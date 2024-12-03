@@ -1,7 +1,7 @@
 <app-table
 [tableTitle]="tableTitle"
 [data]="allTeamsDataArr"
-[addButtonLabel]="addButtonLabel"
+[addButtonLabel]="addButtonLabel" [tableHeader]="tableHeader"
 (onAdd)="handleAdd()"
 (onSearch)="handleSearch($event)" (onDelete)="deleteTeam($event)"
 ></app-table>
@@ -12,7 +12,7 @@
   (onPageChange)="onPageChange($event)"
 >
 </p-paginator>
-<p-dialog [(visible)]="displayAddTeamsDialog" [modal]="true" [closable]="false">
+<p-dialog [(visible)]="displayAddTeamsDialog" [modal]="true" [closable]="true">
     <!-- <app-add-player [isEditMode]="isEditMode" (formSubmitted)="handleDialogClose($event)"
       (cancel)="handleDialogClose()"></app-add-player> -->
       <app-add-team (cancel)="handleDialogClose()"  (formSubmitted)="handleDialogClose($event)"></app-add-team>

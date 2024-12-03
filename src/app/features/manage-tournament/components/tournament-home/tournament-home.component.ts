@@ -23,7 +23,12 @@ export class TournamentHomeComponent implements OnInit {
   public sportTypeString: string = 'pool'
   public updateTournamentData: any | null = null;
   public tournamentProfile: string | null = null
-  public allTeamsDataArr: any
+  public allTeamsDataArr: any;
+  public totalRecords: number = 0;
+  public currentPage: number = 1;
+  public pageSize: number = 10;
+  public pageSizeOptions: number[] = [10, 20, 30, 40, 50];
+  public tableHeader = 'Tournament Management'
 
   public sportNames: { name: string, value: string }[] = [
     { name: 'Cricket', value: 'cricket' },
@@ -59,9 +64,9 @@ export class TournamentHomeComponent implements OnInit {
   get name() {
     return this.tournamentForm.get('name')
   }
-  private getAllTournaments(): void {
+  private getAllTournaments(page: number = 1, pageSize: number = 10): void {
     try {
-      this.apiService.getAllTournaments().subscribe({
+      this.apiService.getAllTournaments(page,pageSize).subscribe({
         next: (res:any) => { this.allTournamentsArr = res.data }
         // next: (res: allTournaments) => { this.allTournamentsArr = res.data; }
       })
@@ -196,4 +201,9 @@ export class TournamentHomeComponent implements OnInit {
     });
   }
 
+  public onPageChange(event: any): void {
+    this.currentPage = event.page + 1; // PrimeNG pages are zero-based
+    this.pageSize = event.rows; // Rows per page
+    this.getAllTournaments(this.currentPage, this.pageSize);
+  }
 }

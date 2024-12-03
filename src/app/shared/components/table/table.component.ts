@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, } fro
 import { FormControl } from '@angular/forms';
 import { allplayers } from 'src/app/features/manage-players/interfaces/player.interface';
 import { allTournaments } from 'src/app/features/manage-tournament/interface/tournament.interface';
+import { CommonService } from 'src/app/services/common.service';
 
 @Component({
   selector: 'app-table',
@@ -23,7 +24,7 @@ export class TableComponent implements OnChanges {
   public searchControl: FormControl = new FormControl('');
   public filteredData: any[] = [];
   public isAdmin: string = '';
-  constructor(private loc: Location, private datePipe: DatePipe) { }
+  constructor(private loc: Location, private datePipe: DatePipe, private commonServ: CommonService) { }
   ngOnInit(): void {
     this.isAdmin = localStorage.getItem('role')!
   }
@@ -45,7 +46,8 @@ export class TableComponent implements OnChanges {
     });
   }
   public handleEdit(rowData: allTournaments | allplayers): void {
-    // console.log(rowData);
+    this.commonServ.isEditPlayer.next(true)
+    console.log('on click edit');
     // this.onEdit.emit(rowData);
     this.onAdd.emit(rowData); // sending tournament data to edit
   }
@@ -55,6 +57,7 @@ export class TableComponent implements OnChanges {
   }
   public handleAdd() {
     this.onAdd.emit();
+    this.commonServ.isEditPlayer.next(false)
   }
   public tableDataInit(): void {
     this.filterAndFormatColumns(Object.keys(this.data[0]))

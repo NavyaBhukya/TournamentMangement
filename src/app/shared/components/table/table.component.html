@@ -1,15 +1,16 @@
-<ng-container *ngIf="filteredData.length">
-  <div class="dynamic-table">
-    <div class="table-header">
-      <div>
-        <button class="btn btn-primary rounded" pTooltip="Back" tooltipPosition="top" (click)="goBack()"> <i
-            class="pi pi-arrow-left" style="font-size: 1rem"></i> </button>
-      </div>
-      <div class="search-container ms-3">
-        <input [formControl]="searchControl" class="search-input" placeholder="Search" pInputText />
-      </div>
-      <button class="btn btn-primary" type="button" (click)="handleAdd()">{{ addButtonLabel}}</button>
+<div class="dynamic-table">
+  <div class="table-header">
+    <div>
+      <button class="btn btn-primary rounded" pTooltip="Back" tooltipPosition="top" (click)="goBack()"> <i
+          class="pi pi-arrow-left" style="font-size: 1rem"></i> </button>
     </div>
+    <div class="search-container ms-3">
+      <input [formControl]="searchControl" class="search-input" placeholder="Search" pInputText />
+    </div>
+    <button class="btn btn-primary" type="button" (click)="handleAdd()">{{ addButtonLabel}}</button>
+  </div>
+  <ng-container *ngIf="filteredData.length">
+
     <p-table [value]="filteredData" class="" [paginator]="true" [rows]="10" [responsiveLayout]="'scroll'">
       <ng-template pTemplate="header">
         <tr>
@@ -24,7 +25,8 @@
       <ng-template pTemplate="body" let-rowData>
         <tr>
           <td *ngFor="let column of tableObjKeys">
-            <ng-container *ngIf="column === 'profile'; else defaultData">
+            <ng-container *ngIf="column === 'profile' || column ===  'profilePicture'; else defaultData">
+              <!-- {{rowData[column] | json}} -->
               <img [src]="rowData[column]" alt="Profile" style="width: 50px; height: 50px; border-radius: 50%;">
             </ng-container>
             <ng-template #defaultData>
@@ -38,25 +40,27 @@
           </td>
           <td *ngIf="isAdmin.toLowerCase()!== 'admin'">
             <div class="d-flex gap-3">
-              <span (click)="handleEdit(rowData)" pTooltip="Edit" tooltipPosition="top"><i
+              <span class="courser_pointer" (click)="handleEdit(rowData)" pTooltip="Edit" tooltipPosition="top"><i
                   class="pi pi-pen-to-square actionIcon text-primary"></i> </span>
-              <span (click)="handleDelete(rowData)" pTooltip="Delete" tooltipPosition="top"><i
+              <span class="courser_pointer" (click)="handleDelete(rowData)" pTooltip="Delete" tooltipPosition="top"><i
                   class="pi pi-trash actionIcon text-danger"></i> </span>
             </div>
           </td>
         </tr>
       </ng-template>
+
     </p-table>
-  </div>
-</ng-container>
-<ng-container *ngIf="!filteredData.length">
-  <div class="full-screen-container">
-    <div class="d-flex card justify-content-center align-items-center">
-      <div>
-        <img src="../../../../assets/images/Animation - 1732714708900.gif" alt="" height="250px" width="250px">
+  </ng-container>
+  <ng-container *ngIf="!filteredData.length">
+    <div class="full-screen-container">
+      <div class="d-flex card justify-content-center align-items-center">
+        <div>
+          <img src="../../../../assets/images/Animation - 1732714708900.gif" alt="" height="250px" width="250px">
+        </div>
+        <button class="btn btn-primary rounded" pTooltip="Back" tooltipPosition="top" (click)="goBack()"> <i
+          class="pi pi-arrow-left" style="font-size: 1rem"></i> </button>
       </div>
-      <button class="btn btn-primary rounded" pTooltip="Back" tooltipPosition="top" (click)="goBack()"> <i
-        class="pi pi-arrow-left" style="font-size: 1rem"></i> </button>
     </div>
-  </div>
-</ng-container>
+  </ng-container>
+
+</div>

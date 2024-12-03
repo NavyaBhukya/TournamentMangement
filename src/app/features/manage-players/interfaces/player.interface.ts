@@ -5,4 +5,5 @@ export interface allplayers{
     sport: string[]
     teams: string[]
     profilePicture: string
+    _id:any
 }

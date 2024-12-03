@@ -8,6 +8,7 @@ import { PlayerHomeComponent } from './components/player-home/player-home.compon
 import { SharedModule } from 'src/app/shared/shared.module';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 
 @NgModule({
@@ -16,7 +17,7 @@ import { DropdownModule } from 'primeng/dropdown';
     PlayerHomeComponent
   ],
   imports: [
-    CommonModule,DialogModule,
+    CommonModule,DialogModule,MultiSelectModule,
     ManagePlayersRoutingModule,ReactiveFormsModule,SharedModule,DropdownModule
   ]
 })

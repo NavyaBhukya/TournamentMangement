@@ -20,11 +20,16 @@ export class TableComponent implements OnChanges {
   @Output() onSearch = new EventEmitter<string>();
   @Output() onEdit = new EventEmitter<any>();
   @Output() onDelete = new EventEmitter<allTournaments>();
+  @Output() pagination = new EventEmitter<{page:number,pagesize:number}>
   public tableHeadings: string[] = [];
   public tableObjKeys: string[] = [];
   public searchControl: FormControl = new FormControl('');
   public filteredData: any[] = [];
   public isAdmin: string = '';
+  public totalRecords: number = 0;
+  public currentPage: number = 1;
+  public pageSize: number = 10;  
+  // public pageSizeOptions: number[] = [10, 20, 30, 40, 50];
   constructor(private loc: Location, private datePipe: DatePipe, private commonServ: CommonService) { }
   ngOnInit(): void {
     this.isAdmin = localStorage.getItem('role')!
@@ -47,6 +52,8 @@ export class TableComponent implements OnChanges {
     });
   }
   public handleEdit(rowData: allTournaments | allplayers): void {
+    console.log(rowData);
+    
     this.commonServ.isEditPlayer.next(true)
     console.log('on click edit');
     // this.onEdit.emit(rowData);
@@ -75,6 +82,11 @@ export class TableComponent implements OnChanges {
   // going back to previous screen from table
   public goBack(): void {
     this.loc.back()
+  }
+  public onPageChange(event: any): void {
+    this.currentPage = +event.page + 1; // PrimeNG pages are zero-based
+    this.pageSize = event.rows; // Rows per page
+    this.pagination.emit({page:this.currentPage,pagesize:this.pageSize})
   }
   public getRowValue(data: string | teamsInterface[]): string {
     if (Array.isArray(data)) {

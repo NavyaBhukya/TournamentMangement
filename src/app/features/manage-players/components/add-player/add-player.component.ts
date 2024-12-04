@@ -110,6 +110,7 @@ export class AddPlayerComponent implements OnInit, OnChanges {
         this.apiService.postPlayers(payload).subscribe({
           next: (res) => {
             this.formSubmitted.emit(res);
+            this.addPlayerForm.reset();
           },
         })
       }
@@ -118,5 +119,6 @@ export class AddPlayerComponent implements OnInit, OnChanges {
   }
   public onCancel(): void {
     this.cancel.emit();
+    this.addPlayerForm.reset();
   }
 }

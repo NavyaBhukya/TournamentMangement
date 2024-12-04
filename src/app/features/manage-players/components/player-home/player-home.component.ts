@@ -22,7 +22,7 @@ export class PlayerHomeComponent implements OnInit {
   public totalRecords: number = 0;
   public currentPage: number = 1;
   public pageSize: number = 10;  
-  public pageSizeOptions: number[] = [10, 20, 30, 40, 50];
+  // public pageSizeOptions: number[] = [10, 20, 30, 40, 50];
   constructor(private apiService: ApiService, private loader: LoaderService, private commonServ: CommonService) { }
   ngOnInit(): void {
     this.getallPlayerData();
@@ -30,7 +30,6 @@ export class PlayerHomeComponent implements OnInit {
   editPlayerData: allplayers | null = null
   public handleAdd(event: allplayers): void {
     this.editPlayerData = event
-
     this.currentPlayerData = null;
     this.displayAddPlayerDialog = true;
   }
@@ -43,10 +42,10 @@ export class PlayerHomeComponent implements OnInit {
   }
   public handleSearch(term: string) {
   }
-  public getallPlayerData(page: number = 1, pageSize: number = 10): void {
+  public getallPlayerData(): void {
     try {
       this.loader.show()
-      this.apiService.getallPlayers(page,pageSize).subscribe({
+      this.apiService.getallPlayers(this.currentPage,this.pageSize).subscribe({
         next: (res:any) => {
           this.allTeamsDataArr = res.data
           console.log(this.allTeamsDataArr);
@@ -57,13 +56,13 @@ export class PlayerHomeComponent implements OnInit {
     } catch (error) {
       console.log(error)
       this.loader.hide()
-
     }
   }
   public onPageChange(event: any): void {
-    this.currentPage = event.page + 1; // PrimeNG pages are zero-based
+    console.log(event,'page event');
+    this.currentPage = +event.page + 1; // PrimeNG pages are zero-based
     this.pageSize = event.rows; // Rows per page
-    this.getallPlayerData(this.currentPage, this.pageSize);
+    this.getallPlayerData();
   }
   public editPlayer(rowData: any): void {
     this.currentPlayerData = rowData; // Pass the selected player data

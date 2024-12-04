@@ -2,18 +2,19 @@
 [tableTitle]="tableTitle"
 [data]="allTeamsDataArr"
 [addButtonLabel]="addButtonLabel" [tableHeader]="tableHeader"
-(onAdd)="handleAdd()"
+(onAdd)="handleAdd($event)" (onEdit)="editTeam($event)"
 (onSearch)="handleSearch($event)" (onDelete)="deleteTeam($event)"
+(pagination)="onPageChange($event)"
+
 ></app-table>
-<p-paginator
+<!-- <p-paginator
   [rows]="pageSize"
   [totalRecords]="totalRecords"
   [rowsPerPageOptions]="pageSizeOptions"
-  (onPageChange)="onPageChange($event)"
 >
-</p-paginator>
-<p-dialog [(visible)]="displayAddTeamsDialog" [modal]="true" [closable]="true">
+</p-paginator> -->
+<p-dialog [(visible)]="displayAddTeamsDialog" [modal]="true" [closable]="true" [header]="popupHeading">
     <!-- <app-add-player [isEditMode]="isEditMode" (formSubmitted)="handleDialogClose($event)"
       (cancel)="handleDialogClose()"></app-add-player> -->
-      <app-add-team (cancel)="handleDialogClose()"  (formSubmitted)="handleDialogClose($event)"></app-add-team>
+      <app-add-team (cancel)="handleDialogClose()" [onEditPlayerData]="editPlayerData"  (formSubmitted)="handleDialogClose($event)"></app-add-team>
   </p-dialog>

@@ -1,14 +1,15 @@
 <div class="form-container">
   <form [formGroup]="addTeamForm" (ngSubmit)="onSubmit()">
-    <h2>Add Team</h2>
     <div class="form-group">
-      <label for="teamName">Team Name</label>
-      <input type="text" id="teamName" formControlName="teamName" placeholder="Enter Team Name"
+      <div><label for="teamName">Team Name</label>
+      </div>
+      <input pInputText type="text" id="teamName" formControlName="teamName" placeholder="Enter Team Name"
         [class.invalid]="isFieldInvalid('teamName')" />
       <small *ngIf="isFieldInvalid('teamName')">Team Name is required.</small>
     </div>
     <div class="form-group">
-      <label for="sport">Sport</label>
+      <div><label for="sport">Sport</label>
+      </div>
       <p-dropdown [options]="sports" id="sport" formControlName="sport" placeholder="Select a sport" [filter]="true"
         [class.invalid]="isFieldInvalid('sport')"></p-dropdown>
       <small *ngIf="isFieldInvalid('sport')">Please select a sport.</small>

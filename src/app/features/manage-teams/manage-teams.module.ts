@@ -10,6 +10,7 @@ import { TeamsHomeComponent } from './components/teams-home/teams-home.component
 import { SharedModule } from 'src/app/shared/shared.module';
 import { DialogModule } from 'primeng/dialog';
 import { Paginator, PaginatorModule } from 'primeng/paginator';
+import { InputTextModule } from 'primeng/inputtext';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,7 @@ import { Paginator, PaginatorModule } from 'primeng/paginator';
   ],
   imports: [
     CommonModule,ReactiveFormsModule,SharedModule,DialogModule,PaginatorModule,
-    ManageTeamsRoutingModule,DropdownModule,MultiSelectModule
+    ManageTeamsRoutingModule,DropdownModule,MultiSelectModule,InputTextModule
   ]
 })
 export class ManageTeamsModule { }

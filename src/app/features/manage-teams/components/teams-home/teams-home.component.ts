@@ -16,7 +16,11 @@ export class TeamsHomeComponent implements OnInit {
   public totalRecords: number = 0;
   public currentPage: number = 1;
   public pageSize: number = 10;
+  public isEditMode: boolean = false; // Track edit mode
+  public popupHeading =this.isEditMode ? 'Add team ':'Update team';
+  public editPlayerData:any;
   public tableHeader = 'Teams Management'
+  public currentPlayerData: any;
 
   // Add page size options
   public pageSizeOptions: number[] = [10, 20, 30, 40, 50];
@@ -24,7 +28,8 @@ export class TeamsHomeComponent implements OnInit {
   ngOnInit(): void {
     this.getallTeamsData()
   }
-  public handleAdd() {
+  public handleAdd(data:any) {
+    this.editPlayerData = data
     this.displayAddTeamsDialog = true;
   }
   public handleSearch(term: string) {
@@ -50,17 +55,20 @@ export class TeamsHomeComponent implements OnInit {
     } catch (error) {
     }
   }
-  public onPageChange(event: any): void {
-    this.currentPage = event.page + 1; // PrimeNG pages are zero-based
-    this.pageSize = event.rows; // Rows per page
+  public onPageChange(event:{page:number,pagesize:number}): void {    
+    this.currentPage = +event.page + 1; // PrimeNG pages are zero-based
+    this.pageSize = event.pagesize; // Rows per page
     this.getallTeamsData(this.currentPage, this.pageSize);
+  }
+  public editTeam(rowData: any): void {
+    this.currentPlayerData = rowData; // Pass the selected player data
   }
   public deleteTeam(rowData: any) {
     this.apiService.deleteams(rowData._id).subscribe({
       next: () => {
        console.log('team deleted');
        this.getallTeamsData()
-        
+
       },
       error() {
       }

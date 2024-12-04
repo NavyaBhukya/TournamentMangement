@@ -66,3 +66,9 @@
   </ng-container>
 
 </div>
+<p-paginator
+[rows]="pageSize"
+[totalRecords]="totalRecords"
+(onPageChange)="onPageChange($event)"
+>
+</p-paginator>

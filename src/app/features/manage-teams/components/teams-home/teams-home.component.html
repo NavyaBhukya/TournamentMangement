@@ -1,19 +1,11 @@
-<app-table
-[tableTitle]="tableTitle"
-[data]="allTeamsDataArr"
-[addButtonLabel]="addButtonLabel" [tableHeader]="tableHeader"
-(onAdd)="handleAdd()"
-(onSearch)="handleSearch($event)" (onDelete)="deleteTeam($event)"
-></app-table>
-<p-paginator
-  [rows]="pageSize"
-  [totalRecords]="totalRecords"
-  [rowsPerPageOptions]="pageSizeOptions"
-  (onPageChange)="onPageChange($event)"
->
+<app-table [tableTitle]="tableTitle" [data]="allTeamsDataArr" [addButtonLabel]="addButtonLabel"
+  [tableHeader]="tableHeader" (onAdd)="handleAdd()" (onSearch)="handleSearch($event)"
+  (onDelete)="deleteTeam($event)"></app-table>
+<p-paginator [rows]="pageSize" [totalRecords]="totalRecords" [rowsPerPageOptions]="pageSizeOptions"
+  (onPageChange)="onPageChange($event)">
 </p-paginator>
 <p-dialog [(visible)]="displayAddTeamsDialog" [modal]="true" [closable]="true">
-    <!-- <app-add-player [isEditMode]="isEditMode" (formSubmitted)="handleDialogClose($event)"
+  <!-- <app-add-player [isEditMode]="isEditMode" (formSubmitted)="handleDialogClose($event)"
       (cancel)="handleDialogClose()"></app-add-player> -->
-      <app-add-team (cancel)="handleDialogClose()"  (formSubmitted)="handleDialogClose($event)"></app-add-team>
-  </p-dialog>
+  <app-add-team (cancel)="handleDialogClose()" (formSubmitted)="handleDialogClose($event)"></app-add-team>
+</p-dialog>

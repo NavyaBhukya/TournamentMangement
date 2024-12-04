@@ -12,11 +12,13 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { PaginatorModule } from 'primeng/paginator';
+import { TournamentDetailsComponent } from './components/tournament-details/tournament-details.component';
 
 @NgModule({
   declarations: [
     AddTournamentComponent,
-    TournamentHomeComponent
+    TournamentHomeComponent,
+    TournamentDetailsComponent
   ],
   imports: [
     CommonModule,PaginatorModule,

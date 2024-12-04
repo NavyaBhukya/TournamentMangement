@@ -54,6 +54,7 @@ export class AddTeamComponent implements OnInit {
       this.apiService.postTeams(payload).subscribe({
         next: (res) => {
           this.formSubmitted.emit(res);
+          this.addTeamForm.reset()
         },
       })
       console.log('Teams data submitted:', payload);

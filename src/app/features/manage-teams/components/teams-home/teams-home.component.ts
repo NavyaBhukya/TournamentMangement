@@ -11,7 +11,7 @@ export class TeamsHomeComponent implements OnInit {
   public tableTitle = 'Added Teams';
   public addButtonLabel = 'Add Team';
   public columns: string[] = []
-  public allTeamsDataArr: any
+  public allTeamsDataArr: any[]=[]
   public displayAddTeamsDialog: boolean = false;
   public totalRecords: number = 0;
   public currentPage: number = 1;
@@ -39,8 +39,10 @@ export class TeamsHomeComponent implements OnInit {
     try {
       this.apiService.getAllTeams(page,pageSize).subscribe({
         next: (res) => {
-          this.allTeamsDataArr = res.data
-          this.totalRecords = res.total          
+          this.allTeamsDataArr = res.data ? res.data : []
+          this.totalRecords = res.total     
+          console.log(this.allTeamsDataArr,'all temas');
+               
         }
       })
     } catch (error) {

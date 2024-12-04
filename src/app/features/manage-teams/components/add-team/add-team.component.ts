@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
+import { CommonService } from 'src/app/services/common.service';
 
 @Component({
   selector: 'app-add-team',
@@ -12,6 +13,7 @@ export class AddTeamComponent implements OnInit {
   @Output() cancel = new EventEmitter<void>();
   addTeamForm!: FormGroup;
   public isEditMode: boolean = false;
+  public teamProfile: string | null = null
   sports = [
     { label: 'Cricket', value: 'cricket' },
     { label: 'Football', value: 'football' },
@@ -22,7 +24,7 @@ export class AddTeamComponent implements OnInit {
     { label: 'Player 2', value: 'player2' },
     { label: 'Player 3', value: 'player3' }
   ];
-  constructor(private fb: FormBuilder, private apiService: ApiService) { }
+  constructor(private fb: FormBuilder, private apiService: ApiService, private commonService: CommonService) { }
   ngOnInit(): void {
     this.teamFormInit()
   }
@@ -30,7 +32,8 @@ export class AddTeamComponent implements OnInit {
     this.addTeamForm = this.fb.group({
       teamName: ['', Validators.required],
       sport: [null, Validators.required],
-      players: [[], Validators.required]
+      profile: [null, Validators.required],
+      players: [[]]
     });
   }
   isFieldInvalid(field: string): boolean | undefined {
@@ -41,13 +44,12 @@ export class AddTeamComponent implements OnInit {
     this.cancel.emit();
   }
   onSubmit() {
-    console.log('team adding');
-    
     if (this.addTeamForm.valid) {
       const payload = {
         teamName: this.addTeamForm.value.teamName,
         sport: this.addTeamForm.value.sport,
-        players: this.addTeamForm.value.players
+        players: this.addTeamForm.value.players,
+        profile: this.teamProfile
       }
       this.apiService.postTeams(payload).subscribe({
         next: (res) => {
@@ -57,5 +59,15 @@ export class AddTeamComponent implements OnInit {
       console.log('Teams data submitted:', payload);
       this.formSubmitted.emit(payload);
     }
+  }
+  public onProfileUploaded(event: Event) {
+    try {
+      this.commonService.onProfileImageUploads(event).subscribe((res: string) => {
+        this.teamProfile = (res && res !== '') ? res : null;
+        console.log(res);
+
+      })
+    } catch (error) { console.warn(error) }
+
   }
 }

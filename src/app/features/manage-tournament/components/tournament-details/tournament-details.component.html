@@ -1,0 +1,64 @@
+<div>
+    <div>
+        <button class="btn btn-primary rounded" pTooltip="Back" tooltipPosition="top" (click)="goBack()"> <i
+                class="pi pi-arrow-left" style="font-size: 1rem"></i> </button>
+
+    </div>
+    <div class="row tourImgRef">
+        <div class="col-md-6 ">
+            <img [src]="tourObj?.profile" alt="" height="350px" width="400px">
+        </div>
+        <div class="col-md-6">
+            <div class="d-flex gap-3">
+                <div>
+                    <b>Starting Date :</b>
+                    <p> {{tourObj?.startDate | date:'dd/MMM/yyy'}} </p>
+                </div>
+                <div>
+                    <b>Ending Date :</b>
+                    <p> {{tourObj?.endDate | date:'dd/MMM/yyy'}} </p>
+                </div>
+            </div>
+            <b> Teams : </b>
+            <div *ngFor="let team of tourObj?.teams">
+                <p> {{team.teamName}} </p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="d-flex justify-content-center align-items-center">
+            <ng-container *ngIf="tourObj?.pools">
+                <div class="d-flex gap-2">
+
+                    <div *ngFor="let teams of tourObj?.poolMatches">
+                        <table class="table">
+                            <thead>
+                                <th>SNo</th>
+                                <th>Team</th>
+                                <th>Match</th>
+                                <th>Win</th>
+                                <th>Loss</th>
+                                <th>NRR</th>
+                                <th>Points</th>
+                            </thead>
+                            <ng-container *ngFor="let team of teams.teams;let i=index">
+                                <tbody>
+                                    <tr>
+                                        <td> {{i+1}} </td>
+                                        <td>{{team.teamName}} </td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td> - </td>
+                                        <td> - </td>
+
+                                    </tr>
+                                </tbody>
+                            </ng-container>
+                        </table>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>

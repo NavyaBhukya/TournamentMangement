@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
-import { allTournaments, tournamentObj } from '../../interface/tournament.interface';
+import { allTournaments, SingleTeamInterface, TotalTeamsInterface, tournamentObj } from '../../interface/tournament.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { CommonService } from 'src/app/services/common.service';
 
 @Component({
   selector: 'app-tournament-home',
@@ -23,13 +24,13 @@ export class TournamentHomeComponent implements OnInit {
   public sportTypeString: string = 'pool'
   public updateTournamentData: any | null = null;
   public tournamentProfile: string | null = null
-  public allTeamsDataArr: any;
+  public allTeamsDataArr: SingleTeamInterface[] = [];
   public totalRecords: number = 0;
   public currentPage: number = 1;
   public pageSize: number = 10;
   public pageSizeOptions: number[] = [10, 20, 30, 40, 50];
   public tableHeader = 'Tournament Management'
-
+  public selectedStartDate: Date | null = null
   public sportNames: { name: string, value: string }[] = [
     { name: 'Cricket', value: 'cricket' },
     { name: 'Kabaddi', value: 'kabaddi' },
@@ -39,11 +40,10 @@ export class TournamentHomeComponent implements OnInit {
   ]
   public sportsFormat: { name: string, value: string }[] = [{ name: 'Single Elimination', value: 'singleelimination' }, { name: 'Double Elimination', value: 'doubleelimination' }, { name: 'Round Robbin', value: "roundrabbin" }]
 
-  constructor(private apiService: ApiService, private fb: FormBuilder, private messageService: MessageService, private confirmationService: ConfirmationService) { }
+  constructor(private apiService: ApiService, private fb: FormBuilder, private messageService: MessageService, private confirmationService: ConfirmationService, private commonService: CommonService) { }
   ngOnInit(): void {
     this.getAllTournaments()
     this.tournamentFormInit()
-    this.getTeams()
   }
 
   private tournamentFormInit(): void {
@@ -52,7 +52,7 @@ export class TournamentHomeComponent implements OnInit {
       sport: ['', Validators.required],
       teams: [[], Validators.required],
       description: [''],
-      pools: [null],
+      pools: [null, Validators.required],
       format: [''],
       profile: [''],
       startDate: [null],
@@ -64,51 +64,51 @@ export class TournamentHomeComponent implements OnInit {
   get name() {
     return this.tournamentForm.get('name')
   }
-  private getAllTournaments(page: number = 1, pageSize: number = 10): void {
+  private getAllTournaments(page: number = 0, pageSize: number = 10): void {
     try {
-      this.apiService.getAllTournaments(page,pageSize).subscribe({
-        next: (res:any) => { this.allTournamentsArr = res.data }
+      this.apiService.getAllTournaments(page, pageSize).subscribe({
+        next: (res: any) => { this.allTournamentsArr = res.data }
         // next: (res: allTournaments) => { this.allTournamentsArr = res.data; }
       })
     } catch (error) { throw error }
   }
   private getTeams(): void {
     try {
-      this.apiService.getAllTeams().subscribe({
-        next: (res) => {
-          this.allTeamsDataArr = res
-        }
-      })
+      (!this.allTeamsDataArr.length) ?
+        this.apiService.getAllTeams(this.currentPage, this.pageSize).subscribe({
+          next: (res: TotalTeamsInterface) => {
+            this.allTeamsDataArr = res.data
+          }
+        }) : null
     } catch (error) { }
   }
-  public selectedStartDate(event: Event) {
-    const data = event.target
-
+  public selectStartDate(event: Date) {
+    this.selectedStartDate = event
   }
-
+  public setTourFormat(str: string) {
+    this.sportTypeString = str
+    if (this.sportTypeString === 'pool') {
+      this.tournamentForm.get('pool')?.setValidators(Validators.required)
+      this.tournamentForm.get('format')?.clearValidators()
+    } else {
+      this.tournamentForm.get('format')?.setValidators(Validators.required)
+      this.tournamentForm.get('pool')?.clearValidators()
+    }
+    this.tournamentForm.get('pool')?.updateValueAndValidity()
+    this.tournamentForm.get('format')?.updateValueAndValidity()
+  }
   public onFileSelected(event: Event): void {
     try {
-      const element = event.target as HTMLInputElement;
-      if (element.files && element.files.length > 0) {
-        const file = element.files[0];
-        if (file.size > 10 * 1024 * 1024) {
-          alert('File size should less than 10MB.');
-          return;
+      this.commonService.onProfileImageUploads(event).subscribe((res: string) => {
+        this.tournamentProfile = (res && res !== '') ? res : null;
+        console.log(this.tournamentProfile,'profile');
+        
+        if (!this.updateTournamentData) {
+          this.tournamentForm.patchValue({
+            profile: this.tournamentProfile
+          })
         }
-        this.apiService.uploadProfileImage(file).subscribe({
-          next: (response: { message: string, url: string }) => {
-            this.tournamentProfile = response.url
-            if (!this.updateTournamentData) {
-              this.tournamentForm.patchValue({
-                profile: response.url
-              })
-            }
-          },
-          error: (err: HttpErrorResponse) => {
-            console.error('Error uploading profile image:', err);
-          },
-        });
-      }
+      })
     } catch (error) { throw error }
   }
   public onSubmit() {
@@ -147,7 +147,7 @@ export class TournamentHomeComponent implements OnInit {
   }
   public onCreateTournament(data: any) {
     try {
-
+      this.getTeams()
       this.isAddTournament = true;
       if (!data) {
         this.tournamentProfile = null
@@ -169,7 +169,7 @@ export class TournamentHomeComponent implements OnInit {
         endDate: data.endDate ? new Date(data.endDate) : null,
         maxTeams: data.maxTeams || null
       })
-      this.isAddTournament = true
+      // this.isAddTournament = true
     }
     catch (error) { throw error }
   }

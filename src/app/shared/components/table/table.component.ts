@@ -1,6 +1,7 @@
 import { DatePipe, Location } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { allplayers } from 'src/app/features/manage-players/interfaces/player.interface';
 import { allTournaments, teamsInterface } from 'src/app/features/manage-tournament/interface/tournament.interface';
 import { CommonService } from 'src/app/services/common.service';
@@ -40,6 +41,7 @@ export class TableComponent implements OnChanges {
       this.tableDataInit()
     }
   }
+
   public searchDataInit() {
     this.filteredData = this.data;
     this.searchControl.valueChanges.subscribe((searchTerm) => {
@@ -70,7 +72,7 @@ export class TableComponent implements OnChanges {
     this.filterAndFormatColumns(Object.keys(this.data[0]))
   }
   private filterAndFormatColumns(tabelKeys: string[]) {
-    const excludedColumns = ["_id", "__v", "createdAt", "updatedAt", 'formatMatches', 'poolMatches'];
+    const excludedColumns = ["_id", "__v", "createdAt", "updatedAt", 'formatMatches', 'poolMatches','players'];
     this.tableHeadings = tabelKeys.filter(column => !excludedColumns.includes(column)).map(column => this.formatColumnName(column))
     this.tableObjKeys = tabelKeys.filter(column => !excludedColumns.includes(column))
   }

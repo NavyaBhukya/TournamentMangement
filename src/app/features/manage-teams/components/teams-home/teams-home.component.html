@@ -16,5 +16,5 @@
 <p-dialog [(visible)]="displayAddTeamsDialog" [modal]="true" [closable]="true" [header]="popupHeading">
     <!-- <app-add-player [isEditMode]="isEditMode" (formSubmitted)="handleDialogClose($event)"
       (cancel)="handleDialogClose()"></app-add-player> -->
-      <app-add-team (cancel)="handleDialogClose()" [onEditPlayerData]="editPlayerData"  (formSubmitted)="handleDialogClose($event)"></app-add-team>
-  </p-dialog>
+  <app-add-team (cancel)="handleDialogClose()" [onEditPlayerData]="editPlayerData" (formSubmitted)="handleDialogClose($event)"></app-add-team>
+</p-dialog>

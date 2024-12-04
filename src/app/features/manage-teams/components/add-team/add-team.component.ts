@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
+import { CommonService } from 'src/app/services/common.service';
 
 @Component({
   selector: 'app-add-team',
@@ -14,6 +15,7 @@ export class AddTeamComponent implements OnInit {
 
   addTeamForm!: FormGroup;
   public isEditMode: boolean = false;
+  public teamProfile: string | null = null
   sports = [
     { label: 'Cricket', value: 'cricket' },
     { label: 'Football', value: 'football' },
@@ -24,15 +26,20 @@ export class AddTeamComponent implements OnInit {
     { label: 'Player 2', value: 'player2' },
     { label: 'Player 3', value: 'player3' }
   ];
-  constructor(private fb: FormBuilder, private apiService: ApiService) { }
+  constructor(private fb: FormBuilder,private commonServ:CommonService, private apiService: ApiService, private commonService: CommonService) { }
   ngOnInit(): void {
     this.teamFormInit();
     this.getAllPlayers();
+    this.commonServ.isEditPlayer.subscribe((res: boolean) => {
+      this.isEditMode = res
+  })
   }
   public teamFormInit() {
     this.addTeamForm = this.fb.group({
       teamName: ['', Validators.required],
       sport: [null, Validators.required],
+       profile: [null, Validators.required],
+
       players: [[], Validators.required]
     });
   }
@@ -60,12 +67,13 @@ export class AddTeamComponent implements OnInit {
   onCancel() {
     this.cancel.emit();
   }
-  onSubmit() {    
+  onSubmit() {
     if (this.addTeamForm.valid) {
       const payload = {
         teamName: this.addTeamForm.value.teamName,
         sport: this.addTeamForm.value.sport,
-        players: this.addTeamForm.value.players
+        players: this.addTeamForm.value.players,
+        profile: this.teamProfile
       }
 
       if(this.isEditMode){
@@ -90,5 +98,15 @@ export class AddTeamComponent implements OnInit {
     this.apiService.getallPlayers(1,50).subscribe((data:any)=>{
       this.players = data.data.map((data:any)=>data.playerName)
     })
+  }
+  public onProfileUploaded(event: Event) {
+    try {
+      this.commonService.onProfileImageUploads(event).subscribe((res: string) => {
+        this.teamProfile = (res && res !== '') ? res : null;
+        console.log(res);
+
+      })
+    } catch (error) { console.warn(error) }
+
   }
 }

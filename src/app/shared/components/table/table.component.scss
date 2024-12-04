@@ -15,6 +15,19 @@
 .search-container {
   flex: 1;
 }
+.profile_images {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.no_profile_images {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
+.no_profile_images{
+  font-size: 1rem;
+}
 
 .search-input {
   width: 40%;
@@ -23,7 +36,7 @@
   border: 1px solid #ddd;
   border-radius: 4px;
 }
-.actionIcon{
+.actionIcon {
   font-size: 1.3rem;
 }
 .full-screen-container {

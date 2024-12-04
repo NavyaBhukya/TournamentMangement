@@ -36,20 +36,16 @@ export class TeamsHomeComponent implements OnInit {
   }
   public handleDialogClose(rowData?:any) {
     this.displayAddTeamsDialog = false;
-    if(rowData){
-      console.log('tems added');
-      
+    if(rowData){      
       this.getallTeamsData()
     }
   }
-  public getallTeamsData(page: number = 1, pageSize: number = 10): void {
+  public getallTeamsData(page: number = 0, pageSize: number = 10): void {
     try {
       this.apiService.getAllTeams(page,pageSize).subscribe({
         next: (res) => {
           this.allTeamsDataArr = res.data
-          this.totalRecords = res.total
-          console.log(this.allTeamsDataArr);
-          
+          this.totalRecords = res.total          
         }
       })
     } catch (error) {

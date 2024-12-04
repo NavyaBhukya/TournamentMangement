@@ -13,8 +13,12 @@ export class ApiService {
     private apiUrl = environment.baseUrl
     // Tournaments
     // GET
-    public getAllTournaments(page?:number,pageSize?:number): Observable<allTournaments[]> {
+    public getAllTournaments(page?: number, pageSize?: number): Observable<allTournaments[]> {
         return this.http.get<allTournaments[]>(`${this.apiUrl}tournaments?page=${page}&limit=${pageSize}`)
+    }
+    // GET single tournament
+    public getSingleTournament(id: string): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}tournaments/${id}`)
     }
     // POST
     public postTournaments(postTour: any): Observable<any[]> {
@@ -35,7 +39,7 @@ export class ApiService {
         return this.http.post<{ message: string; url: string }>(`${this.apiUrl}upload-profile`, formData);
     }
     //Get all players
-    public getallPlayers(page?:number,pageSize?:number): Observable<allplayers[]> {
+    public getallPlayers(page?: number, pageSize?: number): Observable<allplayers[]> {
         return this.http.get<allplayers[]>(`${this.apiUrl}players?page=${page}&limit=${pageSize}`)
     }
     // Post  Tournaments
@@ -48,17 +52,17 @@ export class ApiService {
     public deletePlayers(id: number): Observable<any> {
         return this.http.delete<any>(`${this.apiUrl}players/${id}`)
     }
-    public getAllTeams(page?:number,pageSize?:number):Observable<any>{
+    public getAllTeams(page?: number, pageSize?: number): Observable<any> {
         return this.http.get<any>(`${this.apiUrl}teams?page=${page}&limit=${pageSize}`)
     }
-    public postTeams(postTeams:any): Observable<any[]> {
-        return this.http.post<any[]>(`${this.apiUrl}teams`,postTeams)
+    public postTeams(postTeams: any): Observable<any[]> {
+        return this.http.post<any[]>(`${this.apiUrl}teams`, postTeams)
     }
-    public updateTeams(id:any ,updateplayer:any):Observable<any[]>{
-        return this.http.put<any[]>(`${this.apiUrl}teams/${id}`,updateplayer)
+    public updateTeams(id: any, updateplayer: any): Observable<any[]> {
+        return this.http.put<any[]>(`${this.apiUrl}teams/${id}`, updateplayer)
     }
-    public deleteams(id:number):Observable<any>{
+    public deleteams(id: number): Observable<any> {
         return this.http.delete<any>(`${this.apiUrl}teams/${id}`)
     }
-    
+
 }

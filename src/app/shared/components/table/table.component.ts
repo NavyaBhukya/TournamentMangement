@@ -36,13 +36,15 @@ export class TableComponent implements OnChanges {
     this.isAdmin = localStorage.getItem('role')!
   }
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['data'] && changes['data'].currentValue?.length) {
+    if (changes['data']) {
       this.searchDataInit()
       this.tableDataInit()
     }
   }
 
   public searchDataInit() {
+    console.log(this.data, 'After dlete');
+
     this.filteredData = this.data;
     this.searchControl.valueChanges.subscribe((searchTerm) => {
       this.filteredData = this.data.filter((item) =>
@@ -57,8 +59,6 @@ export class TableComponent implements OnChanges {
     console.log(rowData);
     
     this.commonServ.isEditPlayer.next(true)
-    console.log('on click edit');
-    // this.onEdit.emit(rowData);
     this.onAdd.emit(rowData); // sending tournament data to edit
   }
   public handleDelete(rowData: allTournaments): void {
@@ -69,10 +69,10 @@ export class TableComponent implements OnChanges {
     this.commonServ.isEditPlayer.next(false)
   }
   public tableDataInit(): void {
-    this.filterAndFormatColumns(Object.keys(this.data[0]))
+    if (this.data[0]) this.filterAndFormatColumns(Object.keys(this.data[0]))
   }
   private filterAndFormatColumns(tabelKeys: string[]) {
-    const excludedColumns = ["_id", "__v", "createdAt", "updatedAt", 'formatMatches', 'poolMatches','players'];
+    const excludedColumns = ["_id", "__v", "createdAt", "updatedAt", 'formatMatches', 'poolMatches', 'players'];
     this.tableHeadings = tabelKeys.filter(column => !excludedColumns.includes(column)).map(column => this.formatColumnName(column))
     this.tableObjKeys = tabelKeys.filter(column => !excludedColumns.includes(column))
   }

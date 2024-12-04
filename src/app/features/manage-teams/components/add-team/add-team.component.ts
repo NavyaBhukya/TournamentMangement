@@ -22,9 +22,9 @@ export class AddTeamComponent implements OnInit {
     { label: 'Basketball', value: 'basketball' }
   ];
   players = [
-    { label: 'Player 1', value: 'player1' },
-    { label: 'Player 2', value: 'player2' },
-    { label: 'Player 3', value: 'player3' }
+    // { label: 'Player 1', value: 'player1' },
+    // { label: 'Player 2', value: 'player2' },
+    // { label: 'Player 3', value: 'player3' }
   ];
   constructor(private fb: FormBuilder,private commonServ:CommonService, private apiService: ApiService, private commonService: CommonService) { }
   ngOnInit(): void {
@@ -51,7 +51,7 @@ export class AddTeamComponent implements OnInit {
   private editPlayer() {
     console.log(this.onEditPlayerData);
     console.log(this.players);
-    const selectedPlayers = this.onEditPlayerData.players.join(', ')
+    const selectedPlayers = this.onEditPlayerData?.players
     console.log(selectedPlayers);
     this.addTeamForm.patchValue({
       teamName: this.onEditPlayerData?.teamName,
@@ -86,7 +86,8 @@ export class AddTeamComponent implements OnInit {
         this.apiService.postTeams(payload).subscribe({
           next: (res) => {
             this.formSubmitted.emit(res);
-          },
+            this.addTeamForm.reset()
+        },
         })
       }
      

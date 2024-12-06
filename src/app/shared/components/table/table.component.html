@@ -16,9 +16,7 @@
       <ng-template pTemplate="header">
         <tr>
           <ng-container *ngFor="let column of tableHeadings">
-            <th>
-              {{ column }}
-            </th>
+            <th> {{ column }} </th>
           </ng-container>
           <th *ngIf="isAdmin.toLowerCase()!== 'admin'">Action</th>
         </tr>

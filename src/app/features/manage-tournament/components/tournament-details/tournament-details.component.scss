@@ -1,8 +1,13 @@
-
-.tourImgRef{
-    background-image: linear-gradient(to right,#2E3192 , #1BFFFF);
-    height: 50vh;
-    width: 100vw;
+.tourImgRef {
+  background-image: linear-gradient(to right, #2e3192, #1bffff);
 }
 
-
+.team_profile {
+  height: 1rem;
+  width: 1rem;
+}
+.backBtn {
+  position: fixed;
+  top: 50vh;
+  z-index: 999;
+}

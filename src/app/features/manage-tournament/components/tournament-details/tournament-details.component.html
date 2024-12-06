@@ -1,14 +1,16 @@
-<div>
-    <div>
-        <button class="btn btn-primary rounded" pTooltip="Back" tooltipPosition="top" (click)="goBack()"> <i
-                class="pi pi-arrow-left" style="font-size: 1rem"></i> </button>
-
-    </div>
-    <div class="row tourImgRef">
+<div class="backBtn">
+    <button class="btn btn-primary rounded" pTooltip="Back" tooltipPosition="top" (click)="goBack()"> <i
+            class="pi pi-arrow-left" style="font-size: 1rem"></i> </button>
+</div>
+<div class="tourImgRef">
+    <div class="row m-0">
         <div class="col-md-6 ">
-            <img [src]="tourObj?.profile" alt="" height="350px" width="400px">
+            <div class="w-100">
+                <img [src]="tourObj?.profile" alt="" style="width: 100%;" height="500px">
+            </div>
         </div>
         <div class="col-md-6">
+            <div> {{tourObj?.description}} </div>
             <div class="d-flex gap-3">
                 <div>
                     <b>Starting Date :</b>
@@ -19,10 +21,10 @@
                     <p> {{tourObj?.endDate | date:'dd/MMM/yyy'}} </p>
                 </div>
             </div>
-            <b> Teams : </b>
-            <div class="d-flex">
+            <h5 class="mb-3"> Teams : </h5>
+            <div class="d-flex gap-4 flex-wrap">
                 <div *ngFor="let team of tourObj?.teams">
-                    <div class="d-flex gap-3 ">
+                    <div class="d-flex align-items-center gap-2">
                         <div>
                             <ng-container *ngIf="team.profile;else noImage">
                                 <img [src]="team.profile" alt="Profile" class="profile_images">
@@ -37,36 +39,57 @@
                             </ng-template>
                         </div>
                         <div>
-                            <p> {{team.teamName}} </p>
-                            <!-- <p> No of players : {{team.players.length}} </p> -->
-
+                            <p class="m-0"> {{team.teamName}} </p>
+                            <p class="m-0"> No of players : {{team.players ? team.players.length : 0 }} </p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
+</div>
+
+<div class="">
+    <h5 class="text-center">Points Table </h5>
+    <ng-container *ngIf="tourObj?.pools">
         <div class="d-flex justify-content-center align-items-center">
             <ng-container *ngIf="tourObj?.pools">
-                <div class="d-flex gap-2">
+                <div class="d-flex gap-5">
 
                     <div *ngFor="let teams of tourObj?.poolMatches">
-                        <table class="table">
+                        <table class="table table-hover border-1">
                             <thead>
-                                <th>SNo</th>
-                                <th>Team</th>
-                                <th>Match</th>
-                                <th>Win</th>
-                                <th>Loss</th>
-                                <th>NRR</th>
-                                <th>Points</th>
+                                <th class="px-2 text-center">SNo</th>
+                                <th class="px-2 text-center">Team</th>
+                                <th class="px-2 text-center">Match</th>
+                                <th class="px-2 text-center">Win</th>
+                                <th class="px-2 text-center">Loss</th>
+                                <th class="px-2 text-center">NRR</th>
+                                <th class="px-2 text-center">Points</th>
                             </thead>
-                            <ng-container *ngFor="let team of teams.teams;let i=index">
-                                <tbody>
+                            <ng-container *ngFor="let team of teams.teams;let i=index;trackBy:trackByTeam">
+                                <tbody class="text-center">
                                     <tr>
                                         <td> {{i+1}} </td>
-                                        <td>{{team.teamName}} </td>
+                                        <td>
+                                            <div class="d-flex gap-1">
+                                                <div>
+                                                    <ng-container *ngIf="team.profile;else noImage">
+                                                        <img [src]="team.profile" alt="Profile" class="team_profile">
+                                                    </ng-container>
+                                                    <ng-template #noImage>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                                            class="bi bi-person-circle team_profile"
+                                                            viewBox="0 0 16 16">
+                                                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                                                            <path fill-rule="evenodd"
+                                                                d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                                                        </svg>
+                                                    </ng-template>
+                                                </div>
+                                                <div>{{team.teamName}}</div>
+                                            </div>
+                                        </td>
                                         <td> - </td>
                                         <td> - </td>
                                         <td> - </td>
@@ -81,5 +104,96 @@
                 </div>
             </ng-container>
         </div>
-    </div>
+    </ng-container>
+    <!-- For Format matches.... -->
+    <ng-container *ngIf="tourObj?.format">
+        <div class="w-50 m-auto">
+            <table class="table table-hover border-2">
+                <thead>
+                    <th class=" text-center">SNo</th>
+                    <th class=" text-center">Team</th>
+                    <th class=" text-center">Match</th>
+                    <th class=" text-center">Win</th>
+                    <th class=" text-center">Loss</th>
+                    <th class=" text-center">NRR</th>
+                    <th class=" text-center">Points</th>
+                </thead>
+                <tbody class="text-center" *ngFor="let team of tourObj?.teams;let i=index;trackBy:trackBySingleTeam">
+                    <tr>
+                        <td> {{i+1}} </td>
+                        <td>
+                            <div class="d-flex gap-1">
+                                <div>
+                                    <ng-container *ngIf="team.profile;else noImage">
+                                        <img [src]="team.profile" alt="" class="team_profile">
+                                    </ng-container>
+                                    <ng-template #noImage>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                            class="bi bi-person-circle team_profile" viewBox="0 0 16 16">
+                                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                                            <path fill-rule="evenodd"
+                                                d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                                        </svg>
+                                    </ng-template>
+                                </div>
+                                <div> {{team.teamName}} </div>
+                            </div>
+                        </td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row p-5">
+            <b>Scheduled Matches </b>
+            <div class="col-3" *ngFor="let match of tourObj?.formatMatches">
+                <div class="card h-100">
+                    <div class="card-header text-center"> Round - {{match.round}} </div>
+                    <div class="card-body d-flex justify-content-center align-items-center flex-column">
+                        <div class="d-flex gap-5 align-items-center">
+
+                            <div class="">
+                                <ng-container *ngIf="match.team1.profile;else noImage">
+                                    <img [src]="match.team1.profile" alt="" class="profile_images">
+                                </ng-container>
+                                <ng-template #noImage>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                        class="bi bi-person-circle profile_images" viewBox="0 0 16 16">
+                                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                                        <path fill-rule="evenodd"
+                                            d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                                    </svg>
+                                </ng-template>
+                            </div>
+                            <div class=""> <b>V/S</b> </div>
+                            <div class="">
+                                <div class="col-md-5">
+                                    <ng-container *ngIf="match.team2.profile;else noImage">
+                                        <img [src]="match.team2.profile" alt="" class="profile_images">
+                                    </ng-container>
+                                    <ng-template #noImage>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                            class="bi bi-person-circle team_profile" viewBox="0 0 16 16">
+                                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                                            <path fill-rule="evenodd"
+                                                d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                                        </svg>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center mt-1">
+                            <p class="m-0"> 12/12/2024 4:00PM IST </p>
+                            <p class="m-0"> Venue : Hyderabad </p>
+                            <p class="m-0"> Uppal Stadium </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
 </div>

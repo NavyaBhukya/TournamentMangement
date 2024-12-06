@@ -22,7 +22,7 @@ export class TournamentHomeComponent implements OnInit {
   public previewUrl: string | null = null;
   public currentDate: Date = new Date()
   public sportTypeString: string = 'pool'
-  public updateTournamentData: any | null = null;
+  public updateTournamentData: tournamentObj | null = null;
   public tournamentProfile: string | null = null
   public allTeamsDataArr: SingleTeamInterface[] = [];
   public totalRecords: number = 0;
@@ -52,11 +52,11 @@ export class TournamentHomeComponent implements OnInit {
       sport: ['', Validators.required],
       teams: [[], Validators.required],
       description: [''],
-      pools: [null, Validators.required],
-      format: [''],
+      pools: [null],
+      format: [null],
       profile: [''],
-      startDate: [null],
-      endDate: [null],
+      startDate: [null, Validators.required],
+      endDate: [null, Validators.required],
       maxTeams: [null, [Validators.min(2), Validators.max(30)]],
     });
   }
@@ -66,14 +66,9 @@ export class TournamentHomeComponent implements OnInit {
   }
   private getAllTournaments(page: number = 0, pageSize: number = 10): void {
     try {
-      this.apiService.getAllTournaments(0, 10).subscribe({
-        next: (res: any) => { this.allTournamentsArr = res.data },error(err:HttpErrorResponse){
-          console.log(err);
-          
-        }
-        // next: (res: allTournaments) => { this.allTournamentsArr = res.data; }
-      }
-    )
+      this.apiService.getAllTournaments(page, pageSize).subscribe({
+        next: (res: any) => { this.allTournamentsArr = res.data }
+      })
     } catch (error) { throw error }
   }
   private getTeams(): void {
@@ -92,21 +87,21 @@ export class TournamentHomeComponent implements OnInit {
   public setTourFormat(str: string) {
     this.sportTypeString = str
     if (this.sportTypeString === 'pool') {
-      this.tournamentForm.get('pool')?.setValidators(Validators.required)
+      this.tournamentForm.get('pools')?.setValidators(Validators.required)
+      this.tournamentForm.get('format')?.reset()
       this.tournamentForm.get('format')?.clearValidators()
     } else {
       this.tournamentForm.get('format')?.setValidators(Validators.required)
-      this.tournamentForm.get('pool')?.clearValidators()
+      this.tournamentForm.get('pools')?.reset()
+      this.tournamentForm.get('pools')?.clearValidators()
     }
-    this.tournamentForm.get('pool')?.updateValueAndValidity()
+    this.tournamentForm.get('pools')?.updateValueAndValidity()
     this.tournamentForm.get('format')?.updateValueAndValidity()
   }
   public onFileSelected(event: Event): void {
     try {
       this.commonService.onProfileImageUploads(event).subscribe((res: string) => {
         this.tournamentProfile = (res && res !== '') ? res : null;
-        console.log(this.tournamentProfile,'profile');
-        
         if (!this.updateTournamentData) {
           this.tournamentForm.patchValue({
             profile: this.tournamentProfile
@@ -119,15 +114,15 @@ export class TournamentHomeComponent implements OnInit {
     try {
       if (this.tournamentForm.valid && !this.updateTournamentData) {
         this.tournamentForm.patchValue({
-          sport: this.tournamentForm.value.sport?.name || '',
-          format: this.tournamentForm.value.format?.name || ''
+          sport: this.tournamentForm.value.sport?.name,
+          format: this.tournamentForm.value.format?.name
         })
         this.apiService.postTournaments(this.tournamentForm.value).subscribe({
           next: () => {
             this.isAddTournament = false;
             this.getAllTournaments()
             this.messageService.add({ severity: 'success', summary: "Success", detail: "Tournament created successfully" })
-          }
+          }, error(err: HttpErrorResponse) { console.warn(err); }
         })
       }
       else if (this.updateTournamentData) {
@@ -149,36 +144,40 @@ export class TournamentHomeComponent implements OnInit {
       } else;
     } catch (error) { }
   }
-  public onCreateTournament(data: any) {
+  public onCreateTournament(data: tournamentObj) {
+    console.log(data);
+
     try {
       this.getTeams()
-      this.isAddTournament = true;
       if (!data) {
+      this.isAddTournament = true;
         this.tournamentProfile = null
         this.tournamentForm.reset();
         this.sportTypeString = 'pool';
         return;
       }
-      this.updateTournamentData = data
-      this.sportTypeString = data.pool ? 'pool' : 'format';
-      this.tournamentProfile = data.profile || null
-      this.tournamentForm.patchValue({
-        name: data.name || '',
-        sport: this.sportNames.find((res => res.name === data.sport)) || '',
-        teams: data.teams || [],
-        description: data.description || '',
-        pools: data.pool || null,
-        format: this.sportsFormat.find((res => res.name === data.format)) || '',
-        startDate: data.startDate ? new Date(data.startDate) : null,
-        endDate: data.endDate ? new Date(data.endDate) : null,
-        maxTeams: data.maxTeams || null
-      })
-      // this.isAddTournament = true
+      if (new Date(data.startDate) > new Date()) {
+      this.isAddTournament = true;
+        this.updateTournamentData = data
+        this.sportTypeString = data.pools ? 'pool' : 'format';
+        this.tournamentProfile = data.profile || null
+        this.tournamentForm.patchValue({
+          name: data.name || '',
+          sport: this.sportNames.find((res => res.name === data.sport)) || '',
+          teams: data.teams || [],
+          description: data.description || '',
+          pools: data.pools || null,
+          format: this.sportsFormat.find((res => res.name === data.format)) || '',
+          startDate: data.startDate ? new Date(data.startDate) : null,
+          endDate: data.endDate ? new Date(data.endDate) : null,
+          maxTeams: data.maxTeams || null
+        })
+      }
+      else { this.messageService.add({severity:'warn', summary:"Warning",detail:"You can not edit tournament now."})}
     }
     catch (error) { throw error }
   }
-  public handleSearch(term: string): void {
-  }
+  public handleSearch(term: string): void { }
   private onDeleteTournament(event: any) {
     try {
       event._id ? (
@@ -205,10 +204,9 @@ export class TournamentHomeComponent implements OnInit {
       }
     });
   }
-
   public onPageChange(event: any): void {
-    this.currentPage = event.page + 1; // PrimeNG pages are zero-based
-    this.pageSize = event.rows; // Rows per page
+    this.currentPage = event.page + 1;
+    this.pageSize = event.rows;
     this.getAllTournaments(this.currentPage, this.pageSize);
   }
 }

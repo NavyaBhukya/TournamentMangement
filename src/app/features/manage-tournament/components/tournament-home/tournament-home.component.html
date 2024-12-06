@@ -53,19 +53,23 @@
         </div>
         <div class="d-flex gap-2">
             <div class="d-flex gap-2 w-50">
-                <button class="btn border-secondary" [ngClass]="sportTypeString==='pool'? 'btn btn-success':''"
-                    (click)="setTourFormat('pool');$event.stopPropagation()">Pools</button>
-                <button class="btn border-secondary" [ngClass]="sportTypeString==='format'? 'btn btn-success':''"
-                    (click)="setTourFormat('format');$event.stopPropagation()">Format</button>
+                <button type="button" class="btn border-secondary" [ngClass]="sportTypeString==='pool'? 'btn btn-success':''"
+                    (click)="setTourFormat('pool')">Pools</button>
+                <button type="button" class="btn border-secondary" [ngClass]="sportTypeString==='format'? 'btn btn-success':''"
+                    (click)="setTourFormat('format')">Format</button>
             </div>
             <div class="w-50 sportClass">
                 <p-dropdown *ngIf="sportTypeString==='pool'" [options]="[2,3,4,5,6]" formControlName="pools"
                     placeholder="Select no. of pools"></p-dropdown>
-                <span class="text-danger" *ngIf="tournamentForm.get('pools')?.invalid && tournamentForm.get('pools')?.touched && sportTypeString==='pool'"> Please
+                <span class="text-danger"
+                    *ngIf="tournamentForm.get('pools')?.invalid && tournamentForm.get('pools')?.touched && sportTypeString==='pool'">
+                    Please
                     select number of pools </span>
                 <p-dropdown [options]="sportsFormat" *ngIf="sportTypeString==='format'" optionLabel="name"
                     formControlName="format" placeholder="Select format"> </p-dropdown>
-                <span class="text-danger" *ngIf="tournamentForm.get('format')?.invalid && tournamentForm.get('format')?.touched && sportTypeString==='format'"> Please
+                <span class="text-danger"
+                    *ngIf="tournamentForm.get('format')?.invalid && tournamentForm.get('format')?.touched && sportTypeString==='format'">
+                    Please
                     select format </span>
             </div>
         </div>

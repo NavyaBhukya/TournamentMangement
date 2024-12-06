@@ -4,6 +4,10 @@
   padding: 16px;
   background: #f9f9f9;
 }
+p-table table {
+  table-layout: fixed;
+  width: 100%; 
+}
 
 .table-header {
   display: flex;
@@ -16,7 +20,7 @@
   flex: 1;
 }
 
-.no_profile_images{
+.no_profile_images {
   font-size: 1rem;
 }
 

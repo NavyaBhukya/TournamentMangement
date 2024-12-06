@@ -20,11 +20,17 @@ export class TableComponent implements OnChanges {
   @Output() onSearch = new EventEmitter<string>();
   // @Output() onEdit = new EventEmitter<any>();
   @Output() onDelete = new EventEmitter<allTournaments>();
+  @Output() pagination = new EventEmitter<{ page: number, pagesize: number }>
+  @Input() totalRecords: number = 0;
+  @Input() currentPage: number = 1;
+  @Input() pageSize: number = 10;
   public tableHeadings: string[] = [];
   public tableObjKeys: string[] = [];
   public searchControl: FormControl = new FormControl('');
   public filteredData: any[] = [];
   public isAdmin: string = '';
+  public pageSizeOptions: number[] = [10, 20, 30, 40, 50];
+  public selectedPageSize: number = 10;
   constructor(private loc: Location, private commonServ: CommonService) { }
   ngOnInit(): void {
     this.isAdmin = localStorage.getItem('role')!
@@ -48,7 +54,7 @@ export class TableComponent implements OnChanges {
   }
   public handleEdit(rowData: allTournaments | allplayers): void {
     this.commonServ.isEditPlayer.next(true)
-    this.onAdd.emit(rowData); // sending tournament data to edit
+    this.onAdd.emit(rowData);
   }
   public handleDelete(rowData: allTournaments): void {
     this.onDelete.emit(rowData);
@@ -70,9 +76,20 @@ export class TableComponent implements OnChanges {
       .replace(/([a-z])([A-Z])/g, '$1 $2')
       .replace(/^./, str => str.toUpperCase());
   }
-  // going back to previous screen from table
   public goBack(): void {
     this.loc.back()
+  }
+  public onPageSizeChange(pageSize: number): void {
+    this.selectedPageSize = pageSize;
+    this.pagination.emit({
+      page: 1,
+      pagesize: pageSize
+    });
+  }
+  public onPageChange(event: any): void {
+    this.currentPage = +event.page + 1;
+    this.pageSize = event.rows;
+    this.pagination.emit({ page: this.currentPage, pagesize: this.pageSize })
   }
   public getRowValue(data: string | teamsInterface[]): string {
     if (Array.isArray(data)) {

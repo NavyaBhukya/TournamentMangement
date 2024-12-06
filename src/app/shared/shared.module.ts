@@ -6,6 +6,7 @@ import { TableComponent } from './components/table/table.component';
 import { TableModule } from 'primeng/table';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TooltipModule } from 'primeng/tooltip';
+import { PaginatorModule } from 'primeng/paginator';
 @NgModule({
   declarations: [
     SharedComponent,
@@ -13,7 +14,7 @@ import { TooltipModule } from 'primeng/tooltip';
   ],
   imports: [
     CommonModule,
-    SharedRoutingModule,TableModule,ReactiveFormsModule,TooltipModule
+    SharedRoutingModule,TableModule,ReactiveFormsModule,TooltipModule,PaginatorModule
   ],exports:[TableComponent]
 })
 export class SharedModule { }

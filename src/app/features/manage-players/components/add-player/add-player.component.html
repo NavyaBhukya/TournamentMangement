@@ -1,7 +1,5 @@
 <div class="add-player-container">
   <form [formGroup]="addPlayerForm" (ngSubmit)="onSubmit()">
-    <!-- {{isEditMode}}
-    {{ isEditMode ? 'Edit Player' : 'Add Player' }} -->
     <div class="form-group">
       <label for="playerName">Player Name<span class="star_imp"> *</span></label>
       <input type="text" id="playerName" formControlName="playerName" placeholder="Enter player's name"
@@ -28,27 +26,14 @@
     <!-- Sport -->
     <div class="form-group">
       <label for="sport">Sport<span class="star_imp"> *</span></label>
-      <!-- <p-dropdown [options]="sports" formControlName="sport" placeholder="Select sport"> </p-dropdown> -->
       <p-multiSelect [options]="sports" id="players" formControlName="sport" placeholder="Select players"
         [filter]="true" [class.invalid]="isFieldInvalid('players')"></p-multiSelect>
       <small *ngIf="isFieldInvalid('players')">Select at least one player.</small>
-      <!-- <select id="sport" formControlName="sport" [class.invalid]="isFieldInvalid('sport')">
-        <option value="" disabled selected>Select a sport</option>
-        <option *ngFor="let sport of sports" [value]="sport">{{ sport }}</option>
-      </select> -->
       <small *ngIf="isFieldInvalid('sport')">Please select a sport.</small>
     </div>
-    <!-- Teams -->
-    <!-- <div class="form-group">
-      <label for="teams">Teams</label>
-      <input type="text" id="teams" formControlName="teams" placeholder="Enter player's team(s)"
-        [class.invalid]="isFieldInvalid('teams')" />
-      <small *ngIf="isFieldInvalid('teams')">Teams is required.</small>
-    </div> -->
-    <!-- Profile Picture -->
     <div class="form-group">
-      <label for="profilePicture">Profile Picture</label>
-      <input type="file" id="profilePicture" (change)="onFileSelect($event)"
+      <label for="profilePicture">Profile<span class="star_imp"> *</span></label>
+      <input type="file" id="profilePicture" formControlName="profilePicture" (change)="onFileSelect($event)"
         [class.invalid]="isFieldInvalid('profilePicture')" />
       <small *ngIf="isFieldInvalid('profilePicture')">Please upload a profile picture.</small>
     </div>

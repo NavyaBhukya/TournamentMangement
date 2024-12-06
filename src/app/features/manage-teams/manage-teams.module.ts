@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { ManageTeamsRoutingModule } from './manage-teams-routing.module';
 import { AddTeamComponent } from './components/add-team/add-team.component';
 import { DropdownModule } from 'primeng/dropdown';
@@ -10,15 +9,15 @@ import { TeamsHomeComponent } from './components/teams-home/teams-home.component
 import { SharedModule } from 'src/app/shared/shared.module';
 import { DialogModule } from 'primeng/dialog';
 import { Paginator, PaginatorModule } from 'primeng/paginator';
-
+import { InputTextModule } from 'primeng/inputtext';
 @NgModule({
   declarations: [
     AddTeamComponent,
     TeamsHomeComponent
   ],
   imports: [
-    CommonModule,ReactiveFormsModule,SharedModule,DialogModule,PaginatorModule,
-    ManageTeamsRoutingModule,DropdownModule,MultiSelectModule
+    CommonModule, ReactiveFormsModule, SharedModule, DialogModule, PaginatorModule,
+    ManageTeamsRoutingModule, DropdownModule, MultiSelectModule, InputTextModule
   ]
 })
 export class ManageTeamsModule { }

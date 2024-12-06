@@ -11,7 +11,8 @@
     <button class="btn btn-primary" type="button" (click)="handleAdd()">{{ addButtonLabel}}</button>
   </div>
   <ng-container *ngIf="filteredData.length">
-    <p-table [value]="filteredData" class="" [paginator]="false" [rows]="10" [responsiveLayout]="'scroll'">
+    <p-table [value]="filteredData" class="" [paginator]="true" [rows]="pageSize" [totalRecords]="totalRecords"
+      [first]="(currentPage - 1) * pageSize" [responsiveLayout]="'scroll'" (onPage)="onPageChange($event)">
       <ng-template pTemplate="header">
         <tr>
           <ng-container *ngFor="let column of tableHeadings">
@@ -23,7 +24,7 @@
       <ng-template pTemplate="body" let-rowData>
         <tr>
           <td *ngFor="let column of tableObjKeys">
-            <ng-container *ngIf="column === 'profile' || column ===  'profilePicture'; else defaultData">
+            <ng-container *ngIf="column === 'profile'; else defaultData">
               <ng-container *ngIf="rowData[column];else noImage">
                 <img [src]="rowData[column]" alt="Profile" class="profile_images">
               </ng-container>

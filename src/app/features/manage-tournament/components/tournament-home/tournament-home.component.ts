@@ -195,6 +195,7 @@ export class TournamentHomeComponent implements OnInit {
     this.confirmationService.confirm({
       header: 'Are you sure ?',
       message: 'You want to delethi this tournament ',
+      icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.onDeleteTournament(event)
       },
@@ -203,7 +204,6 @@ export class TournamentHomeComponent implements OnInit {
       }
     });
   }
-
   public onPageChange(event: any): void {
     this.currentPage = event.page + 1;
     this.pageSize = event.rows;

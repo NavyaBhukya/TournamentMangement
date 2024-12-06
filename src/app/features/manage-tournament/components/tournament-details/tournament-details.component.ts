@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
-import { tournamentObj } from '../../interface/tournament.interface';
+import { SingleTeamInterface, teamsInterface, tournamentObj } from '../../interface/tournament.interface';
 
 @Component({
   selector: 'app-tournament-details',
@@ -25,5 +25,11 @@ export class TournamentDetailsComponent implements OnInit {
   }
   public goBack(): void {
     this.loc.back()
+  }
+  public trackByTeam(index: number, team: SingleTeamInterface): string | number {
+    return team._id || index
+  }
+  public trackBySingleTeam(index: number, team: teamsInterface): string | number {
+    return team._id || index
   }
 }

@@ -5,9 +5,10 @@ export interface allTournaments {
 }
 export interface teamsInterface {
     players: string[],
-    id: string,
+    _id: string,
     sport: string | string[],
-    teamName: string
+    teamName: string,
+    profile: string
 }
 export interface tournamentObj {
     _id: string
@@ -25,6 +26,23 @@ export interface tournamentObj {
     updatedAt: string
     __v: number
     poolMatches: poolMatchesInterface[] | null
+    formatMatches: formatSingleMatch[] | null
+}
+interface formatSingleMatch {
+    match: string,
+    round: number,
+    team1: {
+        players: null | [],
+        profile: string,
+        sport: string,
+        teamName: string
+    },
+    team2: {
+        players: null | [],
+        profile: string,
+        sport: string,
+        teamName: string
+    }
 }
 
 export interface TotalTeamsInterface {
@@ -35,6 +53,8 @@ export interface SingleTeamInterface {
     players: string[],
     sport: string,
     teamName: string,
+    profile: string
+    _id: string
 
 }
 export interface poolMatchesInterface {

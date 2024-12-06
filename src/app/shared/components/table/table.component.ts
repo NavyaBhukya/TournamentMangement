@@ -1,7 +1,6 @@
 import { DatePipe, Location } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
 import { allplayers } from 'src/app/features/manage-players/interfaces/player.interface';
 import { allTournaments, teamsInterface } from 'src/app/features/manage-tournament/interface/tournament.interface';
 import { CommonService } from 'src/app/services/common.service';
@@ -19,14 +18,14 @@ export class TableComponent implements OnChanges {
   @Input() tableHeader: string = 'Management';
   @Output() onAdd = new EventEmitter<any>();
   @Output() onSearch = new EventEmitter<string>();
-  @Output() onEdit = new EventEmitter<any>();
+  // @Output() onEdit = new EventEmitter<any>();
   @Output() onDelete = new EventEmitter<allTournaments>();
   public tableHeadings: string[] = [];
   public tableObjKeys: string[] = [];
   public searchControl: FormControl = new FormControl('');
   public filteredData: any[] = [];
   public isAdmin: string = '';
-  constructor(private loc: Location, private datePipe: DatePipe, private commonServ: CommonService) { }
+  constructor(private loc: Location, private commonServ: CommonService) { }
   ngOnInit(): void {
     this.isAdmin = localStorage.getItem('role')!
   }
@@ -36,10 +35,7 @@ export class TableComponent implements OnChanges {
       this.tableDataInit()
     }
   }
-
   public searchDataInit() {
-    console.log(this.data, 'After dlete');
-
     this.filteredData = this.data;
     this.searchControl.valueChanges.subscribe((searchTerm) => {
       this.filteredData = this.data.filter((item) =>
@@ -80,7 +76,7 @@ export class TableComponent implements OnChanges {
   }
   public getRowValue(data: string | teamsInterface[]): string {
     if (Array.isArray(data)) {
-      const teamsData = (data.map((res: teamsInterface) => res.teamName)).filter((res: string) => res).join(',')
+      const teamsData = (data.map((res: teamsInterface) => res.teamName)).filter((res: string) => res).join(', ')
       return teamsData
     } else return data ? data : '-'
   }

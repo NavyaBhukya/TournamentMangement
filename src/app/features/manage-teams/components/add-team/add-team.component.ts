@@ -55,6 +55,7 @@ export class AddTeamComponent implements OnInit {
         next: (res) => {
           this.formSubmitted.emit(res);
           this.addTeamForm.reset()
+          this.teamProfile = null
         },
       })
       console.log('Teams data submitted:', payload);
@@ -65,8 +66,6 @@ export class AddTeamComponent implements OnInit {
     try {
       this.commonService.onProfileImageUploads(event).subscribe((res: string) => {
         this.teamProfile = (res && res !== '') ? res : null;
-        console.log(res);
-
       })
     } catch (error) { console.warn(error) }
 

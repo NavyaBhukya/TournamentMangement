@@ -7,7 +7,8 @@ export interface teamsInterface {
     players: string[],
     id: string,
     sport: string | string[],
-    teamName: string
+    teamName: string,
+    profile:string
 }
 export interface tournamentObj {
     _id: string

@@ -1,6 +1,5 @@
 <div class="form-container">
   <form [formGroup]="addTeamForm" (ngSubmit)="onSubmit()" class="d-flex flex-column gap-3 p-3">
-    <!-- <h2>Add Team</h2> -->
     <div class="form-group">
       <div><label for="teamName">Team Name <span class="text-danger">*</span> :</label>
       </div>
@@ -10,23 +9,23 @@
     </div>
     <div class="form-group">
       <div><label for="profile">Profile <span class="text-danger">*</span> : </label>
-      <div class="d-flex gap-2">
-        <img *ngIf="teamProfile" [src]="teamProfile" alt="profile" height="50px" width="50px"
-          style="border-radius: 50%;">
-        <input type="file" id="profile" formControlName="profile" (change)="onProfileUploaded($event)"
-          [class.invalid]="isFieldInvalid('profile')" />
-        <small *ngIf="isFieldInvalid('profile')">Profile is required.</small>
+        <div class="d-flex gap-2">
+          <img *ngIf="teamProfile" [src]="teamProfile" alt="profile" height="50px" width="50px"
+            style="border-radius: 50%;">
+          <input type="file" id="profile" formControlName="profile" (change)="onProfileUploaded($event)"
+            [class.invalid]="isFieldInvalid('profile')" />
+          <small *ngIf="isFieldInvalid('profile')">Profile is required.</small>
+        </div>
       </div>
-    </div>
-    <div class="form-group">
-      <label for="sport">Sport <span class="text-danger">*</span> :</label>
+      <div class="form-group">
+        <label for="sport">Sport <span class="text-danger">*</span> :</label>
       </div>
       <p-dropdown [options]="sports" id="sport" formControlName="sport" placeholder="Select a sport" [filter]="true"
         [class.invalid]="isFieldInvalid('sport')"></p-dropdown>
       <small *ngIf="isFieldInvalid('sport')">Please select a sport.</small>
     </div>
     <div class="form-group">
-      <label for="players">Players</label>
+      <label for="players">Players<span class="text-danger">*</span> :</label>
       <p-multiSelect [options]="players" id="players" formControlName="players" placeholder="Select players"
         [filter]="true" [class.invalid]="isFieldInvalid('players')"></p-multiSelect>
       <small *ngIf="isFieldInvalid('players')">Select at least one player.</small>

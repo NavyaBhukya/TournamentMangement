@@ -1,7 +1,10 @@
-<app-table [tableTitle]="tableTitle" [data]="allTeamsDataArr" [tableHeader]="tableHeader" [addButtonLabel]="addButtonLabel" (onAdd)="handleAdd($event)"
-  (onSearch)="handleSearch($event)" (pagination)="onPageChange($event)" (onEdit)="editPlayer($event)" (onDelete)="deletePlayer($event)"></app-table>
-  <p-dialog [(visible)]="displayAddPlayerDialog" [modal]="true" [closable]="true" [header]="popupHeading" >
-  <app-add-player  [onEditPlayerData]="editPlayerData"
-  (formSubmitted)="handleDialogClose($event)"
-    (cancel)="handleDialogClose()"></app-add-player>
+<app-table [tableTitle]="tableTitle" [data]="allTeamsDataArr" [tableHeader]="tableHeader"
+  [addButtonLabel]="addButtonLabel" [totalRecords]="totalRecords" [currentPage]="currentPage" [pageSize]="pageSize"
+  (onAdd)="handleAdd($event)" (onSearch)="handleSearch($event)" (onEdit)="editPlayer($event)"
+  (onDelete)="deletePlayer($event)" (pagination)="onPageChange($event)">
+</app-table>
+<p-dialog [(visible)]="displayAddPlayerDialog" [modal]="true" [closable]="true" [header]="popupHeading">
+  <app-add-player [onEditPlayerData]="editPlayerData" (formSubmitted)="handleDialogClose($event)"
+    (cancel)="handleDialogClose()">
+  </app-add-player>
 </p-dialog>

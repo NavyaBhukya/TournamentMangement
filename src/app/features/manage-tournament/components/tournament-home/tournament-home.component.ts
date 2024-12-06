@@ -66,10 +66,14 @@ export class TournamentHomeComponent implements OnInit {
   }
   private getAllTournaments(page: number = 0, pageSize: number = 10): void {
     try {
-      this.apiService.getAllTournaments(page, pageSize).subscribe({
-        next: (res: any) => { this.allTournamentsArr = res.data }
+      this.apiService.getAllTournaments(0, 10).subscribe({
+        next: (res: any) => { this.allTournamentsArr = res.data },error(err:HttpErrorResponse){
+          console.log(err);
+          
+        }
         // next: (res: allTournaments) => { this.allTournamentsArr = res.data; }
-      })
+      }
+    )
     } catch (error) { throw error }
   }
   private getTeams(): void {
@@ -192,6 +196,7 @@ export class TournamentHomeComponent implements OnInit {
     this.confirmationService.confirm({
       header: 'Are you sure ?',
       message: 'You want to delethi this tournament ',
+      icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.onDeleteTournament(event)
       },

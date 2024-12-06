@@ -4,12 +4,12 @@ import { AddTeamComponent } from './components/add-team/add-team.component';
 import { TeamsHomeComponent } from './components/teams-home/teams-home.component';
 
 const routes: Routes = [
-  {  path: '', component: TeamsHomeComponent },
+  { path: '', component: TeamsHomeComponent },
   {
     path: 'manage-team', component: AddTeamComponent,
   },
   {
-    path:'team-home',component:TeamsHomeComponent
+    path: 'team-home', component: TeamsHomeComponent
   }
 ];
 

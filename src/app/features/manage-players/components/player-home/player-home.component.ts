@@ -16,13 +16,12 @@ export class PlayerHomeComponent implements OnInit {
   public allTeamsDataArr: allplayers[] = []
   public columns: string[] = []
   public displayAddPlayerDialog: boolean = false;
-  public isEditMode: boolean = false; // Track edit mode
+  public isEditMode: boolean = false;
   public currentPlayerData: allplayers | null = null;
-  public popupHeading =this.isEditMode ? 'Add player ':'Update player';
+  public popupHeading = this.isEditMode ? 'Add player ' : 'Update player';
   public totalRecords: number = 0;
-  public currentPage: number = 1;
-  public pageSize: number = 10;  
-  // public pageSizeOptions: number[] = [10, 20, 30, 40, 50];
+  public currentPage: number = 0;
+  public pageSize: number = 10;
   constructor(private apiService: ApiService, private loader: LoaderService, private commonServ: CommonService) { }
   ngOnInit(): void {
     this.getallPlayerData();
@@ -45,27 +44,24 @@ export class PlayerHomeComponent implements OnInit {
   public getallPlayerData(): void {
     try {
       this.loader.show()
-      this.apiService.getallPlayers(this.currentPage,this.pageSize).subscribe({
-        next: (res:any) => {
+      this.apiService.getallPlayers(this.currentPage, this.pageSize).subscribe({
+        next: (res: any) => {
           this.allTeamsDataArr = res.data
-          console.log(this.allTeamsDataArr);
-          
         }
       })
       this.loader.hide()
     } catch (error) {
-      console.log(error)
       this.loader.hide()
     }
   }
   public onPageChange(event: any): void {
-    console.log(event,'page event');
-    this.currentPage = +event.page + 1; // PrimeNG pages are zero-based
-    this.pageSize = event.rows; // Rows per page
+    this.currentPage = +event.page + 1;
+    this.pageSize = event.rows;
     this.getallPlayerData();
   }
   public editPlayer(rowData: any): void {
-    this.currentPlayerData = rowData; // Pass the selected player data
+    this.currentPlayerData = rowData;
+    this.getallPlayerData()
   }
   public deletePlayer(rowData: any): void {
     this.apiService.deletePlayers(rowData._id).subscribe(() => {

@@ -11,8 +11,8 @@
     <button class="btn btn-primary" type="button" (click)="handleAdd()">{{ addButtonLabel}}</button>
   </div>
   <ng-container *ngIf="filteredData.length">
-
-    <p-table [value]="filteredData" class="" [paginator]="false" [rows]="10" [responsiveLayout]="'scroll'">
+    <p-table [value]="filteredData" class="" [paginator]="true" [rows]="pageSize" [totalRecords]="totalRecords"
+      [first]="(currentPage - 1) * pageSize" [responsiveLayout]="'scroll'" (onPage)="onPageChange($event)">
       <ng-template pTemplate="header">
         <tr>
           <ng-container *ngFor="let column of tableHeadings">
@@ -26,14 +26,16 @@
       <ng-template pTemplate="body" let-rowData>
         <tr>
           <td *ngFor="let column of tableObjKeys">
-            <ng-container *ngIf="column === 'profile' || column ===  'profilePicture'; else defaultData">
+            <ng-container *ngIf="column === 'profile'; else defaultData">
               <ng-container *ngIf="rowData[column];else noImage">
-                <img [src]="rowData[column]" alt="Profile" class="profile_images" >
+                <img [src]="rowData[column]" alt="Profile" class="profile_images">
               </ng-container>
               <ng-template #noImage>
-                <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="bi bi-person-circle no_profile_images" viewBox="0 0 16 16">
-                  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                  class="bi bi-person-circle no_profile_images" viewBox="0 0 16 16">
+                  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                  <path fill-rule="evenodd"
+                    d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
                 </svg>
               </ng-template>
             </ng-container>
@@ -58,7 +60,6 @@
           </td>
         </tr>
       </ng-template>
-
     </p-table>
   </ng-container>
   <ng-container *ngIf="!filteredData.length">
@@ -73,9 +74,3 @@
     </div>
   </ng-container>
 </div>
-<p-paginator
-[rows]="pageSize"
-[totalRecords]="totalRecords"
-(onPageChange)="onPageChange($event)"
->
-</p-paginator>

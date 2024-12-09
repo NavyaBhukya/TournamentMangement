@@ -43,14 +43,20 @@
                 {{rowData[column] | date : 'dd MMM yyy'}}
               </ng-container>
               <ng-template #textData>
-                {{rowData[column] ? getRowValue(rowData[column]) : '-'}}
+                <ng-container *ngIf="column === 'name' ;else restData">
+                  <span class="text-primary cursor-pointer" [routerLink]="['details',rowData._id]"> {{rowData[column]}} </span>
+                </ng-container>
+                <ng-template #restData>
+                  {{rowData[column] ? getRowValue(rowData[column]) : '-'}}
+                </ng-template>
               </ng-template>
             </ng-template>
           </td>
           <td *ngIf="isAdmin.toLowerCase()!== 'admin'">
             <div class="d-flex gap-3">
               <span class="courser_pointer" pTooltip="Details" tooltipPosition="top">
-                <button class="btn btn-primary btn-sm" [routerLink]="['details',rowData._id]">Details</button> </span>
+                <i class="pi pi-eye text-success actionIcon" [routerLink]="['details',rowData._id]"></i>
+              </span>
               <span class="courser_pointer" (click)="handleEdit(rowData)" pTooltip="Edit" tooltipPosition="top"><i
                   class="pi pi-pen-to-square actionIcon text-primary"></i> </span>
               <span class="courser_pointer" (click)="handleDelete(rowData)" pTooltip="Delete" tooltipPosition="top"><i

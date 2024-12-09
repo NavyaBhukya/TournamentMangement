@@ -14,23 +14,23 @@ export class ApiService {
     // Tournaments
     // GET
     public getAllTournaments(page?: number, pageSize?: number): Observable<allTournaments[]> {
-        return this.http.get<allTournaments[]>(`${this.apiUrl}tournaments?page=${page}&limit=${pageSize}`)
+        return this.http.get<allTournaments[]>(`${this.apiUrl}tournament?page=${page}&limit=${pageSize}`)
     }
     // GET single tournament
     public getSingleTournament(id: string): Observable<any> {
-        return this.http.get<any>(`${this.apiUrl}tournaments/${id}`)
+        return this.http.get<any>(`${this.apiUrl}tournament/${id}`)
     }
     // POST
     public postTournaments(postTour: any): Observable<any[]> {
-        return this.http.post<any[]>(`${this.apiUrl}tournaments`, postTour)
+        return this.http.post<any[]>(`${this.apiUrl}tournament`, postTour)
     }
     // PUT
     public updateTournaments(id: string, postTour: any): Observable<any[]> {
-        return this.http.put<any>(`${this.apiUrl}tournaments/${id}`, postTour)
+        return this.http.put<any>(`${this.apiUrl}tournament/${id}`, postTour)
     }
     // DELTE
     public deleteTournament(id: string): Observable<{ message: string }> {
-        return this.http.delete<{ message: string }>(`${this.apiUrl}tournaments/${id}`)
+        return this.http.delete<{ message: string }>(`${this.apiUrl}tournament/${id}`)
     }
     // Upload Profile Image
     public uploadProfileImage(file: File): Observable<{ message: string; url: string }> {

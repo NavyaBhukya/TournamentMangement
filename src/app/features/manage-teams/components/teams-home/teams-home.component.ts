@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { LoaderService } from 'src/app/services/loader.service';
 

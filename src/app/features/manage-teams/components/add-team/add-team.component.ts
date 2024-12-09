@@ -18,7 +18,7 @@ export class AddTeamComponent implements OnInit {
   public sports = [
     { label: 'Cricket', value: 'cricket' },
     { label: 'Football', value: 'football' },
-    { label: 'Basketball', value: 'basketball' }
+    { label: 'Basketball', value: 'basketball'}
   ];
   public players = [];
   constructor(private fb: FormBuilder, private commonServ: CommonService, private apiService: ApiService, private commonService: CommonService) { }
@@ -34,7 +34,7 @@ export class AddTeamComponent implements OnInit {
       teamName: ['', Validators.required],
       sport: [null, Validators.required],
       profile: [null, Validators.required],
-      players: [[], Validators.required]
+      players: [[]]
     });
   }
   public ngOnChanges(changes: SimpleChanges): void {

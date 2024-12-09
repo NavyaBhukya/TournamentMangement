@@ -40,29 +40,29 @@ export class ApiService {
     }
     //Get all players
     public getallPlayers(page?: number, pageSize?: number): Observable<allplayers[]> {
-        return this.http.get<allplayers[]>(`${this.apiUrl}players?page=${page}&limit=${pageSize}`)
+        return this.http.get<allplayers[]>(`${this.apiUrl}player?page=${page}&limit=${pageSize}`)
     }
     // Post  Tournaments
     public postPlayers(postPlayer: any): Observable<any[]> {
-        return this.http.post<any[]>(`${this.apiUrl}players`, postPlayer)
+        return this.http.post<any[]>(`${this.apiUrl}player`, postPlayer)
     }
     public updatePlayers(id: any, updateplayer: any): Observable<any[]> {
-        return this.http.put<any[]>(`${this.apiUrl}players/${id}`, updateplayer)
+        return this.http.put<any[]>(`${this.apiUrl}player/${id}`, updateplayer)
     }
     public deletePlayers(id: number): Observable<any> {
-        return this.http.delete<any>(`${this.apiUrl}players/${id}`)
+        return this.http.delete<any>(`${this.apiUrl}player/${id}`)
     }
     public getAllTeams(page?: number, pageSize?: number): Observable<any> {
-        return this.http.get<any>(`${this.apiUrl}teams?page=${page}&limit=${pageSize}`)
+        return this.http.get<any>(`${this.apiUrl}team?page=${page}&limit=${pageSize}`)
     }
     public postTeams(postTeams: any): Observable<any[]> {
-        return this.http.post<any[]>(`${this.apiUrl}teams`, postTeams)
+        return this.http.post<any[]>(`${this.apiUrl}team`, postTeams)
     }
     public updateTeams(id: any, updateplayer: any): Observable<any[]> {
-        return this.http.put<any[]>(`${this.apiUrl}teams/${id}`, updateplayer)
+        return this.http.put<any[]>(`${this.apiUrl}team/${id}`, updateplayer)
     }
     public deleteams(id: number): Observable<any> {
-        return this.http.delete<any>(`${this.apiUrl}teams/${id}`)
+        return this.http.delete<any>(`${this.apiUrl}team/${id}`)
     }
 
 }

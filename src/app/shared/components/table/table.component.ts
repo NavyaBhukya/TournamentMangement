@@ -4,6 +4,8 @@ import { FormControl } from '@angular/forms';
 import { allplayers } from 'src/app/features/manage-players/interfaces/player.interface';
 import { allTournaments, teamsInterface, tournamentObj } from 'src/app/features/manage-tournament/interface/tournament.interface';
 import { CommonService } from 'src/app/services/common.service';
+import { PaginatorState } from 'primeng/paginator';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-table',
@@ -12,6 +14,7 @@ import { CommonService } from 'src/app/services/common.service';
   providers: [DatePipe]
 })
 export class TableComponent implements OnChanges {
+  @Input() playersNumber:any
   @Input() tableTitle: string = '';
   @Input() data: any[] = [];
   @Input() addButtonLabel: string = 'Add';
@@ -19,10 +22,10 @@ export class TableComponent implements OnChanges {
   @Output() onAdd = new EventEmitter<any>();
   @Output() onSearch = new EventEmitter<string>();
   @Output() onDelete = new EventEmitter<tournamentObj>();
-  @Output() pagination = new EventEmitter<{ page: number, pagesize: number }>
+  @Output() pagination = new EventEmitter<PaginatorState>
   @Input() totalRecords: number = 0;
-  @Input() currentPage: number = 1;
-  @Input() pageSize: number = 10;
+  // @Input() currentPage: number = 1;
+  // @Input() pageSize: number = 10;
   public tableHeadings: string[] = [];
   public tableObjKeys: string[] = [];
   public searchControl: FormControl = new FormControl('');
@@ -30,7 +33,8 @@ export class TableComponent implements OnChanges {
   public isAdmin: string = '';
   public pageSizeOptions: number[] = [10, 20, 30, 40, 50];
   public selectedPageSize: number = 10;
-  constructor(private loc: Location, private commonServ: CommonService) { }
+  public paginationFirst: number = 0
+  constructor(private loc: Location, private commonServ: CommonService,private router:Router) { }
   ngOnInit(): void {
     this.isAdmin = localStorage.getItem('role')!
   }
@@ -63,12 +67,30 @@ export class TableComponent implements OnChanges {
     this.commonServ.isEditPlayer.next(false)
   }
   public tableDataInit(): void {
-    if (this.data[0]) this.filterAndFormatColumns(Object.keys(this.data[0]))
+    if (this.data[0]) {
+      this.filterAndFormatColumns(Object.keys(this.data[0]));
+    }
   }
-  private filterAndFormatColumns(tabelKeys: string[]) {
-    const excludedColumns = ["_id", "__v", "createdAt", "updatedAt", 'formatMatches', 'poolMatches', 'players'];
-    this.tableHeadings = tabelKeys.filter(column => !excludedColumns.includes(column)).map(column => this.formatColumnName(column))
-    this.tableObjKeys = tabelKeys.filter(column => !excludedColumns.includes(column))
+  private filterAndFormatColumns(tableKeys: string[]) {
+    const excludedColumns = ["_id", "__v", "createdAt", "updatedAt", 'formatMatches', 'poolMatches','players'];
+    
+    // Prepare table headings
+    this.tableHeadings = tableKeys
+      .filter(column => !excludedColumns.includes(column))
+      .map(column => this.formatColumnName(column));
+    
+    // Add Number of Players for Teams Management
+    if (this.tableHeader === 'Teams Management') {
+      this.tableHeadings.push('Number of Players');
+    }
+    
+    // Prepare table object keys
+    this.tableObjKeys = tableKeys.filter(column => !excludedColumns.includes(column));
+    
+    // Add players count key for Teams Management
+    if (this.tableHeader === 'Teams Management') {
+      this.tableObjKeys.push('playersCount');
+    }
   }
   private formatColumnName(column: string): string {
     return column
@@ -78,22 +100,31 @@ export class TableComponent implements OnChanges {
   public goBack(): void {
     this.loc.back()
   }
-  public onPageSizeChange(pageSize: number): void {
-    this.selectedPageSize = pageSize;
-    this.pagination.emit({
-      page: 1,
-      pagesize: pageSize
-    });
+  public navigateToDetails(rowData: any): void {
+    // Assuming you want to route to details using the _id
+    if (rowData._id) {
+      this.router.navigate(['details', rowData._id]);
+    }
   }
-  public onPageChange(event: any): void {
-    this.currentPage = +event.page + 1;
-    this.pageSize = event.rows;
-    this.pagination.emit({ page: this.currentPage, pagesize: this.pageSize })
+
+  public onPageChange(event: PaginatorState): void {
+    // this.currentPage = event?.first;
+    // this.pageSize = event.rows;
+    this.pagination.emit(event)
   }
-  public getRowValue(data: string | teamsInterface[]): string {
+  public getRowValue(data: string | teamsInterface[] | number): string {
     if (Array.isArray(data)) {
-      const teamsData = (data.map((res: teamsInterface) => res.teamName)).filter((res: string) => res).join(', ')
-      return teamsData
-    } else return data ? data : '-'
+      const teamsData = (data.map((res: teamsInterface) => res.teamName)).filter((res: string) => res).join(', ');
+      return teamsData;
+    } else if (typeof data === 'number') {
+      return data.toString();
+    } else {
+      return data ? data : '***';
+      
+    }
+  }
+
+  public getPlayersCount(rowData: any): number {
+    return rowData.players ? rowData.players.length : 0;
   }
 }

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { PaginatorState } from 'primeng/paginator';
 import { ApiService } from 'src/app/services/api.service';
 import { LoaderService } from 'src/app/services/loader.service';
 
@@ -22,6 +23,7 @@ export class TeamsHomeComponent implements OnInit {
   public tableHeader = 'Teams Management'
   public currentPlayerData: any;
   public pageSizeOptions: number[] = [10, 20, 30, 40, 50];
+  public numberOfPlayers :any
   constructor(private apiService: ApiService, private loader: LoaderService) { }
   public ngOnInit(): void {
     this.getallTeamsData()
@@ -38,20 +40,28 @@ export class TeamsHomeComponent implements OnInit {
       this.getallTeamsData()
     }
   }
-  public getallTeamsData(page: number = 0, pageSize: number = 10): void {
+  public getallTeamsData(page?: number, pageSize?: number): void {
     try {
       this.apiService.getAllTeams(page, pageSize).subscribe({
         next: (res) => {
           this.allTeamsDataArr = res.data ? res.data : []
           this.totalRecords = res.total
+          this.numberOfPlayers = res.data
+          console.log(this.numberOfPlayers);
         }
       })
     } catch (error) {
     }
   }
-  public onPageChange(event: { page: number, pagesize: number }): void {
-    this.currentPage = +event.page + 1;
-    this.pageSize = event.pagesize;
+  public onPageChange(event: PaginatorState): void {
+    console.log('team pagination change', event);
+
+    // this.currentPage = event.page ? event.page  : 1;
+    // this.pageSize = event.rows ? event.rows  : 10;
+    this.currentPage = (event.first && event.page) ? event.first + event.page :1;
+    this.pageSize = (event.first && event.page) ? event.first * (event.page+1) :10;
+    console.log(this.currentPage, this.pageSize);
+
     this.getallTeamsData(this.currentPage, this.pageSize);
   }
   public editTeam(rowData: any): void {

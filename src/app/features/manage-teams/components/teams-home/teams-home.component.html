@@ -1,6 +1,7 @@
-<app-table [tableTitle]="tableTitle" [data]="allTeamsDataArr" [addButtonLabel]="addButtonLabel"
-  [tableHeader]="tableHeader" (onAdd)="handleAdd($event)" (onEdit)="editTeam($event)" (onSearch)="handleSearch($event)"
+<app-table [tableTitle]="tableTitle" [data]="allTeamsDataArr" [addButtonLabel]="addButtonLabel" [totalRecords]="totalRecords"
+  [tableHeader]="tableHeader" [playersNumber]="numberOfPlayers" (onAdd)="handleAdd($event)" (onEdit)="editTeam($event)" (onSearch)="handleSearch($event)"
   (onDelete)="deleteTeam($event)" (pagination)="onPageChange($event)"></app-table>
+
 <p-dialog [(visible)]="displayAddTeamsDialog" [modal]="true" [closable]="true" [header]="popupHeading">
   <app-add-team (cancel)="handleDialogClose()" [onEditPlayerData]="editPlayerData"
     (formSubmitted)="handleDialogClose($event)"></app-add-team>

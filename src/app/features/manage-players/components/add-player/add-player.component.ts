@@ -33,7 +33,7 @@ export class AddPlayerComponent implements OnInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['onEditPlayerData']) {
-      this.editPlayer()
+      this?.editPlayer()
     }
   }
   public formInit() {
@@ -54,7 +54,7 @@ export class AddPlayerComponent implements OnInit, OnChanges {
   private editPlayer(): void {
     this.isEdit = true
     const selectedSport = this.sports.find(sport => sport.toLowerCase() === this.onEditPlayerData?.sport[0]?.toLowerCase());
-    this.addPlayerForm.patchValue({
+    this.addPlayerForm?.patchValue({
       playerName: this.onEditPlayerData?.playerName,
       age: this.onEditPlayerData?.age,
       sport: selectedSport,

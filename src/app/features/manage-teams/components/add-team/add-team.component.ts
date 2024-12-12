@@ -18,7 +18,7 @@ export class AddTeamComponent implements OnInit {
   public sports = [
     { label: 'Cricket', value: 'cricket' },
     { label: 'Football', value: 'football' },
-    { label: 'Basketball', value: 'basketball'}
+    { label: 'Basketball', value: 'basketball' }
   ];
   public players = [];
   constructor(private fb: FormBuilder, private commonServ: CommonService, private apiService: ApiService, private commonService: CommonService) { }
@@ -39,12 +39,12 @@ export class AddTeamComponent implements OnInit {
   }
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes['onEditPlayerData']) {
-      this.editPlayer()
+      this?.editPlayer()
     }
   }
   private editPlayer(): void {
     const selectedPlayers = this.onEditPlayerData?.players
-    this.addTeamForm.patchValue({
+    this.addTeamForm?.patchValue({
       teamName: this.onEditPlayerData?.teamName,
       players: selectedPlayers,
       sport: this.onEditPlayerData?.sport,

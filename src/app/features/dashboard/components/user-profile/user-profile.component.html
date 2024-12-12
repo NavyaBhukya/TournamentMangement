@@ -1,0 +1,83 @@
+<!-- Edit User data -->
+<ng-container *ngIf="isUserEdit">
+    <form [formGroup]="userForm" (ngSubmit)="submitUserForm($event)" class="d-flex flex-column p-3">
+        <div class="mb-3">
+            <label for="name" class="form-label">Name : </label>
+            <input type="text" class="form-control" formControlName="name" id="exampleInputEmail1"
+                aria-describedby="emailHelp">
+            <ng-container *ngIf="userForm.get('name')?.invalid && userForm.get('name')?.touched">
+                <span class="text-danger"
+                    *ngIf="userForm.get('name')?.touched && !userForm.get('name')?.hasError('maxlength') && !userForm.get('name')?.hasError('minlength')">Name
+                    can not be empty </span>
+                <span class="text-danger"
+                    *ngIf="userForm.get('name')?.hasError('minlength') && userForm.get('name')?.touched">
+                    Name must be at least 3 characters
+                </span>
+                <span class="text-danger"
+                    *ngIf="userForm.get('name')?.hasError('maxlength') && userForm.get('name')?.touched"> Name should
+                    exceed 25 characters </span>
+            </ng-container>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email : </label>
+            <input type="email" class="form-control" formControlName="email" id="exampleInputPassword1">
+            <ng-container *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched">
+                <span class="text-danger" *ngIf="userForm.get('email')?.hasError('email')"> Enter valid email </span>
+            </ng-container>
+        </div>
+        <div class="mb-3">
+            <label for="mobile" class="form-label">Mobile : </label>
+            <input type="text" class="form-control" formControlName="mobile" id="exampleInputEmail1"
+                aria-describedby="emailHelp">
+            <ng-container *ngIf="userForm.get('mobile')?.invalid && userForm.get('mobile')?.touched">
+
+                <span class="text-danger"
+                    *ngIf="userForm.get('mobile')?.hasError('minlength') || userForm.get('mobile')?.hasError('maxlength')">Please
+                    enter valid mobile number </span>
+            </ng-container>
+        </div>
+        <div class="mb-3">
+            <label for="profile" class="form-label">Profile : </label>
+            <div class="d-flex gap-2">
+                <div *ngIf="profileImgUrl">
+                    <img [src]="profileImgUrl" alt="profilw" style="height: 50px;width: 50px; border-radius: 50%;">
+                </div>
+                <div>
+                    <input type="file" class="form-control" (change)="profileUpload($event)" id="exampleInputPassword1">
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex gap-3 flex-row-reverse">
+            <button type="reset" class="btn btn-secondary" (click)="isUserEdit = !isUserEdit">Cancel</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+
+        </div>
+    </form>
+</ng-container>
+<!-- User profile -->
+<ng-container *ngIf="!isUserEdit">
+    <div class="container">
+        <div class="d-flex flex-column justify-content-center align-items-center ">
+            <div class="">
+                <ng-container *ngIf="profileImgUrl;else defaultImg">
+                    <img [src]="profileImgUrl" alt="profilw" style="height: 50px;width: 50px; border-radius: 50%;">
+                </ng-container>
+                <ng-template #defaultImg>
+                    <i class="bi bi-person" style="font-size: 1rem;"></i>
+                </ng-template>
+            </div>
+            <div> <b> {{userData?.name}} </b> </div>
+            <div> {{userData?.email}} </div>
+            <div> {{userData?.mobile}} </div>
+        </div>
+        <div class="d-flex gap-2 flex-row-reverse p-3">
+            <button class="btn btn-primary" (click)="isUserEdit = !isUserEdit">Edit</button>
+            <button class="btn btn-danger" (click)="showDeleteCnfirmation = !showDeleteCnfirmation">Delete
+                Account</button>
+        </div>
+    </div>
+</ng-container>
+<p-dialog [(visible)]="showDeleteCnfirmation" [modal]="true" header="Delete Confirmation">
+    <app-confirmation [confirmatioStr]="'account'" (closeConfirmation)="closeDialog($event)"></app-confirmation>
+</p-dialog>

@@ -3,19 +3,21 @@ import { ApiService } from 'src/app/services/api.service';
 import { allTournaments, SingleTeamInterface, TotalTeamsInterface, tournamentObj } from '../../interface/tournament.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ConfirmationService, MessageService } from 'primeng/api';
 import { CommonService } from 'src/app/services/common.service';
+import { ConfirmationService } from 'primeng/api';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-tournament-home',
   templateUrl: './tournament-home.component.html',
   styleUrls: ['./tournament-home.component.scss'],
-  providers: [MessageService, ConfirmationService]
+  providers: [ConfirmationService]
 })
 export class TournamentHomeComponent implements OnInit {
   public tableTitle = 'Tournaments';
   public addButtonLabel = 'Create Tournament';
   public isAddTournament: boolean = false
+  public showDeleteConfirmation: boolean = false
   public tournamentForm!: FormGroup;
   public allTournamentsArr: tournamentObj[] = []
   public tournamentHeadings: string[] = []
@@ -40,7 +42,7 @@ export class TournamentHomeComponent implements OnInit {
   ]
   public sportsFormat: { name: string, value: string }[] = [{ name: 'Single Elimination', value: 'singleelimination' }, { name: 'Double Elimination', value: 'doubleelimination' }, { name: 'Round Robbin', value: "roundrabbin" }]
 
-  constructor(private apiService: ApiService, private fb: FormBuilder, private messageService: MessageService, private confirmationService: ConfirmationService, private commonService: CommonService) { }
+  constructor(private apiService: ApiService, private fb: FormBuilder, private toastr: ToastrService, private commonService: CommonService, private confirmationService: ConfirmationService) { }
   ngOnInit(): void {
     this.getAllTournaments()
     this.tournamentFormInit()
@@ -121,7 +123,7 @@ export class TournamentHomeComponent implements OnInit {
           next: () => {
             this.isAddTournament = false;
             this.getAllTournaments()
-            this.messageService.add({ severity: 'success', summary: "Success", detail: "Tournament created successfully" })
+            this.toastr.success('Tournament created successfully')
           }, error(err: HttpErrorResponse) { console.warn(err); }
         })
       }
@@ -138,7 +140,7 @@ export class TournamentHomeComponent implements OnInit {
           next: () => {
             this.isAddTournament = false;
             this.getAllTournaments()
-            this.messageService.add({ severity: 'success', summary: "Success", detail: "Tournament updated successfully" })
+            this.toastr.success('Tournament updated successfully')
           }, error(err) { throw err }
         })
       } else;
@@ -148,14 +150,14 @@ export class TournamentHomeComponent implements OnInit {
     try {
       this.getTeams()
       if (!data) {
-      this.isAddTournament = true;
+        this.isAddTournament = true;
         this.tournamentProfile = null
         this.tournamentForm.reset();
         this.sportTypeString = 'pool';
         return;
       }
       if (new Date(data.startDate) > new Date()) {
-      this.isAddTournament = true;
+        this.isAddTournament = true;
         this.updateTournamentData = data
         this.sportTypeString = data.pools ? 'pool' : 'format';
         this.tournamentProfile = data.profile || null
@@ -171,40 +173,26 @@ export class TournamentHomeComponent implements OnInit {
           maxTeams: data.maxTeams || null
         })
       }
-      else { this.messageService.add({severity:'warn', summary:"Warning",detail:"You can not edit tournament now."})}
+      else {
+        this.toastr.warning('Warning', 'You can not edit tournament now')
+      }
     }
     catch (error) { throw error }
   }
   public handleSearch(term: string): void { }
-  private onDeleteTournament(event: any) {
-    try {
-      event._id ? (
-        this.apiService.deleteTournament(event._id).subscribe({
-          next: (res: { message: string }) => {
-            this.getAllTournaments()
-            this.messageService.add({ severity: 'success', summary: "Success", detail: res.message })
-          }
-        })
-      ) : null
-    } catch (error) { }
-  }
 
-  deleteConfirmation(event: allTournaments) {
-    this.confirmationService.confirm({
-      header: 'Are you sure ?',
-      message: 'You want to delethi this tournament ',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.onDeleteTournament(event)
-      },
-      reject: () => {
-        this.messageService.add({ severity: 'success', summary: 'Rejected', detail: 'Tournament safe', life: 3000 });
-      }
-    });
+  public tournamentId !: string
+  deleteConfirmation(event: tournamentObj) {
+    this.showDeleteConfirmation = !this.showDeleteConfirmation
+    this.tournamentId = event._id
   }
   public onPageChange(event: any): void {
     this.currentPage = event.page + 1;
     this.pageSize = event.rows;
     this.getAllTournaments(this.currentPage, this.pageSize);
+  }
+  public closeDialog(event: string) {
+    this.getAllTournaments()
+    this.showDeleteConfirmation = false
   }
 }

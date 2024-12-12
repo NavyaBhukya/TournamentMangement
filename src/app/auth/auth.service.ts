@@ -10,9 +10,9 @@ export class AuthService {
   public baseUrl = environment.baseUrl
   constructor(private http: HttpClient) { }
   public login(payload: { email: string, password: string }): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}auth`, payload)
+    return this.http.post<any>(`${this.baseUrl}user`, payload)
   }
   public userSignup(payload: { name: string, email: string, mobile: string, password: string }): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}auth/register`, payload)
+    return this.http.post<any>(`${this.baseUrl}user/register`, payload)
   }
 }

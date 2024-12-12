@@ -2,18 +2,19 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth.service';
-import { MessageService } from 'primeng/api';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss'],
-  providers: [MessageService]
 })
 export class SignupComponent {
   public registrationForm: FormGroup;
-  constructor(private fb: FormBuilder, public route: Router, private authService: AuthService, private messageService: MessageService) {
+  public pswdVisible: boolean = false
+  public passwordType: string = 'password'
+  constructor(private fb: FormBuilder, public route: Router, private authService: AuthService, private toastr: ToastrService) {
     this.registrationForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
@@ -35,12 +36,16 @@ export class SignupComponent {
     }
     this.authService.userSignup(payload).subscribe({
       next: () => {
-        this.messageService.add({ severity: 'success', detail: "Registration successfull", summary: "Success" })
+        this.toastr.success('Registration successfull')
         this.route.navigate([''])
         this.registrationForm.reset()
       }, error: (err: HttpErrorResponse) => {
-        this.messageService.add({ severity: 'warn', detail: err.error?.message, summary: "Warning" })
+        this.toastr.warning('Warning', err.error?.message)
       }
     })
+  }
+  togglePasswordVisibility(): void {
+    this.pswdVisible = !this.pswdVisible;
+    this.passwordType = this.pswdVisible ? 'text' : 'password';
   }
 }

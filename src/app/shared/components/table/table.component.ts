@@ -2,7 +2,7 @@ import { DatePipe, Location } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { allplayers } from 'src/app/features/manage-players/interfaces/player.interface';
-import { allTournaments, teamsInterface } from 'src/app/features/manage-tournament/interface/tournament.interface';
+import { allTournaments, teamsInterface, tournamentObj } from 'src/app/features/manage-tournament/interface/tournament.interface';
 import { CommonService } from 'src/app/services/common.service';
 
 @Component({
@@ -18,8 +18,7 @@ export class TableComponent implements OnChanges {
   @Input() tableHeader: string = 'Management';
   @Output() onAdd = new EventEmitter<any>();
   @Output() onSearch = new EventEmitter<string>();
-  // @Output() onEdit = new EventEmitter<any>();
-  @Output() onDelete = new EventEmitter<allTournaments>();
+  @Output() onDelete = new EventEmitter<tournamentObj>();
   @Output() pagination = new EventEmitter<{ page: number, pagesize: number }>
   @Input() totalRecords: number = 0;
   @Input() currentPage: number = 1;
@@ -56,7 +55,7 @@ export class TableComponent implements OnChanges {
     this.commonServ.isEditPlayer.next(true)
     this.onAdd.emit(rowData);
   }
-  public handleDelete(rowData: allTournaments): void {
+  public handleDelete(rowData: tournamentObj): void {
     this.onDelete.emit(rowData);
   }
   public handleAdd() {

@@ -18,8 +18,14 @@
 </header>
 <div style="display: none;">
     <p-overlayPanel #op>
-        <div class="logout_text" (click)="userLogout()">
-            <span>Logout</span>
+        <div class="profileClass">
+            <div (click)="UserProfile()"> Profile </div>
+            <div class="logout_text" (click)="userLogout()">
+                <span>Logout</span>
+            </div>
         </div>
     </p-overlayPanel>
 </div>
+<p-dialog header="User Profile" [modal]="true" [(visible)]="showUserProfile" [style]="{ width: '25rem' }">
+ <app-user-profile (closeProfile)="UserProfile($event)"></app-user-profile>
+</p-dialog>

@@ -5,8 +5,7 @@ import { AuthComponent } from './auth.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ToastModule } from 'primeng/toast';
-
+import { PasswordModule } from 'primeng/password';
 @NgModule({
   declarations: [
     AuthComponent,
@@ -15,7 +14,8 @@ import { ToastModule } from 'primeng/toast';
   ],
   imports: [
     CommonModule,
-    AuthRoutingModule, ReactiveFormsModule, ToastModule, FormsModule
+    AuthRoutingModule, ReactiveFormsModule, FormsModule,
+    PasswordModule,
   ]
 })
 export class AuthModule { }

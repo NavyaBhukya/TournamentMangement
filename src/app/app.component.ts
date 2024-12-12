@@ -18,7 +18,10 @@ export class AppComponent implements OnInit {
   }
   private getHeader(): void {
     this.commonServ.showHeader.subscribe(() => {
+
       this.isLoggedIn = localStorage.getItem('token') ? true : false
+      console.log(this.isLoggedIn,'showing header');
+      
 
     })
   }

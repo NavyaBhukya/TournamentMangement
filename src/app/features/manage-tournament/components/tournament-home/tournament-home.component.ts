@@ -66,7 +66,7 @@ export class TournamentHomeComponent implements OnInit {
   get name() {
     return this.tournamentForm.get('name')
   }
-  private getAllTournaments(page: number = 0, pageSize: number = 10): void {
+  private getAllTournaments(page: number = 1, pageSize: number = 10): void {
     try {
       this.apiService.getAllTournaments(page, pageSize).subscribe({
         next: (res: any) => { this.allTournamentsArr = res.data }
@@ -147,8 +147,6 @@ export class TournamentHomeComponent implements OnInit {
     } catch (error) { }
   }
   public onCreateTournament(data: tournamentObj) {
-    console.log(data);
-
     try {
       this.getTeams()
       if (!data) {

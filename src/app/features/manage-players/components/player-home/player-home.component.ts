@@ -3,6 +3,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { allplayers } from '../../interfaces/player.interface';
 import { LoaderService } from 'src/app/services/loader.service';
 import { CommonService } from 'src/app/services/common.service';
+import { PaginatorState } from 'primeng/paginator';
 
 @Component({
   selector: 'app-player-home',
@@ -20,7 +21,7 @@ export class PlayerHomeComponent implements OnInit {
   public currentPlayerData: allplayers | null = null;
   public popupHeading = this.isEditMode ? 'Add player ' : 'Update player';
   public totalRecords: number = 0;
-  public currentPage: number = 0;
+  public currentPage: number = 1;
   public pageSize: number = 10;
   constructor(private apiService: ApiService, private loader: LoaderService, private commonServ: CommonService) { }
   ngOnInit(): void {
@@ -41,12 +42,13 @@ export class PlayerHomeComponent implements OnInit {
   }
   public handleSearch(term: string) {
   }
-  public getallPlayerData(): void {
+  public getallPlayerData(currentPage?:number, pageSize?:number): void {
     try {
       this.loader.show()
-      this.apiService.getallPlayers(this.currentPage, this.pageSize).subscribe({
+      this.apiService.getallPlayers(currentPage, pageSize).subscribe({
         next: (res: any) => {
           this.allTeamsDataArr = res.data
+          this.totalRecords = res.total
         }
       })
       this.loader.hide()
@@ -54,10 +56,14 @@ export class PlayerHomeComponent implements OnInit {
       this.loader.hide()
     }
   }
-  public onPageChange(event: any): void {
-    this.currentPage = +event.page + 1;
-    this.pageSize = event.rows;
-    this.getallPlayerData();
+  public onPageChange(event: PaginatorState): void {
+    console.log(event,'players');
+    
+    this.currentPage = (event.first && event.page) ? event.first + event.page :1;
+    this.pageSize = (event.first && event.page) ? event.first * (event.page+1) :10;
+    this.getallPlayerData(this.currentPage , this.pageSize);
+    console.log(this.currentPage,this.pageSize);
+    
   }
   public editPlayer(rowData: any): void {
     this.currentPlayerData = rowData;

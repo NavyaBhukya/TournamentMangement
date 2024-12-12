@@ -34,17 +34,17 @@ export class AddTeamComponent implements OnInit {
       teamName: ['', Validators.required],
       sport: [null, Validators.required],
       profile: [null, Validators.required],
-      players: [[], Validators.required]
+      players: [[]]
     });
   }
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes['onEditPlayerData']) {
-      this.editPlayer()
+      this?.editPlayer()
     }
   }
   private editPlayer(): void {
     const selectedPlayers = this.onEditPlayerData?.players
-    this.addTeamForm.patchValue({
+    this.addTeamForm?.patchValue({
       teamName: this.onEditPlayerData?.teamName,
       players: selectedPlayers,
       sport: this.onEditPlayerData?.sport,

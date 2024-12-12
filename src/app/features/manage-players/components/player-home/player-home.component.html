@@ -1,5 +1,5 @@
 <app-table [tableTitle]="tableTitle" [data]="allTeamsDataArr" [tableHeader]="tableHeader"
-  [addButtonLabel]="addButtonLabel" [totalRecords]="totalRecords" [currentPage]="currentPage" [pageSize]="pageSize"
+  [addButtonLabel]="addButtonLabel" [totalRecords]="totalRecords"
   (onAdd)="handleAdd($event)" (onSearch)="handleSearch($event)" (onEdit)="editPlayer($event)"
   (onDelete)="deletePlayer($event)" (pagination)="onPageChange($event)">
 </app-table>

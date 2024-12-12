@@ -20,6 +20,10 @@
                     <b>Ending Date :</b>
                     <p> {{tourObj?.endDate | date:'dd/MMM/yyy'}} </p>
                 </div>
+                <div>
+                    <b>{{tourObj?.format ? 'Format' : "Pool"}} :</b>
+                    <p> {{tourObj?.format ? tourObj?.format : tourObj?.pools}} </p>
+                </div>
             </div>
             <h5 class="mb-3"> Teams : </h5>
             <div class="d-flex gap-4 flex-wrap">
@@ -152,7 +156,7 @@
             <b>Scheduled Matches </b>
             <div class="col-3" *ngFor="let match of tourObj?.formatMatches">
                 <div class="card h-100">
-                    <div class="card-header text-center"> Round - {{match.round}} </div>
+                    <div class="card-header text-center"> Match - {{match.round}} </div>
                     <div class="card-body d-flex justify-content-center align-items-center flex-column">
                         <div class="d-flex gap-5 align-items-center">
 

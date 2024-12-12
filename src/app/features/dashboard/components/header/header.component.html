@@ -13,7 +13,12 @@
         <input type="text" placeholder="Search..." />
     </div> -->
     <div class="user-profile" (click)="op.toggle($event)">
-        <img src="../../../../../assets/images/tmspro.png" alt="Profile" />
+        <ng-container *ngIf="uerProfile;else noImg">
+            <img [src]="uerProfile" alt="Profile" />
+        </ng-container>
+        <ng-template #noImg>
+            <img src="../../../../../assets/images/tmspro.png" alt="Profile" />
+        </ng-template>
     </div>
 </header>
 <div style="display: none;">
@@ -27,5 +32,6 @@
     </p-overlayPanel>
 </div>
 <p-dialog header="User Profile" [modal]="true" [(visible)]="showUserProfile" [style]="{ width: '25rem' }">
- <app-user-profile (closeProfile)="UserProfile($event)"></app-user-profile>
+    <app-user-profile (closeProfile)="UserProfile($event)"
+        (headerProfileImgUrl)="getUserProfile($event)"></app-user-profile>
 </p-dialog>

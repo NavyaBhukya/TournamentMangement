@@ -4,6 +4,8 @@ import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { allTournaments } from "../features/manage-tournament/interface/tournament.interface";
 import { allplayers } from "../features/manage-players/interfaces/player.interface";
+import { UserInterface } from "../features/dashboard/interface/common.interface";
+import { LoginUserData } from "../auth/interface/auth.interface";
 
 @Injectable({
     providedIn: 'root'
@@ -37,6 +39,18 @@ export class ApiService {
         const formData = new FormData();
         formData.append('image', file);
         return this.http.post<{ message: string; url: string }>(`${this.apiUrl}upload-profile`, formData);
+    }
+    // Get User by ID
+    public getUserById(id: string): Observable<{ data: UserInterface }> {
+        return this.http.get<{ data: UserInterface }>(`${this.apiUrl}user/${id}`)
+    }
+    // Update User data based on ID
+    public updateUserById(id: string, userData: UserInterface): Observable<{ message: string, data: LoginUserData }> {
+        return this.http.put<{ message: string, data: LoginUserData }>(`${this.apiUrl}user/${id}`, userData)
+    }
+    // Delete user account based on ID 
+    public deleteUserAccount(id: string): Observable<{ message: string }> {
+        return this.http.delete<{ message: string }>(`${this.apiUrl}user/${id}`)
     }
     //Get all players
     public getallPlayers(page?: number, pageSize?: number): Observable<allplayers[]> {

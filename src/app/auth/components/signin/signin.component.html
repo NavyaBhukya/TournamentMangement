@@ -10,9 +10,15 @@
       </div>
       <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" id="password" formControlName="password" placeholder="Enter your password"
-          [class.invalid]="isFieldInvalid('password')" />
+        <div class="input-container">
+          <input [type]="passwordType"  id="password" formControlName="password"
+            placeholder="Enter your password" [class.invalid]="isFieldInvalid('password')" />
+          <span (click)="togglePasswordVisibility()" class="eyeClass">
+            <i class="bi" [ngClass]="pswdVisible ? 'bi-eye-slash' : 'bi-eye'"></i>
+          </span>
+        </div>
       </div>
+
       <button type="submit" [disabled]="loginForm.invalid" (click)="onsubmitForm()">Login</button>
       <div class="d-flex ">
         <p class="forgot_txt" (click)="isForgotScreen=true"> Forgot password </p>
@@ -23,8 +29,6 @@
     </form>
   </div>
 </ng-container>
-<p-toast [showTransformOptions]="'translateY(100%)'" [showTransitionOptions]="'700ms'"
-  [hideTransitionOptions]="'1000ms'" [showTransformOptions]="'translateX(100%)'" />
 
 <ng-container *ngIf="isForgotScreen">
   <div class="login-container">

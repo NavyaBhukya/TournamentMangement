@@ -68,3 +68,14 @@ button:disabled {
   text-decoration: underline;
   cursor: pointer;
 }
+.input-container {
+  position: relative;
+}
+
+.eyeClass {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}

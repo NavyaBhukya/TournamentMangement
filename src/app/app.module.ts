@@ -6,27 +6,31 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'
 import { DashboardModule } from "./features/dashboard/dashboard.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
 import { HttpInterceptorService } from './interceptors/http.interceptor';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-
+import { AuthModule } from './auth/auth.module';
+import { ToastrModule } from 'ngx-toastr';
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
-    BrowserModule, HttpClientModule,
-    AppRoutingModule, FormsModule, ReactiveFormsModule,
-    DashboardModule, BrowserAnimationsModule,
-    ToastModule,ProgressSpinnerModule
-
+    BrowserModule,
+    HttpClientModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    DashboardModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({ positionClass: 'toast-top-right', preventDuplicates: true, timeOut: 3000 }),
+    ProgressSpinnerModule,
+    AuthModule
   ],
-  providers: [MessageService,
+  providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpInterceptorService,
-      multi: true 
+      multi: true
     }
   ],
   bootstrap: [AppComponent]

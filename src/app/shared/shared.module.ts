@@ -7,14 +7,16 @@ import { TableModule } from 'primeng/table';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TooltipModule } from 'primeng/tooltip';
 import { PaginatorModule } from 'primeng/paginator';
+import { ConfirmationComponent } from './components/confirmation/confirmation.component';
 @NgModule({
   declarations: [
     SharedComponent,
-    TableComponent
+    TableComponent,
+    ConfirmationComponent
   ],
   imports: [
     CommonModule,
     SharedRoutingModule,TableModule,ReactiveFormsModule,TooltipModule,PaginatorModule
-  ],exports:[TableComponent]
+  ],exports:[TableComponent,ConfirmationComponent]
 })
 export class SharedModule { }

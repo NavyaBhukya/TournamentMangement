@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { CommonService } from 'src/app/services/common.service';
 
 @Component({
   selector: 'app-header',
@@ -7,9 +8,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  constructor(private route:Router){}
+  public showUserProfile: boolean = false
+  constructor(private route: Router, private commonService: CommonService) { }
   public userLogout() {
     localStorage.clear();
-this.route.navigate(['/login'])
+    this.commonService.showHeader.emit()
+    this.route.navigate(['/login'])
+  }
+  public UserProfile(event: void) {
+    this.showUserProfile = !this.showUserProfile
   }
 }

@@ -17,7 +17,7 @@
           <ng-container *ngFor="let column of tableHeadings">
             <th> {{ column }} </th>
           </ng-container>
-          <th *ngIf="isAdmin.toLowerCase()!== 'admin'">Action</th>
+          <th >Action</th>
           <!-- <th *ngIf="isAdmin.toLowerCase()!== 'admin' && tableHeader==='Teams Management'">Number of players</th> -->
         </tr>
       </ng-template>
@@ -65,14 +65,14 @@
               {{ getPlayersCount(rowData) }}
             </ng-container>
           </td>
-          <td *ngIf="isAdmin.toLowerCase()!== 'admin'">
+          <td >
             <div class="d-flex gap-3">
               <span class="courser_pointer" pTooltip="Details" tooltipPosition="top">
                 <i class="pi pi-eye text-success actionIcon" [routerLink]="['details',rowData._id]"></i>
               </span>
-              <span class="courser_pointer" (click)="handleEdit(rowData)" pTooltip="Edit" tooltipPosition="top"><i
+              <span *ngIf="isAdmin.toLowerCase() === 'admin'" class="courser_pointer" (click)="handleEdit(rowData)" pTooltip="Edit" tooltipPosition="top"><i
                   class="pi pi-pen-to-square actionIcon text-primary"></i> </span>
-              <span class="courser_pointer" (click)="handleDelete(rowData)" pTooltip="Delete" tooltipPosition="top"><i
+              <span *ngIf="isAdmin.toLowerCase() === 'admin'" class="courser_pointer" (click)="handleDelete(rowData)" pTooltip="Delete" tooltipPosition="top"><i
                   class="pi pi-trash actionIcon text-danger"></i> </span>
             </div>
           </td>

@@ -7,3 +7,8 @@ export interface LoginUserData {
     profile:string,
     id?:string
 }
+export interface loginInterface {
+    role:string,
+    userid:string,
+    token:string
+}

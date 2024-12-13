@@ -10,8 +10,7 @@ export class CommonService {
   constructor(private apiService: ApiService) { }
   public showHeader: EventEmitter<string> = new EventEmitter<string>
   // method to process the image upload
-  public onProfileImageUploads(event: Event): Observable<string> {
-    const imageData = event.target as HTMLInputElement;
+  public onProfileImageUploads(imageData: HTMLInputElement): Observable<string> {
     if (!imageData.files || imageData.files.length === 0) {
       return of('');
     }

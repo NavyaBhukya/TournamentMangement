@@ -13,10 +13,10 @@ import { CommonService } from 'src/app/services/common.service';
 export class SigninComponent {
   public isForgotScreen: boolean = false
   loginForm: FormGroup;
-  public pswdVisible : boolean = false
-  public passwordType : string = 'password'
-  constructor(private fb: FormBuilder, private authService: AuthService, public route: Router, 
-    private commonServ: CommonService, private toastr:ToastrService
+  public pswdVisible: boolean = false
+  public passwordType: string = 'password'
+  constructor(private fb: FormBuilder, private authService: AuthService, public route: Router,
+    private commonServ: CommonService, private toastr: ToastrService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -39,24 +39,20 @@ export class SigninComponent {
       }
       this.authService.login(payload).subscribe({
         next: (data) => {
-          console.log('login data',data);
-          
           localStorage.setItem('token', data.token)
           localStorage.setItem('role', data.role)
           if (data.userid) localStorage.setItem('userId', data.userid)
           this.route.navigate(['/feature'])
-        this.toastr.success('Login successfully')
+          this.toastr.success('Login successfully')
           this.commonServ.showHeader.emit()
           this.loginForm.reset()
         }, error: (err: HttpErrorResponse) => {
-        this.toastr.warning(err.error?.message,'Login failed')
+          this.toastr.warning(err.error?.message, 'Login failed')
         }
       })
     } catch (error) { throw error }
   }
 
   // Forgot form submit
-  public onForgotformSubmit(forgot: NgForm) {
-
-  }
+  public onForgotformSubmit(forgot: NgForm) { }
 }

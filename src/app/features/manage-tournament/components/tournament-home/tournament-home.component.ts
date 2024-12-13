@@ -4,14 +4,12 @@ import { allTournaments, SingleTeamInterface, TotalTeamsInterface, tournamentObj
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonService } from 'src/app/services/common.service';
-import { ConfirmationService } from 'primeng/api';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-tournament-home',
   templateUrl: './tournament-home.component.html',
   styleUrls: ['./tournament-home.component.scss'],
-  providers: [ConfirmationService]
 })
 export class TournamentHomeComponent implements OnInit {
   public tableTitle = 'Tournaments';
@@ -40,9 +38,10 @@ export class TournamentHomeComponent implements OnInit {
     { name: 'Foot Ball', value: 'football' },
     { name: 'Badmitton', value: 'badmitton' },
   ]
+  public tournamentId !: string
   public sportsFormat: { name: string, value: string }[] = [{ name: 'Single Elimination', value: 'singleelimination' }, { name: 'Double Elimination', value: 'doubleelimination' }, { name: 'Round Robbin', value: "roundrabbin" }]
 
-  constructor(private apiService: ApiService, private fb: FormBuilder, private toastr: ToastrService, private commonService: CommonService, private confirmationService: ConfirmationService) { }
+  constructor(private apiService: ApiService, private fb: FormBuilder, private toastr: ToastrService, private commonService: CommonService) { }
   ngOnInit(): void {
     this.getAllTournaments()
     this.tournamentFormInit()
@@ -50,7 +49,7 @@ export class TournamentHomeComponent implements OnInit {
 
   private tournamentFormInit(): void {
     this.tournamentForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(30)]],
+      name:  ['', [Validators.required, Validators.minLength(2), Validators.maxLength(30)]],
       sport: ['', Validators.required],
       teams: [[], Validators.required],
       description: [''],
@@ -66,17 +65,17 @@ export class TournamentHomeComponent implements OnInit {
   get name() {
     return this.tournamentForm.get('name')
   }
-  private getAllTournaments(page: number = 1, pageSize: number = 10): void {
+  private getAllTournaments(page: number = 0, pageSize: number = 10): void {
     try {
       this.apiService.getAllTournaments(page, pageSize).subscribe({
-        next: (res: any) => { this.allTournamentsArr = res.data }
+        next: (res: allTournaments) => { this.allTournamentsArr = res.data }
       })
     } catch (error) { throw error }
   }
   private getTeams(): void {
     try {
       (!this.allTeamsDataArr.length) ?
-        this.apiService.getAllTeams(this.currentPage, this.pageSize).subscribe({
+        this.apiService.getAllTeams().subscribe({
           next: (res: TotalTeamsInterface) => {
             this.allTeamsDataArr = res.data
           }
@@ -102,7 +101,9 @@ export class TournamentHomeComponent implements OnInit {
   }
   public onFileSelected(event: Event): void {
     try {
-      this.commonService.onProfileImageUploads(event).subscribe((res: string) => {
+    const imageData = event.target as HTMLInputElement;
+
+      this.commonService.onProfileImageUploads(imageData).subscribe((res: string) => {
         this.tournamentProfile = (res && res !== '') ? res : null;
         if (!this.updateTournamentData) {
           this.tournamentForm.patchValue({
@@ -173,20 +174,16 @@ export class TournamentHomeComponent implements OnInit {
           maxTeams: data.maxTeams || null
         })
       }
-      else {
-        this.toastr.warning('Warning', 'You can not edit tournament now')
-      }
+      else { this.toastr.warning('Warning', 'You can not edit tournament now') }
     }
     catch (error) { throw error }
   }
   public handleSearch(term: string): void { }
-
-  public tournamentId !: string
   deleteConfirmation(event: tournamentObj) {
     this.showDeleteConfirmation = !this.showDeleteConfirmation
     this.tournamentId = event._id
   }
-  public onPageChange(event: any): void {
+  public onPageChange(event: { page: number, rows: number }): void {
     this.currentPage = event.page + 1;
     this.pageSize = event.rows;
     this.getAllTournaments(this.currentPage, this.pageSize);

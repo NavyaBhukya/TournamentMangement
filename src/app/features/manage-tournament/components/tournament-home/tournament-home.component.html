@@ -51,9 +51,11 @@
         </div>
         <div class="d-flex gap-2">
             <div class="d-flex gap-2 w-50">
-                <button type="button" class="btn border-secondary" [ngClass]="sportTypeString==='pool'? 'btn btn-success':''"
+                <button type="button" class="btn border-secondary"
+                    [ngClass]="sportTypeString==='pool'? 'btn btn-success':''"
                     (click)="setTourFormat('pool')">Pools</button>
-                <button type="button" class="btn border-secondary" [ngClass]="sportTypeString==='format'? 'btn btn-success':''"
+                <button type="button" class="btn border-secondary"
+                    [ngClass]="sportTypeString==='format'? 'btn btn-success':''"
                     (click)="setTourFormat('format')">Format</button>
             </div>
             <div class="w-50 sportClass">
@@ -123,8 +125,7 @@
     </form>
 </p-dialog>
 
-<p-confirmDialog class="confirmation_delete_popup">
-</p-confirmDialog>
 <p-dialog [(visible)]="showDeleteConfirmation" [modal]="true" header="Delete Confirmation">
-    <app-confirmation [confirmatioStr]="'tournament'" [tournamentDeleteid]="tournamentId" (closeConfirmation)="closeDialog($event)" ></app-confirmation>
+    <app-confirmation [confirmatioStr]="'tournament'" [tournamentDeleteid]="tournamentId"
+        (closeConfirmation)="closeDialog($event)"></app-confirmation>
 </p-dialog>

@@ -18,9 +18,10 @@ export class TournamentDetailsComponent implements OnInit {
     this.getTourById(this.tourId)
   }
   private getTourById(id: string) {
-    this.apiService.getSingleTournament(id).subscribe((res: { data: tournamentObj[] }) => {
-      this.tourObj = res.data[0]
-      console.log(this.tourObj);
+    this.apiService.getSingleTournament(id).subscribe({
+      next: (res: { data: tournamentObj[] }) => {
+        this.tourObj = res.data[0]
+      }
     })
   }
   public goBack(): void {

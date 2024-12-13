@@ -35,7 +35,7 @@ export class SignupComponent {
       password: this.registrationForm.value.password
     }
     this.authService.userSignup(payload).subscribe({
-      next: () => {
+      next: (res) => {
         this.toastr.success('Registration successfull')
         this.route.navigate([''])
         this.registrationForm.reset()

@@ -15,6 +15,7 @@ import { CommonService } from 'src/app/services/common.service';
 export class UserProfileComponent implements OnInit {
   public userForm!: FormGroup
   @Output() closeProfile = new EventEmitter<void>()
+  @Output() headerProfileImgUrl = new EventEmitter<string | null>()
   public profileImgUrl: string | null = null
   public isUserEdit: boolean = false
   public showDeleteCnfirmation: boolean = false
@@ -44,6 +45,7 @@ export class UserProfileComponent implements OnInit {
               name: this.userData.name, email: this.userData.email, mobile: this.userData.mobile, profile: this.userData.profile ? this.userData.profile : null
             })
             this.profileImgUrl = res.data.profile ? res.data.profile : null
+            this.headerProfileImgUrl.emit(res.data.profile ? res.data.profile : null)
           }, error: (err: HttpErrorResponse) => { console.warn(err) }
         })
       }

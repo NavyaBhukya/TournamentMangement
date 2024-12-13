@@ -27,10 +27,11 @@ export interface tournamentObj {
     __v: number
     poolMatches: poolMatchesInterface[] | null
     formatMatches: formatSingleMatch[] | null
+    poolScheduledMatches: formatSingleMatch[]
 }
 interface formatSingleMatch {
-    match: string,
-    round: number,
+    match?: string,
+    round?: number,
     team1: {
         players: null | [],
         profile: string,
@@ -60,4 +61,18 @@ export interface SingleTeamInterface {
 export interface poolMatchesInterface {
     poolIndex: string,
     teams: SingleTeamInterface[]
+}
+
+export interface tourPayload {
+    name: string,
+    sport: string,
+    teams: any
+    description: string,
+    pools: null | number,
+    format: null | string,
+    profile: null | string,
+    startDat: null | string,
+    endDate: null | string,
+
+    maxTeams: null | number
 }

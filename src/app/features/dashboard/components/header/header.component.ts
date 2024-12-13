@@ -9,6 +9,7 @@ import { CommonService } from 'src/app/services/common.service';
 })
 export class HeaderComponent {
   public showUserProfile: boolean = false
+  public uerProfile: string | null = null
   constructor(private route: Router, private commonService: CommonService) { }
   public userLogout() {
     localStorage.clear();
@@ -17,5 +18,8 @@ export class HeaderComponent {
   }
   public UserProfile(event: void) {
     this.showUserProfile = !this.showUserProfile
+  }
+  public getUserProfile(profile: string | null) {
+    this.uerProfile = profile
   }
 }

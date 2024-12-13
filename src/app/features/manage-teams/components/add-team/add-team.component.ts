@@ -90,7 +90,8 @@ export class AddTeamComponent implements OnInit {
   }
   public onProfileUploaded(event: Event): void {
     try {
-      this.commonService.onProfileImageUploads(event).subscribe((res: string) => {
+      const imageData = event.target as HTMLInputElement;
+      this.commonService.onProfileImageUploads(imageData).subscribe((res: string) => {
         this.teamProfile = (res && res !== '') ? res : null;
       })
     } catch (error) { console.warn(error) }

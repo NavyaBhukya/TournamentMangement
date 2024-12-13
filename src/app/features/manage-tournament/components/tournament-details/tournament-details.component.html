@@ -20,6 +20,10 @@
                     <b>Ending Date :</b>
                     <p> {{tourObj?.endDate | date:'dd/MMM/yyy'}} </p>
                 </div>
+                <div>
+                    <b>{{tourObj?.format ? 'Format' : "Pool"}} :</b>
+                    <p> {{tourObj?.format ? tourObj?.format : tourObj?.pools}} </p>
+                </div>
             </div>
             <h5 class="mb-3"> Teams : </h5>
             <div class="d-flex gap-4 flex-wrap">
@@ -104,6 +108,52 @@
                 </div>
             </ng-container>
         </div>
+        <div class="row p-5">
+            <b>Scheduled Matches </b>
+            <div class="col-3" *ngFor="let match of tourObj?.poolScheduledMatches">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex gap-5 align-items-center">
+
+                            <div class="">
+                                <ng-container *ngIf="match.team1.profile;else noImage">
+                                    <img [src]="match.team1.profile" alt="" class="profile_images">
+                                </ng-container>
+                                <ng-template #noImage>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                        class="bi bi-person-circle profile_images" viewBox="0 0 16 16">
+                                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                                        <path fill-rule="evenodd"
+                                            d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                                    </svg>
+                                </ng-template>
+                            </div>
+                            <div class=""> <b>V/S</b> </div>
+                            <div class="">
+                                <div class="col-md-5">
+                                    <ng-container *ngIf="match.team2.profile;else noImage">
+                                        <img [src]="match.team2.profile" alt="" class="profile_images">
+                                    </ng-container>
+                                    <ng-template #noImage>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                            class="bi bi-person-circle team_profile" viewBox="0 0 16 16">
+                                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                                            <path fill-rule="evenodd"
+                                                d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                                        </svg>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center mt-1">
+                            <p class="m-0"> 12/12/2024 4:00PM IST </p>
+                            <p class="m-0"> Venue : Hyderabad </p>
+                            <p class="m-0"> Uppal Stadium </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </ng-container>
     <!-- For Format matches.... -->
     <ng-container *ngIf="tourObj?.format">
@@ -152,7 +202,6 @@
             <b>Scheduled Matches </b>
             <div class="col-3" *ngFor="let match of tourObj?.formatMatches">
                 <div class="card h-100">
-                    <div class="card-header text-center"> Round - {{match.round}} </div>
                     <div class="card-body d-flex justify-content-center align-items-center flex-column">
                         <div class="d-flex gap-5 align-items-center">
 

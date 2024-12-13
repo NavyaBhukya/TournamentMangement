@@ -42,7 +42,7 @@ export class PlayerHomeComponent implements OnInit {
   }
   public handleSearch(term: string) {
   }
-  public getallPlayerData(currentPage?:number, pageSize?:number): void {
+  public getallPlayerData(currentPage?: number, pageSize?: number): void {
     try {
       this.loader.show()
       this.apiService.getallPlayers(currentPage, pageSize).subscribe({
@@ -57,13 +57,10 @@ export class PlayerHomeComponent implements OnInit {
     }
   }
   public onPageChange(event: PaginatorState): void {
-    console.log(event,'players');
-    
-    this.currentPage = (event.first && event.page) ? event.first + event.page :1;
-    this.pageSize = (event.first && event.page) ? event.first * (event.page+1) :10;
-    this.getallPlayerData(this.currentPage , this.pageSize);
-    console.log(this.currentPage,this.pageSize);
-    
+    this.currentPage = (event.first && event.page) ? event.first + event.page : 1;
+    this.pageSize = (event.first && event.page) ? event.first * (event.page + 1) : 10;
+    this.getallPlayerData(this.currentPage, this.pageSize);
+
   }
   public editPlayer(rowData: any): void {
     this.currentPlayerData = rowData;

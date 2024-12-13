@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
-import { allTournaments } from "../features/manage-tournament/interface/tournament.interface";
+import { allTournaments, tournamentObj, tourPayload } from "../features/manage-tournament/interface/tournament.interface";
 import { allplayers } from "../features/manage-players/interfaces/player.interface";
 import { UserInterface } from "../features/dashboard/interface/common.interface";
 import { LoginUserData } from "../auth/interface/auth.interface";
@@ -15,20 +15,20 @@ export class ApiService {
     private apiUrl = environment.baseUrl
     // Tournaments
     // GET
-    public getAllTournaments(page?: number, pageSize?: number): Observable<allTournaments[]> {
-        return this.http.get<allTournaments[]>(`${this.apiUrl}tournament?page=${page}&limit=${pageSize}`)
+    public getAllTournaments(page?: number, pageSize?: number): Observable<allTournaments> {
+        return this.http.get<allTournaments>(`${this.apiUrl}tournament?page=${page}&limit=${pageSize}`)
     }
     // GET single tournament
-    public getSingleTournament(id: string): Observable<any> {
-        return this.http.get<any>(`${this.apiUrl}tournament/${id}`)
+    public getSingleTournament(id: string): Observable< { data: tournamentObj[] }> {
+        return this.http.get< { data: tournamentObj[] }>(`${this.apiUrl}tournament/${id}`)
     }
     // POST
-    public postTournaments(postTour: any): Observable<any[]> {
-        return this.http.post<any[]>(`${this.apiUrl}tournament`, postTour)
+    public postTournaments(postTour: tourPayload): Observable<allTournaments> {
+        return this.http.post<allTournaments>(`${this.apiUrl}tournament`, postTour)
     }
     // PUT
-    public updateTournaments(id: string, postTour: any): Observable<any[]> {
-        return this.http.put<any>(`${this.apiUrl}tournament/${id}`, postTour)
+    public updateTournaments(id: string, postTour: tourPayload): Observable<allTournaments> {
+        return this.http.put<allTournaments>(`${this.apiUrl}tournament/${id}`, postTour)
     }
     // DELTE
     public deleteTournament(id: string): Observable<{ message: string }> {
@@ -56,7 +56,7 @@ export class ApiService {
     public getallPlayers(page?: number, pageSize?: number): Observable<allplayers[]> {
         return this.http.get<allplayers[]>(`${this.apiUrl}player?page=${page}&limit=${pageSize}`)
     }
-    // Post  Tournaments
+
     public postPlayers(postPlayer: any): Observable<any[]> {
         return this.http.post<any[]>(`${this.apiUrl}player`, postPlayer)
     }
@@ -67,7 +67,8 @@ export class ApiService {
         return this.http.delete<any>(`${this.apiUrl}player/${id}`)
     }
     public getAllTeams(page?: number, pageSize?: number): Observable<any> {
-        return this.http.get<any>(`${this.apiUrl}team?page=${page}&limit=${pageSize}`)
+        if (page && pageSize) { return this.http.get<any>(`${this.apiUrl}team?page=${page}&limit=${pageSize}`) }
+        else return this.http.get<any>(`${this.apiUrl}team?showAll=true`)
     }
     public postTeams(postTeams: any): Observable<any[]> {
         return this.http.post<any[]>(`${this.apiUrl}team`, postTeams)
